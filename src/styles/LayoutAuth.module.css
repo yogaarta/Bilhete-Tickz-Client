@@ -4,8 +4,7 @@
 
 .asideAuth {
   background: linear-gradient(rgba(43, 21, 107, 0.8), rgba(43, 21, 107, 0.8)), url(../assets/img/aside-bg.png);
-  width: 50%;
-  height: 660px;
+  width: 60%;
   background-size: cover;
   background-position: 50% 50%;
   padding: 50px 5%;
