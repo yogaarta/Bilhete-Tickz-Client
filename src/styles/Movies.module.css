@@ -1,0 +1,86 @@
+.cardDetail {
+  padding: 10px;
+  border: 1px solid #dedede;
+  border-radius: 10px;
+}
+
+.descDetail > div {
+  color: #8692a6;
+}
+
+.synopsis {
+  font-size: 20px;
+}
+
+.synopsis > section {
+  color: #8692a6;
+  font-size: 16px;
+  line-height: 32px;
+}
+
+.showTimes {
+  margin-top: 150px;
+}
+
+.dropDate > input {
+  background-color: #eff0f6;
+  border: none;
+  padding: 10px 25px;
+  border-radius: 10px;
+  width: 284px;
+  cursor: pointer;
+  -moz-user-select: none;
+  -webkit-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+  -o-user-select: none;
+}
+
+.dropLoc {
+  position: relative;
+  cursor: pointer;
+  background-color: #eff0f6;
+  border: none;
+  padding: 10px 25px;
+  border-radius: 10px;
+  width: 284px;
+}
+
+.dropContent {
+  background-color: #eff0f6;
+  padding: 10px 25px;
+  border-radius: 10px;
+  width: 284px;
+  left: 0px;
+  z-index: 2;
+}
+
+.unBlockable {
+  -moz-user-select: none;
+  -webkit-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+  -o-user-select: none;
+}
+
+.cardCinemas {
+  border-radius: 10px;
+  border: 1px solid #dedede;
+  width: 30%;
+}
+
+.titleCard {
+  border-bottom: 1px solid #dedede;
+}
+
+.descStreet > p {
+  font-size: 11px;
+}
+
+.buttonBook {
+  background-color: #5F2EEA ;
+  color: white;
+  padding: 8px 25px;
+  border-radius: 10px;
+  border: none;
+}
