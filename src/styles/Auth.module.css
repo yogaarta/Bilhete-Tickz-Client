@@ -1,3 +1,80 @@
-.tes {
-   color: red;
+.maincontainer {
+   margin: 100px;
+}
+
+.title {
+   margin-bottom: 50px;
+}
+
+.signupfrom {
+   width: 50%;
+}
+
+.inputname {
+   border: 1px solid rgba(169, 169, 169, 0.6);
+   display: flex;
+   flex-direction: row;
+   margin: 20px 0px;
+   height: 60px;
+   align-items: center;
+}
+
+.inputname input {
+   border: none;
+   height: 50px;
+   width: 100%;
+   margin-left: 20px;
+}
+
+.inputname input:focus {
+   outline: none;
+}
+
+.infosignup {
+   text-align: center;
+   padding: 50px 0px;
+}
+
+.password {
+   display: flex;
+   justify-content: space-between;
+   width: 100%;
+}
+
+.showpassword {
+   margin: 10px 15px 0px 0px;
+}
+
+.checkbox {
+   display: flex;
+}
+
+.titlecheckbox {
+   margin-left: 10px;
+}
+
+.signupbutton {
+   border: none;
+   margin-top: 50px;
+   height: 70px;
+   width: 100%;
+   background-color: #5f2eea;
+   color: #f7f7fc;
+}
+
+.buttonGoogleFb {
+   display: flex;
+   justify-content: center;
+   width: 100%;
+}
+
+.google {
+   background: #ffffff;
+   box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.08);
+   border-radius: 10px;
+   border: none;
+   height: 50px;
+   width: 150px;
+   padding-top: 10px;
+   text-align: center;
 }
