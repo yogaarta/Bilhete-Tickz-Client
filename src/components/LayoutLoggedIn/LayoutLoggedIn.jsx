@@ -84,7 +84,7 @@ const LayoutLoggedIn = ({ children, title }) => {
         {children}
         <footer className={`${Styles.FooterLayout}`}>
           <div className="row justify-content-around px-5">
-            <div className="col-md-4 col-12">
+            <div className="col-md-4 col-12 text-center">
               <h1 className={Styles.BrandFooter}>BILHETE TICKZ</h1>
               <p>
                 Stop waiting in line. Buy tickets <br />
@@ -92,7 +92,7 @@ const LayoutLoggedIn = ({ children, title }) => {
               </p>
             </div>
             <div
-              className={`${Styles.listFooter} col-12 col-md-8 d-flex justify-content-around`}
+              className={`${Styles.listFooter} mt-3 col-12 col-md-8 d-flex justify-content-around`}
             >
               <ul>
                 <h5>Explore</h5>
