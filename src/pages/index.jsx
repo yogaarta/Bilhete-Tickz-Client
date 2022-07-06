@@ -73,7 +73,7 @@ export default function Home() {
             Be the vanguard of the <section>Moviegoers</section>{" "}
             <input
               type="text"
-              className={styles.inputMember}
+              className={`px-3 ${styles.inputMember}`}
               placeholder="Type your email"
             />
             <button className={styles.buttonMember}>Join now</button>
