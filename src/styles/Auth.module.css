@@ -1,5 +1,6 @@
 .maincontainer {
-   margin: 100px;
+   margin: 5%;
+   width: 45%;
 }
 
 .title {
@@ -7,7 +8,7 @@
 }
 
 .signupfrom {
-   width: 50%;
+   width: 100%;
 }
 
 .inputname {
