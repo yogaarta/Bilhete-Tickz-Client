@@ -48,14 +48,33 @@
 .cardEditHeader {
   background-color: white;
   padding: 20px 30px;
-  border-radius: 15px;
+  border-radius: 10px;
 }
 
 .cardEdit {
   margin-top: 40px;
   background-color: white;
   padding: 40px 30px;
-  border-radius: 15px;
+  border-radius: 10px;
+}
+
+.ShowDetails {
+  cursor: pointer;
+}
+
+.buttonActive {
+  background-color: #00BA88;
+  border: none;
+  color: white;
+  border-radius: 10px;
+  padding: 10px 35px;
+}
+
+.cardOrder {
+  margin-top: 40px;
+  background-color: white;
+  padding: 40px 30px;
+  border-radius: 10px;
 }
 
 .headerEdit {
@@ -107,6 +126,20 @@
 }
 
 .Threedots {
+  cursor: pointer;
+}
+
+.clickActive {
+  color: #5f2eea;
+  font-weight: bold;
+  cursor: pointer;
+  padding-bottom: 5px;
+  border-bottom: 2px solid #5f2eea;
+}
+
+.clickDisable {
+  color: black;
+  font-weight: light;
   cursor: pointer;
 }
 

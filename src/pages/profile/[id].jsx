@@ -1,4 +1,4 @@
-//Import Package
+//Import from Package
 import { ThreeDots } from "react-bootstrap-icons";
 import { useState, useRef } from "react";
 //ComponentsLocal
@@ -12,9 +12,11 @@ import Default from "../../assets/img/default.png";
 import Star from "../../assets/img/star.png";
 import Show from "../../assets/icon/show.png";
 import Hide from "../../assets/icon/hide.png";
+import CardOrderHistory from "../../components/CardOrderHistory";
 
 const EditProfile = () => {
   const [showDrop, setShowDrop] = useState(false);
+  const [active, setActive] = useState(false);
   const [showPass, setShowPass] = useState(false);
   const [showPassConfirm, setShowPassConfirm] = useState(false);
   const [form, setForm] = useState({
@@ -24,32 +26,35 @@ const EditProfile = () => {
     phone: "",
     newPassword: "",
     confirmPassword: "",
-    image: ""
+    image: "",
   });
 
   const handleUpload = (e) => {
-    const file = e.target.files[0]
-    setForm({...form, image: file})
-  }
-  const updateForm =() => {
-    const body = new FormData()
-    body.append("image", form.image)
-    body.append("firstName", form.firstName)
-    body.append("lastName", form.lastName)
-    body.append("email", form.email)
-    body.append("newPassword", form.newPassword)
-    body.append("confirmPassword", form.confirmPassword)
-    return body
-  }
+    const file = e.target.files[0];
+    setForm({ ...form, image: file });
+  };
+  const updateForm = () => {
+    const body = new FormData();
+    body.append("image", form.image);
+    body.append("firstName", form.firstName);
+    body.append("lastName", form.lastName);
+    body.append("email", form.email);
+    body.append("newPassword", form.newPassword);
+    body.append("confirmPassword", form.confirmPassword);
+    return body;
+  };
   const handleUpdate = () => {
-    const body = updateForm()
-  }
+    const body = updateForm();
+  };
 
-  const inputFile = useRef()
+  const inputFile = useRef();
   return (
     <LayoutLoggedIn title="Edit Profile">
       <div className={`${styles.profileContainer}`}>
-        <form className="container d-flex flex-md-row flex-column gap-4 gap-md-0 justify-content-between" onSubmit={handleUpdate}>
+        <form
+          className="container d-flex flex-md-row flex-column gap-4 gap-md-0 justify-content-between"
+          onSubmit={handleUpdate}
+        >
           <div className="col-md-3">
             <div className={`text-center ${styles.cardName}`}>
               <div className="d-flex justify-content-between align-items-center">
@@ -63,10 +68,21 @@ const EditProfile = () => {
                   />
                   {showDrop ? (
                     <>
-                      <div onClick={() => {
-                        inputFile.current.click()
-                      }} className={styles.dropProfile}>Edit Photo</div>
-                      <input type="file" name="profile" hidden ref={inputFile} onChange={handleUpload}/>
+                      <div
+                        onClick={() => {
+                          inputFile.current.click();
+                        }}
+                        className={styles.dropProfile}
+                      >
+                        Edit Photo
+                      </div>
+                      <input
+                        type="file"
+                        name="profile"
+                        hidden
+                        ref={inputFile}
+                        onChange={handleUpload}
+                      />
                     </>
                   ) : null}
                 </div>
@@ -101,157 +117,188 @@ const EditProfile = () => {
           <div className="col-md-8">
             <div className={styles.cardEditHeader}>
               <div className="d-flex gap-5 pt-2">
-                <p className="fw-bold">Account Setting</p>
-                <p className="fw-light">Order History</p>
+                <p
+                  onClick={() => {
+                    setActive(!active);
+                  }}
+                  className={`${
+                    active ? styles.clickActive : styles.clickDisable
+                  }`}
+                >
+                  Account Setting
+                </p>
+                <p
+                  onClick={() => {
+                    setActive(!active);
+                  }}
+                  className={`${
+                    !active ? styles.clickActive : styles.clickDisable
+                  }`}
+                >
+                  Order History
+                </p>
               </div>
             </div>
-            <div className={styles.cardEdit}>
-              <p className={styles.headerEdit}>Detail Information</p>
-              <div className="d-flex justify-content-between gap-3">
-                <div className="col-md-6">
-                  <div className="form-group">
-                    <label htmlFor="firstname" className="mb-2">
-                      First Name
-                    </label>
-                    <div className={styles.fieldInput}>
-                      <input
-                        type="text"
-                        className={`${styles.input}`}
-                        id="firstname"
-                        aria-describedby="emailHelp"
-                        placeholder="Enter your first name"
-                        onChange={(e) => {
-                          setForm({ ...form, firstName: e.target.value });
-                        }}
-                      />
+            {!active ? (
+              <>
+              <CardOrderHistory/>
+              <CardOrderHistory/>
+              <CardOrderHistory/>
+              </>
+            ) : (
+              <>
+                <div className={styles.cardEdit}>
+                  <p className={styles.headerEdit}>Detail Information</p>
+                  <div className="d-flex justify-content-between gap-3">
+                    <div className="col-md-6">
+                      <div className="form-group">
+                        <label htmlFor="firstname" className="mb-2">
+                          First Name
+                        </label>
+                        <div className={styles.fieldInput}>
+                          <input
+                            type="text"
+                            className={`${styles.input}`}
+                            id="firstname"
+                            aria-describedby="emailHelp"
+                            placeholder="Enter your first name"
+                            onChange={(e) => {
+                              setForm({ ...form, firstName: e.target.value });
+                            }}
+                          />
+                        </div>
+                      </div>
+                      <div className="form-group mt-3">
+                        <label htmlFor="email" className="mb-2">
+                          Email
+                        </label>
+                        <div className={styles.fieldInput}>
+                          <input
+                            type="email"
+                            className={`${styles.input}`}
+                            id="email"
+                            placeholder="Enter your email"
+                            onChange={(e) => {
+                              setForm({ ...form, email: e.target.value });
+                            }}
+                          />
+                        </div>
+                      </div>
                     </div>
-                  </div>
-                  <div className="form-group mt-3">
-                    <label htmlFor="email" className="mb-2">
-                      Email
-                    </label>
-                    <div className={styles.fieldInput}>
-                      <input
-                        type="email"
-                        className={`${styles.input}`}
-                        id="email"
-                        placeholder="Enter your email"
-                        onChange={(e) => {
-                          setForm({ ...form, email: e.target.value });
-                        }}
-                      />
-                    </div>
-                  </div>
-                </div>
-                <div className="col-md-6">
-                  <div className="form-group">
-                    <label htmlFor="lastname" className="mb-2">
-                      Last Name
-                    </label>
-                    <div className={styles.fieldInput}>
-                      <input
-                        type="text"
-                        className={`${styles.input}`}
-                        id="lastname"
-                        aria-describedby="emailHelp"
-                        placeholder="Enter your last name"
-                        onChange={(e) => {
-                          setForm({ ...form, lastName: e.target.value });
-                        }}
-                      />
-                    </div>
-                  </div>
-                  <div className="form-group mt-3">
-                    <label htmlFor="phone" className="mb-2">
-                      Phone
-                    </label>
-                    <div className={styles.fieldInput}>
-                      <input
-                        type="text"
-                        className={`${styles.input}`}
-                        id="phone"
-                        placeholder="Enter your phone"
-                        onChange={(e) => {
-                          setForm({ ...form, phone: e.target.value });
-                        }}
-                      />
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-            <div className={styles.cardEdit}>
-              <p className={styles.headerEdit}>Account and Privacy</p>
-              <div className="d-flex justify-content-between gap-3">
-                <div className="col-md-6">
-                  <div className="form-group">
-                    <label htmlFor="npass" className="mb-2">
-                      New Password
-                    </label>
-                    <div
-                      className={`d-flex align-items-center ${styles.fieldInput}`}
-                    >
-                      <input
-                        type={showPass ? "text" : "password"}
-                        className={`${styles.input}`}
-                        id="npass"
-                        aria-describedby="emailHelp"
-                        placeholder="Write your password"
-                        onChange={(e) => {
-                          setForm({ ...form, newPassword: e.target.value });
-                        }}
-                      />
-                      <div
-                        onClick={() => {
-                          setShowPass(!showPass);
-                        }}
-                      >
-                        <Image
-                          className="position-absolute"
-                          src={showPass ? Show : Hide}
-                        />
+                    <div className="col-md-6">
+                      <div className="form-group">
+                        <label htmlFor="lastname" className="mb-2">
+                          Last Name
+                        </label>
+                        <div className={styles.fieldInput}>
+                          <input
+                            type="text"
+                            className={`${styles.input}`}
+                            id="lastname"
+                            aria-describedby="emailHelp"
+                            placeholder="Enter your last name"
+                            onChange={(e) => {
+                              setForm({ ...form, lastName: e.target.value });
+                            }}
+                          />
+                        </div>
+                      </div>
+                      <div className="form-group mt-3">
+                        <label htmlFor="phone" className="mb-2">
+                          Phone
+                        </label>
+                        <div className={styles.fieldInput}>
+                          <input
+                            type="text"
+                            className={`${styles.input}`}
+                            id="phone"
+                            placeholder="Enter your phone"
+                            onChange={(e) => {
+                              setForm({ ...form, phone: e.target.value });
+                            }}
+                          />
+                        </div>
                       </div>
                     </div>
                   </div>
                 </div>
-                <div className="col-md-6">
-                  <div className="form-group">
-                    <label htmlFor="cpass" className="mb-2">
-                      Confirm Password
-                    </label>
-                    <div
-                      className={`d-flex align-items-center ${styles.fieldInput}`}
-                    >
-                      <input
-                        type={showPassConfirm ? "text" : "password"}
-                        className={`${styles.input}`}
-                        id="npass"
-                        aria-describedby="emailHelp"
-                        placeholder="Confirm your password"
-                        onChange={(e) => {
-                          setForm({ ...form, confirmPassword: e.target.value });
-                        }}
-                      />
-                      <div
-                        onClick={() => {
-                          setShowPassConfirm(!showPassConfirm);
-                        }}
-                      >
-                        <Image
-                          className="position-absolute"
-                          src={showPassConfirm ? Show : Hide}
-                        />
+                <div className={styles.cardEdit}>
+                  <p className={styles.headerEdit}>Account and Privacy</p>
+                  <div className="d-flex justify-content-between gap-3">
+                    <div className="col-md-6">
+                      <div className="form-group">
+                        <label htmlFor="npass" className="mb-2">
+                          New Password
+                        </label>
+                        <div
+                          className={`d-flex align-items-center ${styles.fieldInput}`}
+                        >
+                          <input
+                            type={showPass ? "text" : "password"}
+                            className={`${styles.input}`}
+                            id="npass"
+                            aria-describedby="emailHelp"
+                            placeholder="Write your password"
+                            onChange={(e) => {
+                              setForm({ ...form, newPassword: e.target.value });
+                            }}
+                          />
+                          <div
+                            onClick={() => {
+                              setShowPass(!showPass);
+                            }}
+                          >
+                            <Image
+                              className="position-absolute"
+                              src={showPass ? Show : Hide}
+                            />
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                    <div className="col-md-6">
+                      <div className="form-group">
+                        <label htmlFor="cpass" className="mb-2">
+                          Confirm Password
+                        </label>
+                        <div
+                          className={`d-flex align-items-center ${styles.fieldInput}`}
+                        >
+                          <input
+                            type={showPassConfirm ? "text" : "password"}
+                            className={`${styles.input}`}
+                            id="npass"
+                            aria-describedby="emailHelp"
+                            placeholder="Confirm your password"
+                            onChange={(e) => {
+                              setForm({
+                                ...form,
+                                confirmPassword: e.target.value,
+                              });
+                            }}
+                          />
+                          <div
+                            onClick={() => {
+                              setShowPassConfirm(!showPassConfirm);
+                            }}
+                          >
+                            <Image
+                              className="position-absolute"
+                              src={showPassConfirm ? Show : Hide}
+                            />
+                          </div>
+                        </div>
                       </div>
                     </div>
                   </div>
                 </div>
-              </div>
-            </div>
-            <div className="text-center text-md-start">
-              <button type="submit" className={styles.buttonChanges}>
-                Update Changes
-              </button>
-            </div>
+                <div className="text-center text-md-start">
+                  <button type="submit" className={styles.buttonChanges}>
+                    Update Changes
+                  </button>
+                </div>
+              </>
+            )}
           </div>
         </form>
       </div>
