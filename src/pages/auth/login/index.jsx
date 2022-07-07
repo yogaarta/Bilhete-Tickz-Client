@@ -2,9 +2,27 @@ import LayoutAuth from '../../../components/LayoutAuth';
 import styles from '../../../styles/Auth.module.css';
 import { Eye, EyeSlashFill, Facebook, Google } from 'react-bootstrap-icons';
 import { useState } from 'react';
+import axios from 'axios';
+import Link from 'next/link';
 
 export default function Login() {
    const [showPass, setShowPass] = useState(false);
+   const [email, setEmail] = useState('');
+   const [password, setPassword] = useState('');
+
+   const login = async () => {
+      try {
+         const body = {
+            email,
+            password,
+         };
+         const result = await axios.post(`${process.env.NEXT_PUBLIC_BE_HOST}/auth`, body);
+         console.log(result);
+      } catch (error) {
+         console.log(error.response?.data.message.msg);
+      }
+   };
+
    return (
       <>
          <LayoutAuth title={'Sign In'}>
@@ -14,12 +32,26 @@ export default function Login() {
                <div className={styles.signupfrom}>
                   <h5>Email</h5>
                   <div className={styles.inputname}>
-                     <input type="text" id="email" placeholder="Write your email" />
+                     <input
+                        type="text"
+                        id="email"
+                        placeholder="Write your email"
+                        onChange={(e) => {
+                           setEmail(e.target.value);
+                        }}
+                     />
                   </div>
                   <h5>Password</h5>
                   <div className={styles.inputname}>
                      <div className={styles.password}>
-                        <input type={`${showPass ? 'text' : 'password'}`} id="password" placeholder="Write your password" />
+                        <input
+                           type={`${showPass ? 'text' : 'password'}`}
+                           id="password"
+                           placeholder="Write your password"
+                           onChange={(e) => {
+                              setPassword(e.target.value);
+                           }}
+                        />
                         <div
                            className={styles.showpassword}
                            value={showPass}
@@ -31,10 +63,15 @@ export default function Login() {
                         </div>
                      </div>
                   </div>
-                  <button className={styles.signupbutton}>Sign In</button>
+                  <button className={styles.signupbutton} onClick={login}>
+                     Sign In
+                  </button>
                   <div className={styles.infosignup}>
                      <p>
-                        Do you already have an account? <span className={styles.login}>Reset Now</span>
+                        Do you already have an account?{' '}
+                        <Link href="/auth/forgot-password">
+                           <span className={styles.login}>Reset Now</span>
+                        </Link>
                      </p>
                      <p>Or</p>
                   </div>

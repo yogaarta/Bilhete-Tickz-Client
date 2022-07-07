@@ -1,0 +1,236 @@
+.mainContainer {
+  display: flex;
+  background-color: #F5F6F8;
+  padding: 50px 5%;
+  gap: 2.5%;
+}
+
+.leftPart {
+  display: flex;
+  flex-direction: column;
+  width: 55%;
+  gap: 30px;
+}
+
+.paymentInfo {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.title {
+  font-family: Mulish;
+  font-size: 24px;
+  font-weight: 700;
+  line-height: 30px;
+  letter-spacing: 0.25px;
+  text-align: left;
+
+}
+
+.paymentInfo .card {
+  display: flex;
+  flex-direction: column;
+  border-radius: 6px;
+  gap: 15px;
+}
+
+.paymentInfo .cardItem {
+  display: flex;
+  justify-content: space-between;
+}
+
+.card {
+  background: #FFFFFF;
+  padding: 30px 5%;
+}
+
+.paymentInfo .key {
+  font-family: Mulish;
+  font-size: 20px;
+  font-weight: 400;
+  line-height: 25px;
+  letter-spacing: 0.25px;
+  text-align: left;
+
+}
+
+.paymentInfo .value {
+  font-family: Mulish;
+  font-size: 20px;
+  font-weight: 400;
+  line-height: 25px;
+  letter-spacing: 0.25px;
+  text-align: right;
+
+}
+
+.borderLine {
+  border: 1px solid #E6E6E6;
+  width: 100%;
+  height: 1px;
+}
+
+.paymentCard {
+  width: 150px;
+  height: 60px;
+  border: 2px solid #DEDEDE;
+  border-radius: 8px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.methodImg {
+  height: 100%;
+}
+
+.paymentMethod {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.paymentMethod .card {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.paymentMethod .cardRow {
+  display: flex;
+  gap: 20px;
+}
+
+.paymentMethod .or {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+  font-family: Mulish;
+  font-size: 16px;
+  font-weight: 400;
+  line-height: 28px;
+  letter-spacing: 0.75px;
+  text-align: center;
+  color: #A0A3BD;
+}
+
+.payCash {
+  font-family: Mulish;
+  font-size: 16px;
+  font-weight: 400;
+  line-height: 28px;
+  letter-spacing: 0.75px;
+  text-align: center;
+  color: #6E7191;
+
+}
+
+.payCash span {
+  font-family: Mulish;
+  font-size: 16px;
+  font-weight: 600;
+  line-height: 28px;
+  letter-spacing: 0.75px;
+  text-align: center;
+  color: #5F2EEA;
+  cursor: pointer;
+}
+
+.buttonContainer {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.buttonContainer .prevStep {
+  width: 40%;
+  height: 50px;
+  border: 2px solid #5F2EEA;
+  color: #5F2EEA;
+  border-radius: 4px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+}
+
+.buttonContainer .payButton {
+  width: 40%;
+  height: 50px;
+  color: #F7F7FC;
+  background: #5F2EEA;
+  border-radius: 4px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+}
+
+.rightPart {
+  display: flex;
+  flex-direction: column;
+  width: 40%;
+  gap: 30px;
+
+}
+
+.personalInfo {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+
+}
+
+.personalInfo .card {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+
+}
+
+.label {
+  font-family: Mulish;
+  font-size: 16px;
+  font-weight: 400;
+  line-height: 20px;
+  letter-spacing: 0.25px;
+  text-align: left;
+  color: #696F79;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.inputNumber {
+  border: none;
+  height: 45px;
+  padding: 0px 10px;
+}
+
+.label .input {
+  border: 1px solid #DEDEDE;
+  border-radius: 4px;
+  height: 50px;
+  padding: 0px 10px;
+}
+
+.label input:focus {
+  outline: none;
+}
+
+.numberContainer {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+
+  border: 1px solid #DEDEDE;
+  border-radius: 4px;
+  height: 50px;
+  padding: 0px 10px;
+}
+
+.verBorder{
+  border: 1px solid #DEDEDE;
+  height: 80%;
+}
