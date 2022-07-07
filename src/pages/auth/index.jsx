@@ -4,7 +4,6 @@ import { useState } from 'react';
 
 export default function Register() {
    const [showPass, setShowPass] = useState(false);
-
    return (
       <>
          <div className={styles.maincontainer}>
