@@ -20,8 +20,10 @@ export default function Register() {
          };
          const result = await axios.post(`${process.env.NEXT_PUBLIC_BE_HOST}/auth/new`, body);
          setMsgSuccess(result.data.data.msg);
+         // console.log(result.data.data.msg);
       } catch (error) {
-         setMsgError(error.response?.data.message.msg);
+         // console.log(error.response.data.message.msg);
+         setMsgError(error.response.data.message.msg);
       }
    };
 
