@@ -1,0 +1,226 @@
+.mainContainer {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  background-color: #F5F6F8;
+  padding: 50px 5%;
+}
+
+.card {
+  background: #FFFFFF;
+  border-radius: 8px;
+  width: 80%;
+  padding: 30px 5%;
+  display: flex;
+  flex-direction: column;
+  gap: 30px;
+}
+
+.title {
+  font-family: Mulish;
+  font-size: 24px;
+  font-weight: 700;
+  line-height: 30px;
+  letter-spacing: 0.25px;
+  text-align: center;
+}
+
+.ticketContainer {
+  display: flex;
+  border-radius: 16px;
+}
+
+.leftTicket {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  width: 60%;
+
+  border-left: 1px solid #DEDEDE;
+  border-right: 1px dashed #DEDEDE;
+
+  border-bottom: 1px solid #DEDEDE;
+  border-top-left-radius: 16px;
+  border-bottom-left-radius: 16px;
+}
+
+.leftTicket .header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-family: Mulish;
+  font-size: 18px;
+  font-weight: 600;
+  line-height: 34px;
+  letter-spacing: 0.75px;
+  text-align: center;
+  height: 50px;
+  background-color: #5F2EEA;
+  color: #FFFFFF;
+  border-radius: 16px 0 0 0;
+  padding: 0 20px;
+}
+
+.rightTicket {
+  display: flex;
+  flex-direction: column;
+  width: 40%;
+  border-bottom: 1px solid #DEDEDE;
+  border-right: 1px solid #DEDEDE;
+  border-bottom-right-radius: 16px;
+
+  border-top-right-radius: 16px;
+}
+
+.rightTicket .header {
+  font-family: Mulish;
+  font-size: 18px;
+  font-weight: 600;
+  line-height: 34px;
+  letter-spacing: 0.75px;
+  text-align: center;
+  height: 50px;
+  background-color: #5F2EEA;
+  color: #FFFFFF;
+  display: flex;
+  border-top-right-radius: 16px;
+  justify-content: center;
+  align-items: center;
+}
+
+.movieTitle {
+  display: flex;
+  flex-direction: column;
+  padding: 20px;
+}
+
+.movieTitle .title,
+.ticketInfo .title,
+.movieRightContainer .title {
+  font-family: Mulish;
+  font-size: 12px;
+  font-weight: 400;
+  line-height: 24px;
+  letter-spacing: 0.75px;
+  text-align: left;
+
+}
+
+.movieTitle .value,
+.movieRightContainer .value {
+  font-family: Mulish;
+  font-size: 16px;
+  font-weight: 600;
+  line-height: 24px;
+  letter-spacing: 0.75px;
+  text-align: left;
+}
+
+.ticketInfo {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  padding: 0 20px;
+  padding-bottom: 20px;
+}
+
+.ticketInfo .row,
+.movieRightContainer .row {
+  display: flex;
+  justify-content: space-between;
+}
+
+.ticketInfo .info {
+  width: 30%;
+}
+
+.ticketInfo .value {
+  font-family: Mulish;
+  font-size: 16px;
+  font-weight: 600;
+  line-height: 24px;
+  letter-spacing: 0.75px;
+  text-align: left;
+
+}
+
+.ticketInfo .valuePrice {
+  font-family: Mulish;
+  font-size: 24px;
+  font-weight: 700;
+  line-height: 30px;
+  letter-spacing: 0.25px;
+  text-align: left;
+}
+
+.movieTitleRight {
+  display: flex;
+  flex-direction: column;
+  padding-left: 20px;
+  padding-top: 20px;
+  padding-bottom: 10px;
+}
+
+.rightInfo {
+  display: flex;
+  justify-content: space-between;
+}
+
+.movieRightContainer {
+  width: 80%;
+}
+
+.barcodeContainer {
+  display: flex;
+  flex-direction: column;
+  padding: 10px 5px;
+}
+
+.barcode {
+  transform: rotate(-90deg);
+}
+
+.ticketInfoRight {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+  padding: 0 20px;
+  padding-bottom: 10px;
+
+}
+
+.ticketInfoRight .row {
+  display: flex;
+  justify-content: flex-start;
+  gap: 20px;
+}
+
+.ticketInfoRight .info {
+  width: 40%;
+}
+
+.buttonContainer {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 30px;
+}
+
+.buttonContainer .button {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 10px;
+  font-family: Mulish;
+  font-size: 16px;
+  font-weight: 600;
+  line-height: 28px;
+  letter-spacing: 0.75px;
+  text-align: left;
+  border: 1px solid #4E4B66;
+  border-radius: 4px;
+  height: 40px;
+  padding: 0 15px;
+  cursor: pointer;
+
+}
