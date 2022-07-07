@@ -5,10 +5,23 @@
 
 .title {
    margin-bottom: 50px;
+   font-weight: 600;
+   font-size: 26px;
+   line-height: 33px;
+   letter-spacing: 0.005em;
+   color: #121212;
+}
+
+.desctitlelogin {
+   margin-bottom: 50px;
 }
 
 .signupfrom {
    width: 100%;
+}
+
+.email {
+   padding-top: 50px;
 }
 
 .inputname {
@@ -34,12 +47,21 @@
 .infosignup {
    text-align: center;
    padding: 50px 0px;
+   font-weight: 500;
+   font-size: 16px;
+   line-height: 19px;
+   letter-spacing: 0.005em;
+   color: #696f79;
 }
 
 .password {
    display: flex;
    justify-content: space-between;
    width: 100%;
+}
+
+.login {
+   color: #5f2eea;
 }
 
 .showpassword {
@@ -52,11 +74,26 @@
 
 .titlecheckbox {
    margin-left: 10px;
+   font-weight: 400;
+   font-size: 18px;
+   line-height: 34px;
+   letter-spacing: 0.75px;
+   color: #696f79;
 }
 
 .signupbutton {
    border: none;
    margin-top: 50px;
+   height: 70px;
+   width: 100%;
+   background-color: #5f2eea;
+   color: #f7f7fc;
+}
+
+.forgotbutton {
+   border: none;
+   margin-top: 100px;
+   margin-bottom: 125px;
    height: 70px;
    width: 100%;
    background-color: #5f2eea;
@@ -78,4 +115,27 @@
    width: 150px;
    padding-top: 10px;
    text-align: center;
+   font-weight: 600;
+   font-size: 18px;
+   line-height: 23px;
+   letter-spacing: 0.005em;
+   color: #a0a3bd;
+   margin-right: 15px;
+}
+
+.facebook {
+   background: #ffffff;
+   box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.08);
+   border-radius: 10px;
+   border: none;
+   height: 50px;
+   width: 150px;
+   padding-top: 10px;
+   text-align: center;
+   font-weight: 600;
+   font-size: 18px;
+   line-height: 23px;
+   letter-spacing: 0.005em;
+   color: #a0a3bd;
+   margin-left: 15px;
 }
