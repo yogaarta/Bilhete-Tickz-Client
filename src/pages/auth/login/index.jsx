@@ -2,25 +2,31 @@ import LayoutAuth from '../../../components/LayoutAuth';
 import styles from '../../../styles/Auth.module.css';
 import { Eye, EyeSlashFill, Facebook, Google } from 'react-bootstrap-icons';
 import { useState } from 'react';
-import axios from 'axios';
 import Link from 'next/link';
+import { loginAction } from '../../../redux/actionCreator/login';
+import { getUsersAction } from '../../../redux/actionCreator/users';
+import { useDispatch } from 'react-redux';
 
 export default function Login() {
    const [showPass, setShowPass] = useState(false);
    const [email, setEmail] = useState('');
    const [password, setPassword] = useState('');
+   const [msgError, setMsgError] = useState('');
 
-   const login = async () => {
-      try {
-         const body = {
-            email,
-            password,
-         };
-         const result = await axios.post(`${process.env.NEXT_PUBLIC_BE_HOST}/auth`, body);
-         console.log(result);
-      } catch (error) {
-         console.log(error.response?.data.message.msg);
-      }
+   const dispatch = useDispatch();
+
+   const login = () => {
+      const body = {
+         email,
+         password,
+      };
+      dispatch(loginAction(body))
+         .then((_) => {
+            // dispatch(getUsersAction());
+         })
+         .catch((error) => {
+            setMsgError(error.response?.data.message.msg);
+         });
    };
 
    return (
