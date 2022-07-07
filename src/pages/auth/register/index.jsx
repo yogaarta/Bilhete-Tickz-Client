@@ -1,5 +1,5 @@
 import styles from '../../../styles/Auth.module.css';
-import { Eye, EyeSlashFill } from 'react-bootstrap-icons';
+import { Eye, EyeSlashFill, Facebook, Google } from 'react-bootstrap-icons';
 import { useState } from 'react';
 import LayoutAuth from '../../../components/LayoutAuth';
 
@@ -37,21 +37,21 @@ export default function Register() {
                   </div>
                   <button className={styles.signupbutton}>Join for free now</button>
                   <div className={styles.infosignup}>
-                     <p>Do you already have an account? Log in</p>
+                     <p>
+                        Do you already have an account? <span className={styles.login}>Log in</span>
+                     </p>
                      <p>Or</p>
                   </div>
                   <div className={styles.buttonGoogleFb}>
                      <div>
                         <div className={styles.google}>
-                           <Eye />
-                           Google
+                           <Google /> Google
                         </div>
                      </div>
-                     <div> </div>
+                     <div></div>
                      <div>
-                        <div className={styles.google}>
-                           <Eye />
-                           Facebook
+                        <div className={styles.facebook}>
+                           <Facebook /> Facebook
                         </div>
                      </div>
                   </div>
