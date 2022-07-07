@@ -16,7 +16,7 @@ export default function LayoutAuth({ children, title }) {
       </Head>
       <main className={styles.globalContainer}>
         <aside className={styles.asideAuth}>
-          {page === "login" ?
+          {title === "Sign In" ?
             <div className={styles.loginContainer}>
               <div className={styles.BrandNameLogin}>
                 BILHETE TICKZ<TicketDetailedFill className={styles.logo} />
@@ -24,7 +24,7 @@ export default function LayoutAuth({ children, title }) {
               <div className={styles.subTitle}>wait, watch, wow!</div>
             </div>
             :
-            page === "signup" ?
+            title === "Reset" ?
               <>
                 <div className={styles.BrandName}>
                   BILHETE TICKZ
