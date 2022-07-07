@@ -57,7 +57,7 @@ const Order = () => {
                 </div>
                 <div className={`d-flex justify-content-between ${styles.orderInfo} border-bottom`}>
                   <p>Seat choosed</p>
-                  <p className="fw-bold">Seat choosed</p>
+                  <p className="fw-bold">C4, C5, C6</p>
                 </div>
                 <div className={`d-flex mt-4 justify-content-between ${styles.orderInfo}`}>
                   <h5>Total Payment</h5>
