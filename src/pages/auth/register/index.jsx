@@ -1,14 +1,14 @@
-import styles from '../../styles/Auth.module.css';
+import styles from '../../../styles/Auth.module.css';
 import { Eye, EyeSlashFill } from 'react-bootstrap-icons';
 import { useState } from 'react';
-import LayoutAuth from '../../components/LayoutAuth';
+import LayoutAuth from '../../../components/LayoutAuth';
 
 export default function Register() {
    const [showPass, setShowPass] = useState(false);
 
    return (
       <>
-         <LayoutAuth>
+         <LayoutAuth title={'Sign Up'}>
             <div className={styles.maincontainer}>
                <h3 className={styles.title}>Fill your additional details</h3>
                <div className={styles.signupfrom}>
