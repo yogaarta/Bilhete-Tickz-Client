@@ -29,8 +29,66 @@ const Order = () => {
               </div>
               <h5 className="fw-bold">Choose Your Seat</h5>
               <div className={`${styles.cardScreen} my-4`}>
-                {/* Mulai dari sini */}
-                HELLO WORLD
+                <h6 className="text-center">Screen</h6>
+                <div className="d-flex justify-content-center">
+                  <div className={styles.exScreen}></div>
+                </div>
+                <div className={styles.seatContainer}>
+                  <div className={styles.seatName}>
+                    <div>A</div>
+                    <div>B</div>
+                    <div>C</div>
+                    <div>D</div>
+                    <div>E</div>
+                    <div>F</div>
+                    <div>G</div>
+                  </div>
+                  <div className={styles.seat}>
+                    {dummy.map((item) => (
+                      <button key={item.id} />
+                    ))}
+                  </div>
+                  <div className={styles.seat}>
+                    {dummy1.map((item) => (
+                      <button key={item.id} />
+                    ))}
+                  </div>
+                  <section>
+                    <div className={styles.seatNumber}>
+                      <div>1</div>
+                      <div>2</div>
+                      <div>3</div>
+                      <div>4</div>
+                      <div>5</div>
+                      <div>6</div>
+                      <div>7</div>
+                    </div>
+                    <div className={styles.seatNumber}>
+                      <div>8</div>
+                      <div>9</div>
+                      <div>10</div>
+                      <div>11</div>
+                      <div>12</div>
+                      <div>13</div>
+                      <div>14</div>
+                    </div>
+                  </section>
+                </div>
+                <h6 className="mt-4 fw-bold">Seating Key</h6>
+                <div className="d-flex justify-content-center mt-4">
+                  <div className="col-md-3 d-flex gap-2">
+                      <div className={`${styles.availableSeat}`}></div>
+                      <h6>Available</h6>
+                  </div>
+                  <div className="col-md-3 d-flex gap-2">
+                      <div className={`${styles.selectedSeat}`}></div>
+                      <h6>Selected</h6>
+                  </div>
+                  <div className="col-md-3 d-flex gap-2">
+                      <div className={`${styles.soldSeat}`}></div>
+                      <h6>Sold</h6>
+                  </div>
+                </div>
               </div>
               <div
                 className={`d-flex justify-content-between ${styles.buttonOrder}`}

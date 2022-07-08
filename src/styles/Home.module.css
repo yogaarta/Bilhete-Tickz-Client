@@ -16,6 +16,12 @@
 .dropDownNav {
   cursor: pointer;
   position: relative;
+  z-index: 99;
+  -moz-user-select: none;
+  -webkit-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+  -o-user-select: none;
 }
 
 .searchNav {
@@ -54,10 +60,16 @@
 
 .DropdownLoc {
   position: absolute;
-  top: 50px;
+  top: 30px;
   border-radius: 5px;
   padding: 20px;
   box-shadow: 0px 2px 5px 0 rgba(129, 127, 127, 0.226);
+  -moz-user-select: none;
+  -webkit-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+  -o-user-select: none;
+  background-color: white;
 }
 
 .signButton {
@@ -149,12 +161,12 @@
 }
 
 .inputMember {
-  border: 1px solid #DEDEDE;
+  border: 1px solid #dedede;
   padding: 4px;
   border-radius: 5px;
 }
 
-.CardMember >  section {
+.CardMember > section {
   color: #5f2eea;
   font-size: 40px;
   font-weight: bold;
@@ -164,6 +176,10 @@
   margin-top: 40px;
   font-size: 13px;
   color: #4e4b66;
+}
+
+.clickAble {
+  cursor: pointer;
 }
 
 @media (max-width: 600px) {

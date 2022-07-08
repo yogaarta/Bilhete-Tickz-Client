@@ -33,13 +33,13 @@ const EditProfile = () => {
    }, []);
 
    const [form, setForm] = useState({
-      firstname: '',
-      lastname: '',
-      email: '',
-      phone_number: '',
+      firstname: firstname,
+      lastname: lastname,
+      email: email,
+      phone_number: phone_number,
       newPassword: '',
       confirmPassword: '',
-      image: '',
+      image: pictures,
    });
 
    const handleUpload = (e) => {
@@ -53,7 +53,7 @@ const EditProfile = () => {
       body.append('firstname', form.firstname);
       body.append('lastname', form.lastname);
       body.append('phone_number', form.phone_number);
-      body.append('newPassword', form.newPassword);
+      body.append('password', form.newPassword);
       body.append('confirmPassword', form.confirmPassword);
       return body;
    };
@@ -64,6 +64,7 @@ const EditProfile = () => {
          const body = updateForm();
          const config = { headers: { Authorization: `Bearer ${token}` } };
          const result = await axios.patch(`${process.env.NEXT_PUBLIC_BE_HOST}/users`, body, config);
+         alert(result.data.message);
          dispatch(getUsersAction(token));
       } catch (error) {
          console.log(error);

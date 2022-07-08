@@ -16,13 +16,11 @@
   border-radius: 10px;
 }
 
-
 .cardScreen {
   background-color: white;
   border-radius: 15px;
   padding: 60px 90px;
 }
-
 
 .seatAvailable {
   background-color: #d6d8e7;
@@ -34,16 +32,107 @@
   height: 50px;
 }
 
-.buttonChangev2{
-  border: 2px solid #5F2EEA;
-  color: #5F2EEA;
+.buttonChangev2 {
+  border: 2px solid #5f2eea;
+  color: #5f2eea;
   background-color: none;
 }
 
-.buttonCheckout{
-  border: 2px solid #5F2EEA;
+.buttonCheckout {
+  border: 2px solid #5f2eea;
   color: white;
+  background-color: #5f2eea;
+}
+
+.orderInfo {
+  font-size: 15px;
+}
+
+/* SeatContainer */
+
+.seatContainer {
+  display: grid;
+  grid-template-columns: 25px 1fr 1fr;
+  width: 520px;
+  padding-left: 40px;
+  margin-top: 20px;
+}
+
+.seatContainer > section {
+  display: flex;
+  flex-direction: row;
+}
+
+.seat {
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+  gap: 8px;
+  width: 180px;
+}
+
+.seat > button {
+  background-color: #D6D8E7;
+  border: none;
+  border-radius: 3px;
+}
+
+.seat > button:hover {
   background-color: #5F2EEA;
+}
+
+.seatName {
+  display: grid;
+  grid-template-rows: repeat(7, 1fr);
+  gap: 8px;
+}
+
+.seatNumber {
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+  gap: 9px;
+  margin-top: 5px;
+  margin-left: 25px;
+}
+
+.seatNumber:nth-child(2) {
+  margin-left: 48px;
+}
+
+.exScreen {
+  border-radius: 10px;
+  height: 8px;
+  width: 77%;
+  background-color: #5f2eea;
+}
+
+.seatName > div,
+.seatNumber > div,
+.seatNumber2 > div {
+  font-size: 13px;
+  width: 18px;
+  text-align: center;
+}
+
+.seatAvailable {
+  background-color: #d6d8e7;
+}
+
+.buttonOrder > button {
+  border-radius: 15px;
+  width: 300px;
+  height: 50px;
+}
+
+.buttonChangev2 {
+  border: 2px solid #5f2eea;
+  color: #5f2eea;
+  background-color: none;
+}
+
+.buttonCheckout {
+  border: 2px solid #5f2eea;
+  color: white;
+  background-color: #5f2eea;
 }
 
 .orderInfo {
@@ -51,11 +140,36 @@
 }
 
 
+.selectedSeat {
+  background-color: #5f2eea;
+  width: 21px;
+  height: 21px;
+  border-radius: 5px;
+}
+
+.availableSeat {
+  background-color: #D6D8E7;
+  width: 21px;
+  height: 21px;
+  border-radius: 5px;
+}
+
+.soldSeat {
+  background-color: #5a5d85;
+  width: 21px;
+  height: 21px;
+  border-radius: 5px;
+}
 
 @media only screen and (max-width: 600px) {
   .buttonOrder > button {
     width: 200px;
     height: 50px;
+  }
+
+  .cardScreen {
+    width: 100%;
+    overflow-y: auto;
   }
 }
 
@@ -64,11 +178,21 @@
     width: 180px;
     height: 50px;
   }
+
+  .cardScreen {
+    width: 100%;
+    overflow-y: auto;
+  }
 }
 
 @media only screen and (min-width: 768px) {
   .buttonOrder > button {
     width: 180px;
     height: 50px;
+  }
+
+  .cardScreen {
+    width: 100%;
+    overflow-y: auto;
   }
 }
