@@ -8,6 +8,7 @@ import Image from "next/image";
 import LayoutLoggedIn from "../../components/LayoutLoggedIn/LayoutLoggedIn";
 //Assets
 import ImageDetail from "../../assets/img/ImageDetail.png";
+import Ebu from "../../assets/icon/ebu.png";
 //CssModule
 import styles from "../../styles/Movies.module.css";
 import CardCinema from "../../components/CardCinemas";
@@ -18,27 +19,27 @@ const MovieDetail = () => {
     <LayoutLoggedIn title="Movies Detail">
       <div className="container">
         <div className="d-flex justify-content-between">
-          <div className="col-md-3 text-center">
+          <div className="col-md-3 col-3 text-center">
             <div className={styles.cardDetail}>
               <Image src={ImageDetail} alt="MovieDetail" />
             </div>
           </div>
-          <div className={`col-md-8 ${styles.descDetail}`}>
+          <div className={`col-md-8 col-8 ${styles.descDetail}`}>
             <h1>Spider-Man: Homecoming</h1>
             <p>Adventure, Action, Sci-Fi</p>
-            <div className="mt-4">
+            <div className="mt-2 mt-md-4">
               Release date
               <section className="text-dark">June 28, 2017</section>
             </div>
-            <div className="mt-4">
+            <div className="mt-2 mt-md-4">
               Duration
               <section className="text-dark">2 hours 13 minutes</section>
             </div>
-            <div className="mt-4">
+            <div className="mt-2 mt-md-4">
               Directed by
               <section className="text-dark">Jon Watss</section>
             </div>
-            <div className="mt-4">
+            <div className="mt-2 mt-md-4">
               Casts
               <section className="text-dark">
                 Tom Holland, Michael Keaton, Robert Downey Jr.
@@ -89,14 +90,14 @@ const MovieDetail = () => {
               ) : null}
             </div>
           </div>
-          <div className="d-flex gap-3 justify-content-center flex-wrap mt-5">
-          <CardCinema/>
-          <CardCinema/>
-          <CardCinema/>
-          <CardCinema/>
-          <CardCinema/>
-          <CardCinema/>
+          <div className="d-flex justify-content-center gap-3 flex-wrap mt-5">
+            <CardCinema/>
+            <CardCinema/>
+            <CardCinema/>
           </div>
+        </div>
+        <div className="d-flex justify-content-center mt-4 mt-md-5">
+          <button className={styles.buttonPag}>1</button>
         </div>
       </div>
     </LayoutLoggedIn>
