@@ -1,6 +1,8 @@
 .maincontainer {
    margin: 5%;
    width: 45%;
+   font-family: Mulish;
+  
 }
 
 .title {
@@ -99,6 +101,23 @@
    width: 100%;
    background-color: #5f2eea;
    color: #f7f7fc;
+}
+.forgotbutton2 {
+   border: none;
+   margin: 50px 0px;
+   height: 70px;
+   width: 100%;
+   background-color: #5f2eea;
+   color: #f7f7fc;
+}
+.disforgotbutton2 {
+   border: none;
+   margin: 50px 0px;
+   height: 70px;
+   width: 100%;
+   color: #5f2eea;
+   background-color: #f7f7fc;
+   cursor: default;
 }
 
 .buttonGoogleFb {

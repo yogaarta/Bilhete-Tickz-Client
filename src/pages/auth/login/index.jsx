@@ -8,7 +8,9 @@ import { loginAction } from '../../../redux/actionCreator/login';
 import { useDispatch, useSelector } from 'react-redux';
 import { getUsersAction } from '../../../redux/actionCreator/users';
 
-import Loading from '../../../components/Loading';
+
+import Loading from '../../../components/Loading'
+import { useEffect } from 'react';
 
 export default function Login() {
    const { token } = useSelector((state) => state.auth.loginData);
@@ -16,29 +18,33 @@ export default function Login() {
    const [email, setEmail] = useState('');
    const [password, setPassword] = useState('');
    const [msgError, setMsgError] = useState('');
-   const [isLoading, setIsLoading] = useState(false);
+   // const [isLoading, setIsLoading] = useState(false)
 
-   // const {loginData} = useSelector(state => state.auth)
+   const {loginData, isLoading, isError} = useSelector(state => state.auth)
 
    const router = useRouter();
    const dispatch = useDispatch();
 
    const login = async () => {
       try {
-         setIsLoading(true);
+         // setIsLoading(true)
          const body = {
             email,
             password,
          };
          dispatch(loginAction(body));
          // dispatch(getUsersAction(loginData.token));
-         setIsLoading(false);
-         router.push('/');
+         // setIsLoading(false)
+         
       } catch (error) {
          setMsgError(error.response?.data.message.msg);
          setIsLoading(false);
       }
    };
+
+   useEffect(()=>{
+      if(isError === false) router.push('/')
+   },[isError])
 
    return (
       <>

@@ -2,7 +2,7 @@ import { Modal, Button } from 'react-bootstrap'
 import React from 'react'
 import styles from './CustomModal.module.css'
 
-export default function CustomModal({show, setShow, title, body, secondButton, primeButton, primeButtonHandler}) {
+export default function CustomModal({show, setShow, title, body, secondButton, primeButton, primeButtonHandler, isError}) {
   return (
     <Modal
       show={show}
