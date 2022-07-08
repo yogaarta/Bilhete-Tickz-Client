@@ -101,3 +101,16 @@ export const dummy1 = [
   { id: "G13" },
   { id: "G14" },
 ];
+
+export const month = [
+  {name: "January"},
+  {name: "February"},
+  {name: "Maret"},
+  {name: "April"},
+  {name: "May"},
+  {name: "June"},
+  {name: "July"},
+  {name: "August"},
+  {name: "September"},
+  {name: "December"},
+]

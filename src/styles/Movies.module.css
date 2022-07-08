@@ -137,7 +137,6 @@
   position: absolute;
   text-align: center;
   border: 1.5px solid black;
-  border-top: none;
   color: black;
   background-color: white;
   width: 7.25%;
@@ -147,29 +146,29 @@
   user-select: none;
   -o-user-select: none;
   cursor: pointer;
+  margin-top: 1px;
 }
 
 .menuFilter {
   position: absolute;
   text-align: center;
   border: 1.5px solid black;
-  border-top: none;
   color: black;
   background-color: white;
-  width: 5.92%;
+  width: 8%;
   -moz-user-select: none;
   -webkit-user-select: none;
   -ms-user-select: none;
   user-select: none;
   -o-user-select: none;
   cursor: pointer;
+  margin-top: 1px;
 }
 
 .menuOrder {
   position: absolute;
   text-align: center;
   border: 1.5px solid black;
-  border-top: none;
   color: black;
   background-color: white;
   width: 6.37%;
@@ -179,10 +178,11 @@
   user-select: none;
   -o-user-select: none;
   cursor: pointer;
+  margin-top: 1px;
 }
 
 .menuSort > p,
 .menuFilter > p,
 .menuOrder > p {
-  margin: 1px;
+  margin: 10px;
 }
