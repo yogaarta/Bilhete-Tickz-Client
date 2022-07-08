@@ -22,8 +22,8 @@ export default function Register() {
          setMsgSuccess(result.data.data.msg);
          // console.log(result.data.data.msg);
       } catch (error) {
-         // console.log(error.response.data.message.msg);
-         setMsgError(error.response.data.message.msg);
+         console.log(error.response.data.message.msg);
+         setMsgError(error.response.data?.message.msg);
       }
    };
 
