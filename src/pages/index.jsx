@@ -1,7 +1,7 @@
 //next Component
 import Image from "next/image";
 import { useDispatch, useSelector } from "react-redux";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { useRouter } from "next/router";
 //localcomponent
 import LayoutLoggedIn from "../components/LayoutLoggedIn/LayoutLoggedIn";
@@ -12,16 +12,24 @@ import Header from "../assets/img/headerImage.png";
 import Card from "../assets/img/Card.png";
 import NowShowingCard from "../components/NowShowingCard";
 import UpcomingCard from "../components/UpcomingMoviesCard";
-
-import { getUsersAction } from "../redux/actionCreator/users";
+// Axios
+import {getMoviesHomeAxios} from "../modules/movies"
+// import { getUsersAction } from "../redux/actionCreator/users";
 
 export default function Home() {
-  const { token } = useSelector((state) => state.auth.loginData);
+  // const { token } = useSelector((state) => state.auth.loginData);
+  const [movies, setMovies] = useState([])
   const router = useRouter();
-  const dispatch = useDispatch();
+  // const dispatch = useDispatch();
 
   useEffect(() => {
-    dispatch(getUsersAction(token));
+    getMoviesHomeAxios()
+    .then((res) => {
+      console.log(res)
+    })
+    .catch((err) => {
+      console.log(err)
+    })
   }, []);
 
   const month = [
@@ -61,7 +69,7 @@ export default function Home() {
             view all
           </p>
         </div>
-        <div className="d-flex justify-content-evenly my-5 mx-5 gap-4 flex-md-row flex-wrap">
+        <div className={`d-flex justify-content-evenly my-5 mx-5 gap-4 flex-md-row`}>
           <NowShowingCard image={Card} />
           <NowShowingCard image={Card} />
           <NowShowingCard image={Card} />
