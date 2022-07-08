@@ -1,7 +1,8 @@
 //Import from Package
 import { ThreeDots } from 'react-bootstrap-icons';
-import { useState, useRef } from 'react';
-import { useSelector } from 'react-redux';
+import { useState, useRef, useEffect } from 'react';
+import { useSelector, useDispatch } from 'react-redux';
+import { getUsersAction } from '../../redux/actionCreator/users';
 //ComponentsLocal
 import LayoutLoggedIn from '../../components/LayoutLoggedIn/LayoutLoggedIn';
 //Compenents Next
@@ -17,21 +18,28 @@ import CardOrderHistory from '../../components/CardOrderHistory';
 import axios from 'axios';
 
 const EditProfile = () => {
-   const { firstname, lastname, email, phone_number, point } = useSelector((state) => state.userInfo.userInfo);
-   //  const { token } = useSelector((state) => state.auth.loginData);
+   const { firstname, lastname, email, phone_number, point, pictures } = useSelector((state) => state.userInfo.userInfo);
+   const { token } = useSelector((state) => state.auth.loginData);
    const [showDrop, setShowDrop] = useState(false);
    const [active, setActive] = useState(false);
    const [showPass, setShowPass] = useState(false);
    const [showPassConfirm, setShowPassConfirm] = useState(false);
+   const inputFile = useRef();
+
+   const dispatch = useDispatch();
+
+   useEffect(() => {
+      dispatch(getUsersAction(token));
+   }, []);
 
    const [form, setForm] = useState({
-      firstName: firstname,
-      lastName: lastname,
+      firstname: firstname,
+      lastname: lastname,
       email: email,
       phone_number: phone_number,
       newPassword: '',
       confirmPassword: '',
-      image: '',
+      image: pictures,
    });
 
    const handleUpload = (e) => {
@@ -41,27 +49,27 @@ const EditProfile = () => {
 
    const updateForm = () => {
       const body = new FormData();
-      body.append('image', form.image);
-      body.append('firstName', form.firstName);
-      body.append('lastName', form.lastName);
-      body.append('email', form.email);
-      body.append('newPassword', form.newPassword);
+      body.append('pictures', form.image);
+      body.append('firstname', form.firstname);
+      body.append('lastname', form.lastname);
+      body.append('phone_number', form.phone_number);
+      body.append('password', form.newPassword);
       body.append('confirmPassword', form.confirmPassword);
       return body;
    };
 
-   const handleUpdate = () => {
-      // try {
-      const body = updateForm();
-      //  const config = { headers: { Authorization: `Bearer ${token}` } };
-      //  const result = await axios.patch(`${process.env.NEXT_PUBLIC_BE_HOST}/users`, body, config);
-      //  console.log(result.data.data);
-      // } catch (error) {
-      //    console.log(error);
-      // }
+   const handleUpdate = async (e) => {
+      e.preventDefault();
+      try {
+         const body = updateForm();
+         const config = { headers: { Authorization: `Bearer ${token}` } };
+         const result = await axios.patch(`${process.env.NEXT_PUBLIC_BE_HOST}/users`, body, config);
+         alert(result.data.message);
+         dispatch(getUsersAction(token));
+      } catch (error) {
+         console.log(error);
+      }
    };
-
-   const inputFile = useRef();
 
    return (
       <LayoutLoggedIn title="Edit Profile">
@@ -94,7 +102,7 @@ const EditProfile = () => {
                         </div>
                      </div>
                      <div className={styles.borderBottom}>
-                        <Image src={Default} alt="default" />
+                        <Image src={pictures ? pictures : Default} width={'150px'} height={'150px'} alt="default" />
                         <h6 className="fw-bold">
                            {firstname || email} {lastname}
                         </h6>
@@ -167,7 +175,7 @@ const EditProfile = () => {
                                           aria-describedby="emailHelp"
                                           placeholder={firstname || 'Enter your first name'}
                                           onChange={(e) => {
-                                             setForm({ ...form, firstName: e.target.value });
+                                             setForm({ ...form, firstname: e.target.value });
                                           }}
                                        />
                                     </div>
@@ -202,7 +210,7 @@ const EditProfile = () => {
                                           aria-describedby="emailHelp"
                                           placeholder={lastname || 'Enter your last name'}
                                           onChange={(e) => {
-                                             setForm({ ...form, lastName: e.target.value });
+                                             setForm({ ...form, lastname: e.target.value });
                                           }}
                                        />
                                     </div>
@@ -287,7 +295,7 @@ const EditProfile = () => {
                            </div>
                         </div>
                         <div className="text-center text-md-start">
-                           <button type="submit" className={styles.buttonChanges}>
+                           <button type="submit" className={styles.buttonChanges} onClick={handleUpdate}>
                               Update Changes
                            </button>
                         </div>

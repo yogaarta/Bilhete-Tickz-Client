@@ -4,10 +4,11 @@ import { Eye, EyeSlashFill, Facebook, Google } from 'react-bootstrap-icons';
 import { useState } from 'react';
 import Link from 'next/link';
 import { loginAction } from '../../../redux/actionCreator/login';
+import { useDispatch, useSelector } from 'react-redux';
 import { getUsersAction } from '../../../redux/actionCreator/users';
-import { useDispatch } from 'react-redux';
 
 export default function Login() {
+   const { token } = useSelector((state) => state.auth.loginData);
    const [showPass, setShowPass] = useState(false);
    const [email, setEmail] = useState('');
    const [password, setPassword] = useState('');
@@ -22,7 +23,7 @@ export default function Login() {
       };
       dispatch(loginAction(body))
          .then((_) => {
-            // dispatch(getUsersAction());
+            dispatch(getUsersAction(token));
          })
          .catch((error) => {
             setMsgError(error.response?.data.message.msg);
