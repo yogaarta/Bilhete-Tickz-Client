@@ -16,12 +16,15 @@ import UpcomingCard from '../components/UpcomingMoviesCard';
 import { getUsersAction } from '../redux/actionCreator/users';
 
 export default function Home() {
-   const { token } = useSelector((state) => state.auth.loginData);
-
+   const { auth } = useSelector(state => state)
+   // const { token = null } = useSelector((state) => state.auth.loginData);
    const dispatch = useDispatch();
 
    useEffect(() => {
-      dispatch(getUsersAction(token));
+      if (auth) {
+         const { token } = auth.loginData
+         dispatch(getUsersAction(token));
+      }
    }, []);
 
    const month = [
