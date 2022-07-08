@@ -4,7 +4,6 @@ import { Eye, EyeSlashFill, Facebook, Google } from 'react-bootstrap-icons';
 import { useState } from 'react';
 import Link from 'next/link';
 import { loginAction } from '../../../redux/actionCreator/login';
-import { getUsersAction } from '../../../redux/actionCreator/users';
 import { useDispatch } from 'react-redux';
 
 export default function Login() {
