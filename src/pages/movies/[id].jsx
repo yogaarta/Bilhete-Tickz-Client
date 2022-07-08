@@ -14,60 +14,74 @@ import styles from "../../styles/Movies.module.css";
 import CardCinema from "../../components/CardCinemas";
 import { getMoviesDetailAxios } from "../../modules/movies";
 
-
 const MovieDetail = () => {
   const [dropdown, setDropdown] = useState();
-  const [movies, setMovies] = useState([])
-  const router = useRouter()
+  const [movies, setMovies] = useState([]);
+  const router = useRouter();
   useEffect(() => {
-    const {id} = router.query
+    const { id } = router.query;
     getMoviesDetailAxios(id)
-    .then((res) => {
-      console.log(res)
-      setMovies(res.data?.data)
-    })
-    .catch((err) => {
-      console.log(err)
-    })
-  },[router])
+      .then((res) => {
+        console.log(res);
+        setMovies(res.data?.data);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  }, [router]);
   return (
     <LayoutLoggedIn title="Movies Detail">
       <div className="container">
-        <div className="d-flex justify-content-between">
-          <div className="col-md-3 col-3 text-center">
-            <div className={styles.cardDetail}>
-              <Image src={movies.img ? movies.img : Loading} width={movies.img ? "236px" : "100px"} height={movies.img ? "362px" : "100px"} alt="MovieDetail" />
+        {movies.img ? (
+          <>
+            <div className="d-flex justify-content-between">
+              <div className="col-md-3 col-3 text-center">
+                <div className={styles.cardDetail}>
+                  <Image
+                    src={movies.img ? movies.img : Loading}
+                    width={movies.img ? "236px" : "100px"}
+                    height={movies.img ? "362px" : "100px"}
+                    alt="MovieDetail"
+                  />
+                </div>
+              </div>
+              <div className={`col-md-8 col-8 ${styles.descDetail}`}>
+                <h1>{movies.name ? movies.name : ""}</h1>
+                <p>{movies.category ? movies.category : ""}</p>
+                <div className="mt-2 mt-md-4">
+                  Release date
+                  <section className="text-dark">
+                    {movies.release_date ? movies.release_date : ""}
+                  </section>
+                </div>
+                <div className="mt-2 mt-md-4">
+                  Duration
+                  <section className="text-dark">
+                    {movies.duration ? movies.duration : ""}
+                  </section>
+                </div>
+                <div className="mt-2 mt-md-4">
+                  Directed by
+                  <section className="text-dark">{""}</section>
+                </div>
+                <div className="mt-2 mt-md-4">
+                  Casts
+                  <section className="text-dark">
+                    {movies.cast ? movies.cast : ""}
+                  </section>
+                </div>
+              </div>
             </div>
-          </div>
-          <div className={`col-md-8 col-8 ${styles.descDetail}`}>
-            <h1>{movies.name? movies.name : ""}</h1>
-            <p>{movies.category ? movies.category : ""}</p>
-            <div className="mt-2 mt-md-4">
-              Release date
-              <section className="text-dark">{movies.release_date ? movies.release_date : ""}</section>
-            </div>
-            <div className="mt-2 mt-md-4">
-              Duration
-              <section className="text-dark">{movies.duration ? movies.duration : ""}</section>
-            </div>
-            <div className="mt-2 mt-md-4">
-              Directed by
-              <section className="text-dark">{""}</section>
-            </div>
-            <div className="mt-2 mt-md-4">
-              Casts
-              <section className="text-dark">
-                {movies.cast ? movies.cast : ""}
+            <div className={`mt-5 ${styles.synopsis}`}>
+              Synopsis
+              <section className="mt-4">
+                {movies.synopsis ? movies.synopsis : ""}
               </section>
             </div>
-          </div>
-        </div>
-        <div className={`mt-5 ${styles.synopsis}`}>
-          Synopsis
-          <section className="mt-4">
-            {movies.synopsis ? movies.synopsis : ""}
-          </section>
-        </div>
+          </>
+        ) : (
+          <Image src={Loading} />
+        )}
         <div className={`${styles.showTimes}`}>
           <h4 className="text-center fw-bold mb-3">Showtimes and Tickets</h4>
           <div className="d-flex justify-content-center gap-3">
@@ -100,9 +114,9 @@ const MovieDetail = () => {
             </div>
           </div>
           <div className="d-flex justify-content-center gap-3 flex-wrap mt-5">
-            <CardCinema/>
-            <CardCinema/>
-            <CardCinema/>
+            <CardCinema />
+            <CardCinema />
+            <CardCinema />
           </div>
         </div>
         <div className="d-flex justify-content-center mt-4 mt-md-5">
