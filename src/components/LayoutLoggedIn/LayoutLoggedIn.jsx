@@ -61,15 +61,15 @@ const LayoutLoggedIn = ({ children, title }) => {
                 <div className={`mt-1 ${Styles.searchNav}`}>
                   <Image
                     onClick={() => {
-                      showSearch(!search);
+                      router.push(`/movies`)
                     }}
                     src={Search}
                   />
-                  {search ? (
+                  {/* {search ? (
                     <div className={Styles.searchDrop}>
                       <input type="text" id="" className={Styles.searchField} />
                     </div>
-                  ) : null}
+                  ) : null} */}
                 </div>
                 <div
                   onClick={() => {
