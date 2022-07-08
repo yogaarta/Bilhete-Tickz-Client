@@ -1,7 +1,8 @@
 import { Modal, Button } from 'react-bootstrap'
 import React from 'react'
+import styles from './CustomModal.module.css'
 
-export default function Modal({show, setShow, title, body, secondButton, primeButton, primeButtonHandler}) {
+export default function CustomModal({show, setShow, title, body, secondButton, primeButton, primeButtonHandler}) {
   return (
     <Modal
       show={show}
@@ -14,11 +15,11 @@ export default function Modal({show, setShow, title, body, secondButton, primeBu
       </Modal.Body>
       <Modal.Footer>
         <Button variant="secondary" onClick={() => setShow(false)}>
-          {secondButton}
+          {secondButton ? secondButton : "Cancel"}
         </Button>
         <Button variant="primary" className={styles.modalPrimaryButton}
           onClick={primeButtonHandler}>
-          {primeButton}
+          {primeButton ? primeButton : "Proceed"}
         </Button>
       </Modal.Footer>
     </Modal>
