@@ -5,7 +5,7 @@ import LayoutAuth from '../../../components/LayoutAuth';
 import axios from 'axios';
 import Link from 'next/link';
 import CustomModal from '../../../components/CustomModal';
-import { useRouter } from 'next/router'
+import { useRouter } from 'next/router';
 
 export default function Register() {
    const [showPass, setShowPass] = useState(false);
@@ -13,30 +13,30 @@ export default function Register() {
    const [password, setPassword] = useState('');
    const [msg, setMsg] = useState('');
    const [show, setShow] = useState(false);
-   const [isError, setIsError] = useState(null)
+   const [isError, setIsError] = useState(null);
 
-   const router = useRouter()
+   const router = useRouter();
 
    const register = async () => {
       try {
-         setIsError(null)
+         setIsError(null);
          const body = { email, password };
          const result = await axios.post(`${process.env.NEXT_PUBLIC_BE_HOST}/auth/new`, body);
-         setIsError(false)
+         setIsError(false);
          setMsg(result.data.data.msg);
-         setShow(true)
+         setShow(true);
          // console.log(result.data.data.msg);
       } catch (error) {
          // console.log(error.response.data.message.msg);
-         setIsError(true)
+         setIsError(true);
          setMsg(error.response.data.message.msg);
-         setShow(true)
+         setShow(true);
       }
    };
 
    const primeButtonHandler = () => {
-      router.push('/auth/login')
-   }
+      router.push('/auth/login');
+   };
 
    return (
       <>
@@ -109,7 +109,7 @@ export default function Register() {
                </div>
             </div>
          </LayoutAuth>
-         <CustomModal show={show} setShow={setShow} title={isError ? "Error" : 'Success'} body={msg} primeButton={'Login'} primeButtonHandler={primeButtonHandler} />
+         <CustomModal show={show} setShow={setShow} title={isError ? 'Error' : 'Success'} body={msg} primeButton={'Login'} primeButtonHandler={primeButtonHandler} />
       </>
    );
 }
