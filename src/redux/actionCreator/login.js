@@ -1,5 +1,5 @@
-import { loginAxios } from '../../modules/auth';
-import { LOGIN_ACCOUNT } from './actionString';
+import { loginAxios, logoutAxios } from '../../modules/auth';
+import { LOGIN_ACCOUNT, LOGOUT_ACCOUNT } from './actionString';
 
 export const loginAction = (body) => {
    return {
@@ -7,3 +7,9 @@ export const loginAction = (body) => {
       payload: loginAxios(body),
    };
 };
+
+export const logoutAction = () => {
+   return {
+      type: LOGOUT_ACCOUNT
+   };
+}
