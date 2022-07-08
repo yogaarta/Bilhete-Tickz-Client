@@ -17,13 +17,40 @@ import Ebu from "../../assets/icon/ebu.png";
 import Cine from "../../assets/icon/cine.png";
 //React Bootstrap
 import { Navbar, Nav, Container } from "react-bootstrap";
-import { ChevronDown } from "react-bootstrap-icons";
+import { ChevronDown, TicketDetailedFill } from "react-bootstrap-icons";
+import { useDispatch, useSelector } from "react-redux";
+import axios from "axios";
+import { logoutAction } from "../../redux/actionCreator/login";
+import Loading from "../Loading";
+
+
 const LayoutLoggedIn = ({ children, title }) => {
-  const router = useRouter();
+  const { loginData } = useSelector(state => state.auth)
   const [dropdown, showDropdown] = useState(false);
   const [search, showSearch] = useState(false);
+  const [isLoading, setIsLoading] = useState(false)
+  
+  const router = useRouter();
+  const dispatch = useDispatch()
+
+  const logoutHandler = async () => {
+    try {
+      setIsLoading(true)
+      const config = { headers: { Authorization: `Bearer ${loginData.token}` } }
+      const response = await axios.delete(`${process.env.NEXT_PUBLIC_BE_HOST}/auth`, config)
+      console.log(response)
+      dispatch(logoutAction())
+      router.push('/')
+      setIsLoading(false)
+    } catch (error) {
+      console.log(error)
+      setIsLoading(false)
+    }
+  }
+
   return (
     <>
+    {isLoading && <Loading />}
       <Head>
         <title>{title}</title>
       </Head>
@@ -32,7 +59,7 @@ const LayoutLoggedIn = ({ children, title }) => {
           <Container>
             <div onClick={() => {
               router.push("/")
-            }} className={Styles.BrandName}>BILHETE TICKZ</div>
+            }} className={Styles.BrandName}>BILHETE TICKZ <TicketDetailedFill className={Styles.logo} /></div>
             <Navbar.Toggle aria-controls="basic-navbar-nav" />
             <Navbar.Collapse id="basic-navbar-nav">
               <Nav className="ms-5 mt-3 mt-md-0 me-auto d-flex justify-content-between gap-md-4">
@@ -71,14 +98,36 @@ const LayoutLoggedIn = ({ children, title }) => {
                     </div>
                   ) : null}
                 </div>
-                <div
-                  onClick={() => {
-                    router.push("/auth/register");
-                  }}
-                  className={`${Styles.signButton}`}
-                >
-                  Sign Up
-                </div>
+                {loginData && loginData.token ?
+                  <>
+                  {/* <Image src={}/> */}
+                    <div
+                      onClick={logoutHandler}
+                      className={`${Styles.logoutButton}`}
+                    >
+                      Logout
+                    </div>
+                  </>
+                  :
+                  <>
+                    <div
+                      onClick={() => {
+                        router.push("/auth/login");
+                      }}
+                      className={`${Styles.signButton}`}
+                    >
+                      Login
+                    </div>
+                    <div
+                      onClick={() => {
+                        router.push("/auth/register");
+                      }}
+                      className={`${Styles.signButton}`}
+                    >
+                      Sign Up
+                    </div>
+                  </>
+                }
               </div>
             </Navbar.Collapse>
           </Container>

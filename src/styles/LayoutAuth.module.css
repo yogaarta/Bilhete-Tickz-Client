@@ -52,6 +52,9 @@
 .BrandNameLogin .logo {
   transform: rotate(-45deg);
 }
+.BrandName .logo {
+  transform: rotate(-45deg);
+}
 
 .subTitle {
   font-family: Inter;

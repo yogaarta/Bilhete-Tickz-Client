@@ -1,0 +1,19 @@
+.maincontainer{
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  width: 50%;
+  height: 660px;
+  padding: 50px 5%;
+  gap: 30px;
+}
+
+.signupbutton {
+  border: none;
+  height: 50px;
+  width: 170px;
+  background-color: #5f2eea;
+  border-radius: 16px;
+  color: #f7f7fc;
+}

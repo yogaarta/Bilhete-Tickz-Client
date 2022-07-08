@@ -2,35 +2,48 @@ import LayoutAuth from '../../../components/LayoutAuth';
 import styles from '../../../styles/Auth.module.css';
 import { Eye, EyeSlashFill, Facebook, Google } from 'react-bootstrap-icons';
 import { useState } from 'react';
+import { useRouter } from 'next/router'
 import Link from 'next/link';
 import { loginAction } from '../../../redux/actionCreator/login';
 import { getUsersAction } from '../../../redux/actionCreator/users';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
+
+
+import Loading from '../../../components/Loading'
 
 export default function Login() {
    const [showPass, setShowPass] = useState(false);
    const [email, setEmail] = useState('');
    const [password, setPassword] = useState('');
    const [msgError, setMsgError] = useState('');
+   const [isLoading, setIsLoading] = useState(false)
 
+   const {loginData} = useSelector(state => state.auth)
+
+   const router = useRouter()
    const dispatch = useDispatch();
 
-   const login = () => {
-      const body = {
-         email,
-         password,
-      };
-      dispatch(loginAction(body))
-         .then((_) => {
-            // dispatch(getUsersAction());
-         })
-         .catch((error) => {
-            setMsgError(error.response?.data.message.msg);
-         });
+   const login = async () => {
+      try {
+         setIsLoading(true)
+         const body = {
+            email,
+            password,
+         };
+         dispatch(loginAction(body))
+         dispatch(getUsersAction(loginData.token));
+         setIsLoading(false)
+         router.push('/')
+      } catch (error) {
+         setMsgError(error.response?.data.message.msg);
+         setIsLoading(false)
+      }
+
    };
 
    return (
       <>
+         {isLoading && <Loading />}
          <LayoutAuth title={'Sign In'}>
             <div className={styles.maincontainer}>
                <h1 className={styles.titlesign}>Sign In</h1>
