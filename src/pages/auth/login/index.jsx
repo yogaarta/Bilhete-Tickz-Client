@@ -7,13 +7,10 @@ import Link from 'next/link';
 import { loginAction } from '../../../redux/actionCreator/login';
 import { useDispatch, useSelector } from 'react-redux';
 import { getUsersAction } from '../../../redux/actionCreator/users';
-<<<<<<< HEAD
 import { useDispatch, useSelector } from 'react-redux';
 
 
 import Loading from '../../../components/Loading'
-=======
->>>>>>> 87efcf4417506ce20e9b6850d5bfab67603b2892
 
 export default function Login() {
    const { token } = useSelector((state) => state.auth.loginData);
