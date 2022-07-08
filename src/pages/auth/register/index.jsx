@@ -6,6 +6,7 @@ import axios from 'axios';
 import Link from 'next/link';
 import CustomModal from '../../../components/CustomModal';
 import { useRouter } from 'next/router';
+import Loading from '../../../components/Loading'
 
 export default function Register() {
    const [showPass, setShowPass] = useState(false);
@@ -14,16 +15,19 @@ export default function Register() {
    const [msg, setMsg] = useState('');
    const [show, setShow] = useState(false);
    const [isError, setIsError] = useState(null);
+   const [isLoading, setIsLoading] = useState(false)
 
    const router = useRouter();
 
    const register = async () => {
       try {
+         setIsLoading(true)
          setIsError(null);
          const body = { email, password };
          const result = await axios.post(`${process.env.NEXT_PUBLIC_BE_HOST}/auth/new`, body);
          setIsError(false);
          setMsg(result.data.data.msg);
+         setIsLoading(false)
          setShow(true);
          // console.log(result.data.data.msg);
       } catch (error) {
@@ -31,6 +35,7 @@ export default function Register() {
          setIsError(true);
          setMsg(error.response.data.message.msg);
          setShow(true);
+         setIsLoading(false)
       }
    };
 
@@ -40,6 +45,7 @@ export default function Register() {
 
    return (
       <>
+         {isLoading && <Loading />}
          <LayoutAuth title={'Sign Up'}>
             <div className={styles.maincontainer}>
                <h3 className={styles.title}>Fill your additional details</h3>

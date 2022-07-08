@@ -1,5 +1,5 @@
 //Module
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useRouter } from "next/router";
 import { ChevronDown } from "react-bootstrap-icons";
 //Components Next
@@ -11,12 +11,44 @@ import Card from "../../assets/img/Card.png";
 import styles from "../../styles/Movies.module.css";
 import NowShowingCard from "../../components/NowShowingCard";
 import { month } from "../../modules/dummy";
+//Axios
+import { getNowShowingMoviesAxios } from "../../modules/movies";
 
 const Movies = () => {
+  const [nowMovies, setNowMovies] = useState([]);
   const [sortDrop, setSortDrop] = useState(false);
   const [orderDrop, setOrderDrop] = useState(false);
   const [filterDrop, setFilterDrop] = useState(false);
+  const [errMsg, setErrMsg] = useState("");
+  const [search, setSearch] = useState("");
   const router = useRouter();
+
+  useEffect(() => {
+    getNowShowingMoviesAxios()
+      .then((res) => {
+        // console.log(res);
+        setNowMovies(res.data?.data);
+      })
+      .catch((err) => {
+        console.log(err);
+        setErrMsg(err.response?.data.msg);
+      });
+  }, []);
+
+  const handleSearcMovie = (e) => {
+    e.preventDefault()
+    router.push(`/movies?name=${search}`)
+    const { name = "", sort = "", order = "", page="1" } = router.query;
+    getNowShowingMoviesAxios(name, sort, order, page)
+    .then((res) => {
+      console.log(res)
+      setNowMovies(res.data?.data)
+    })
+    .catch((err) => {
+      console.log(err)
+    })
+  };
+
   return (
     <LayoutLoggedIn title="Movies">
       <div className="container">
@@ -30,6 +62,16 @@ const Movies = () => {
               Now Playing
             </h4>
             <div className="d-flex gap-2">
+              <form action="" onSubmit={handleSearcMovie}>
+                <input
+                  type="text"
+                  name="name"
+                  placeholder="Search movie"
+                  onChange={(e) => {
+                    setSearch(e.target.value);
+                  }}
+                />
+              </form>
               <div>
                 <div
                   onClick={() => {
@@ -48,6 +90,7 @@ const Movies = () => {
                             `/movies?sort=${router.query.sort}&order=asc`
                           );
                         }
+                        setOrderDrop(!orderDrop);
                       }}
                     >
                       ASC
@@ -59,6 +102,7 @@ const Movies = () => {
                             `/movies?sort=${router.query.sort}&order=desc`
                           );
                         }
+                        setOrderDrop(!orderDrop);
                       }}
                     >
                       DESC
@@ -80,6 +124,7 @@ const Movies = () => {
                     <p
                       onClick={() => {
                         router.push(`/movies?sort=name`);
+                        setSortDrop(!sortDrop);
                       }}
                     >
                       Name
@@ -87,6 +132,7 @@ const Movies = () => {
                     <p
                       onClick={() => {
                         router.push(`/movies?sort=time`);
+                        setSortDrop(!sortDrop);
                       }}
                     >
                       Time
@@ -94,6 +140,7 @@ const Movies = () => {
                     <p
                       onClick={() => {
                         router.push(`/movies`);
+                        setSortDrop(!sortDrop);
                       }}
                     >
                       All
@@ -106,10 +153,9 @@ const Movies = () => {
           <div
             className={`d-flex justify-content-evenly my-5 mx-5 gap-3 flex-md-row flex-wrap`}
           >
-            <NowShowingCard image={Card} />
-            <NowShowingCard image={Card} />
-            <NowShowingCard image={Card} />
-            <NowShowingCard image={Card} />
+            {nowMovies.map((item) => (
+              <NowShowingCard key={item.id} id={item.id} image={item.img} />
+            ))}
           </div>
         </div>
         <div className={`mt-4`}>
@@ -137,6 +183,7 @@ const Movies = () => {
                       key={item.name}
                       onClick={() => {
                         router.push(`/movies?month=${item.name}`);
+                        setFilterDrop(!filterDrop);
                       }}
                     >
                       {item.name}

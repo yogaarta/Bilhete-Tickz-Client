@@ -18,7 +18,7 @@ export default function Login() {
    const [msgError, setMsgError] = useState('');
    const [isLoading, setIsLoading] = useState(false);
 
-   const { loginData } = useSelector((state) => state.auth);
+   // const {loginData} = useSelector(state => state.auth)
 
    const router = useRouter();
    const dispatch = useDispatch();
@@ -31,7 +31,7 @@ export default function Login() {
             password,
          };
          dispatch(loginAction(body));
-         dispatch(getUsersAction(loginData.token));
+         // dispatch(getUsersAction(loginData.token));
          setIsLoading(false);
          router.push('/');
       } catch (error) {

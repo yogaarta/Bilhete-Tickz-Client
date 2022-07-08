@@ -17,7 +17,7 @@ const NowShowingCard = ({ image, id }) => {
           router.push(`/movies/${id}`);
         }}
       >
-        <Image src={image} alt="card" />
+        <Image src={image} width={160} height={245} alt="card" />
       </div>
     </>
   );
