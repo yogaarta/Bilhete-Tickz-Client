@@ -30,7 +30,9 @@ const LayoutLoggedIn = ({ children, title }) => {
       <div className={Styles.ContainerLayout}>
         <Navbar className="text-dark p-4" expand="lg">
           <Container>
-            <div className={Styles.BrandName}>BILHETE TICKZ</div>
+            <div onClick={() => {
+              router.push("/")
+            }} className={Styles.BrandName}>BILHETE TICKZ</div>
             <Navbar.Toggle aria-controls="basic-navbar-nav" />
             <Navbar.Collapse id="basic-navbar-nav">
               <Nav className="ms-5 mt-3 mt-md-0 me-auto d-flex justify-content-between gap-md-4">
@@ -40,7 +42,7 @@ const LayoutLoggedIn = ({ children, title }) => {
                 <Nav.Link className="text-dark" href="/cinemas">
                   Cinemas
                 </Nav.Link>
-                <Nav.Link className="text-dark" href="/buy-ticket">
+                <Nav.Link className="text-dark" href="/order">
                   Buy Ticket
                 </Nav.Link>
               </Nav>
