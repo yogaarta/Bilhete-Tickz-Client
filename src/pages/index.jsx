@@ -13,23 +13,25 @@ import Card from "../assets/img/Card.png";
 import NowShowingCard from "../components/NowShowingCard";
 import UpcomingCard from "../components/UpcomingMoviesCard";
 // Axios
-import {getMoviesHomeAxios} from "../modules/movies"
+import { getMoviesHomeAxios } from "../modules/movies"
+import { getUsersAction } from "../redux/actionCreator/users";
 // import { getUsersAction } from "../redux/actionCreator/users";
 
 export default function Home() {
-  // const { token } = useSelector((state) => state.auth.loginData);
+  const { loginData } = useSelector((state) => state.auth);
   const [movies, setMovies] = useState([])
   const router = useRouter();
-  // const dispatch = useDispatch();
+  const dispatch = useDispatch();
 
   useEffect(() => {
+    dispatch(getUsersAction(loginData.token));
     getMoviesHomeAxios()
-    .then((res) => {
-      console.log(res)
-    })
-    .catch((err) => {
-      console.log(err)
-    })
+      .then((res) => {
+        console.log(res)
+      })
+      .catch((err) => {
+        console.log(err)
+      })
   }, []);
 
   const month = [

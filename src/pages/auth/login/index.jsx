@@ -7,13 +7,9 @@ import Link from 'next/link';
 import { loginAction } from '../../../redux/actionCreator/login';
 import { useDispatch, useSelector } from 'react-redux';
 import { getUsersAction } from '../../../redux/actionCreator/users';
-<<<<<<< HEAD
-import { useDispatch, useSelector } from 'react-redux';
 
 
 import Loading from '../../../components/Loading'
-=======
->>>>>>> 87efcf4417506ce20e9b6850d5bfab67603b2892
 
 export default function Login() {
    const { token } = useSelector((state) => state.auth.loginData);
@@ -23,7 +19,7 @@ export default function Login() {
    const [msgError, setMsgError] = useState('');
    const [isLoading, setIsLoading] = useState(false)
 
-   const {loginData} = useSelector(state => state.auth)
+   // const {loginData} = useSelector(state => state.auth)
 
    const router = useRouter()
    const dispatch = useDispatch();
@@ -36,7 +32,7 @@ export default function Login() {
             password,
          };
          dispatch(loginAction(body))
-         dispatch(getUsersAction(loginData.token));
+         // dispatch(getUsersAction(loginData.token));
          setIsLoading(false)
          router.push('/')
       } catch (error) {
