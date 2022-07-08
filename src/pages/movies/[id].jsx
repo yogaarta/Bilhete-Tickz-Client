@@ -1,64 +1,87 @@
 //Module
 import { GeoAlt, ChevronDown } from "react-bootstrap-icons";
-import { useState } from "react";
-
+import { useState, useEffect } from "react";
+import { useRouter } from "next/router";
 //Components Next
 import Image from "next/image";
 //Components Local
 import LayoutLoggedIn from "../../components/LayoutLoggedIn/LayoutLoggedIn";
 //Assets
 import ImageDetail from "../../assets/img/ImageDetail.png";
-import Ebu from "../../assets/icon/ebu.png";
+import Loading from "../../assets/icon/loading.png";
 //CssModule
 import styles from "../../styles/Movies.module.css";
 import CardCinema from "../../components/CardCinemas";
+import { getMoviesDetailAxios } from "../../modules/movies";
 
 const MovieDetail = () => {
   const [dropdown, setDropdown] = useState();
+  const [movies, setMovies] = useState([]);
+  const router = useRouter();
+  useEffect(() => {
+    const { id } = router.query;
+    getMoviesDetailAxios(id)
+      .then((res) => {
+        console.log(res);
+        setMovies(res.data?.data);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  }, [router]);
   return (
     <LayoutLoggedIn title="Movies Detail">
       <div className="container">
-        <div className="d-flex justify-content-between">
-          <div className="col-md-3 col-3 text-center">
-            <div className={styles.cardDetail}>
-              <Image src={ImageDetail} alt="MovieDetail" />
+        {movies.img ? (
+          <>
+            <div className="d-flex justify-content-between">
+              <div className="col-md-3 col-3 text-center">
+                <div className={styles.cardDetail}>
+                  <Image
+                    src={movies.img ? movies.img : Loading}
+                    width={movies.img ? "236px" : "100px"}
+                    height={movies.img ? "362px" : "100px"}
+                    alt="MovieDetail"
+                  />
+                </div>
+              </div>
+              <div className={`col-md-8 col-8 ${styles.descDetail}`}>
+                <h1>{movies.name ? movies.name : ""}</h1>
+                <p>{movies.category ? movies.category : ""}</p>
+                <div className="mt-2 mt-md-4">
+                  Release date
+                  <section className="text-dark">
+                    {movies.release_date ? movies.release_date : ""}
+                  </section>
+                </div>
+                <div className="mt-2 mt-md-4">
+                  Duration
+                  <section className="text-dark">
+                    {movies.duration ? movies.duration : ""}
+                  </section>
+                </div>
+                <div className="mt-2 mt-md-4">
+                  Directed by
+                  <section className="text-dark">{""}</section>
+                </div>
+                <div className="mt-2 mt-md-4">
+                  Casts
+                  <section className="text-dark">
+                    {movies.cast ? movies.cast : ""}
+                  </section>
+                </div>
+              </div>
             </div>
-          </div>
-          <div className={`col-md-8 col-8 ${styles.descDetail}`}>
-            <h1>Spider-Man: Homecoming</h1>
-            <p>Adventure, Action, Sci-Fi</p>
-            <div className="mt-2 mt-md-4">
-              Release date
-              <section className="text-dark">June 28, 2017</section>
-            </div>
-            <div className="mt-2 mt-md-4">
-              Duration
-              <section className="text-dark">2 hours 13 minutes</section>
-            </div>
-            <div className="mt-2 mt-md-4">
-              Directed by
-              <section className="text-dark">Jon Watss</section>
-            </div>
-            <div className="mt-2 mt-md-4">
-              Casts
-              <section className="text-dark">
-                Tom Holland, Michael Keaton, Robert Downey Jr.
+            <div className={`mt-5 ${styles.synopsis}`}>
+              Synopsis
+              <section className="mt-4">
+                {movies.synopsis ? movies.synopsis : ""}
               </section>
             </div>
-          </div>
-        </div>
-        <div className={`mt-5 ${styles.synopsis}`}>
-          Synopsis
-          <section className="mt-4">
-            Thrilled by his experience with the Avengers, Peter returns home,
-            where he lives with his Aunt May, under the watchful eye of his new
-            mentor Tony Stark, Peter tries to fall back into his normal daily
-            routine - distracted by thoughts of proving himself to be more than
-            just your friendly neighborhood Spider-Man - but when the Vulture
-            emerges as a new villain, everything that Peter holds most important
-            will be threatened.{" "}
-          </section>
-        </div>
+          </>
+        ) : (
+          <Image src={Loading} />
+        )}
         <div className={`${styles.showTimes}`}>
           <h4 className="text-center fw-bold mb-3">Showtimes and Tickets</h4>
           <div className="d-flex justify-content-center gap-3">
@@ -91,9 +114,9 @@ const MovieDetail = () => {
             </div>
           </div>
           <div className="d-flex justify-content-center gap-3 flex-wrap mt-5">
-            <CardCinema/>
-            <CardCinema/>
-            <CardCinema/>
+            <CardCinema />
+            <CardCinema />
+            <CardCinema />
           </div>
         </div>
         <div className="d-flex justify-content-center mt-4 mt-md-5">

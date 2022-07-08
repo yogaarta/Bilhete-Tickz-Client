@@ -159,3 +159,32 @@
    color: #a0a3bd;
    margin-left: 15px;
 }
+
+@media (max-width: 767px) {
+   .maincontainer {
+      width: 89%;
+   }
+
+   .titlecheckbox {
+      font-size: 15px;
+   }
+
+   .desctitlelogin {
+      margin-bottom: 25px;
+   }
+}
+
+@media (max-width: 425px) {
+   .title {
+      margin-bottom: 10px;
+      font-size: 20px;
+   }
+
+   .desctitlelogin {
+      font-size: 12px;
+   }
+
+   .email {
+      padding-top: 20px;
+   }
+}

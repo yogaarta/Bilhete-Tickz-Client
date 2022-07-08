@@ -20,18 +20,21 @@ import { getUsersAction } from "../redux/actionCreator/users";
 export default function Home() {
   const { loginData } = useSelector((state) => state.auth);
   const [movies, setMovies] = useState([])
+  const [errMsg, setErrMsg] =useState("")
   const router = useRouter();
   const dispatch = useDispatch();
 
   useEffect(() => {
     dispatch(getUsersAction(loginData.token));
     getMoviesHomeAxios()
-      .then((res) => {
-        console.log(res)
-      })
-      .catch((err) => {
-        console.log(err)
-      })
+    .then((res) => {
+      console.log(res)
+      setMovies(res.data?.data)
+    })
+    .catch((err) => {
+      console.log(err)
+      setErrMsg(err.response?.data.msg)
+    })
   }, []);
 
   const month = [
@@ -72,11 +75,9 @@ export default function Home() {
           </p>
         </div>
         <div className={`d-flex justify-content-evenly my-5 mx-5 gap-4 flex-md-row`}>
-          <NowShowingCard image={Card} />
-          <NowShowingCard image={Card} />
-          <NowShowingCard image={Card} />
-          <NowShowingCard image={Card} />
-          <NowShowingCard image={Card} />
+          {movies.map((item) => (
+            <NowShowingCard image={item.img} key={item.id} />
+          ))}
         </div>
         <div
           className={`d-flex justify-content-between px-5 align-items-center ${styles.UpcomingRow}`}

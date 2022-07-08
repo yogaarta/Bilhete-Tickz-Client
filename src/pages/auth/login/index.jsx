@@ -2,7 +2,7 @@ import LayoutAuth from '../../../components/LayoutAuth';
 import styles from '../../../styles/Auth.module.css';
 import { Eye, EyeSlashFill, Facebook, Google } from 'react-bootstrap-icons';
 import { useState } from 'react';
-import { useRouter } from 'next/router'
+import { useRouter } from 'next/router';
 import Link from 'next/link';
 import { loginAction } from '../../../redux/actionCreator/login';
 import { useDispatch, useSelector } from 'react-redux';
@@ -22,7 +22,7 @@ export default function Login() {
 
    const {loginData, isLoading, isError} = useSelector(state => state.auth)
 
-   const router = useRouter()
+   const router = useRouter();
    const dispatch = useDispatch();
 
    const login = async () => {
@@ -32,15 +32,14 @@ export default function Login() {
             email,
             password,
          };
-         dispatch(loginAction(body))
+         dispatch(loginAction(body));
          // dispatch(getUsersAction(loginData.token));
          // setIsLoading(false)
          
       } catch (error) {
          setMsgError(error.response?.data.message.msg);
-         setIsLoading(false)
+         setIsLoading(false);
       }
-
    };
 
    useEffect(()=>{
