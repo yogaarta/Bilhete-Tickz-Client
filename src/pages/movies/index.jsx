@@ -1,5 +1,6 @@
 //Module
 import { useState } from "react";
+import { useRouter } from "next/router";
 import { ChevronDown } from "react-bootstrap-icons";
 //Components Next
 //Components Local
@@ -9,11 +10,13 @@ import Card from "../../assets/img/Card.png";
 //CssModule
 import styles from "../../styles/Movies.module.css";
 import NowShowingCard from "../../components/NowShowingCard";
+import { month } from "../../modules/dummy";
 
 const Movies = () => {
   const [sortDrop, setSortDrop] = useState(false);
   const [orderDrop, setOrderDrop] = useState(false);
   const [filterDrop, setFilterDrop] = useState(false);
+  const router = useRouter();
   return (
     <LayoutLoggedIn title="Movies">
       <div className="container">
@@ -30,32 +33,71 @@ const Movies = () => {
               <div>
                 <div
                   onClick={() => {
-                    setSortDrop(!sortDrop);
+                    setOrderDrop(!orderDrop);
                   }}
                   className={styles.sortBy}
                 >
                   Order <ChevronDown />
                 </div>
-                {sortDrop ? (
+                {orderDrop ? (
                   <div className={`${styles.menuOrder}`}>
-                    <p>Name</p>
-                    <p>Time</p>
+                    <p
+                      onClick={() => {
+                        if (router.query.sort) {
+                          router.push(
+                            `/movies?sort=${router.query.sort}&order=asc`
+                          );
+                        }
+                      }}
+                    >
+                      ASC
+                    </p>
+                    <p
+                      onClick={() => {
+                        if (router.query.sort) {
+                          router.push(
+                            `/movies?sort=${router.query.sort}&order=desc`
+                          );
+                        }
+                      }}
+                    >
+                      DESC
+                    </p>
                   </div>
                 ) : null}
               </div>
               <div>
                 <div
                   onClick={() => {
-                    setOrderDrop(!orderDrop);
+                    setSortDrop(!sortDrop);
                   }}
                   className={styles.sortBy}
                 >
                   Sort By <ChevronDown />
                 </div>
-                {orderDrop ? (
+                {sortDrop ? (
                   <div className={`${styles.menuSort}`}>
-                    <p>Name</p>
-                    <p>Time</p>
+                    <p
+                      onClick={() => {
+                        router.push(`/movies?sort=name`);
+                      }}
+                    >
+                      Name
+                    </p>
+                    <p
+                      onClick={() => {
+                        router.push(`/movies?sort=time`);
+                      }}
+                    >
+                      Time
+                    </p>
+                    <p
+                      onClick={() => {
+                        router.push(`/movies`);
+                      }}
+                    >
+                      All
+                    </p>
                   </div>
                 ) : null}
               </div>
@@ -90,8 +132,16 @@ const Movies = () => {
               </div>
               {filterDrop ? (
                 <div className={`${styles.menuFilter}`}>
-                  <p>Month</p>
-                  <p>Time</p>
+                  {month.map((item) => (
+                    <p
+                      key={item.name}
+                      onClick={() => {
+                        router.push(`/movies?month=${item.name}`);
+                      }}
+                    >
+                      {item.name}
+                    </p>
+                  ))}
                 </div>
               ) : null}
             </div>
