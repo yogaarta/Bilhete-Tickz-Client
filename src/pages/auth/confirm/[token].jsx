@@ -9,7 +9,6 @@ import Loading from '../../../components/Loading'
 
 
 function ConfirmEmail() {
-  const [show, setShow] = useState(false);
   const [isError, setIsError] = useState(null)
   const [isLoading, setIsLoading] = useState(false)
   const [msg, setMsg] = useState('')
@@ -22,7 +21,7 @@ function ConfirmEmail() {
       setIsLoading(true)
       const result = await axios.get(`${process.env.NEXT_PUBLIC_BE_HOST}/auth/confirm/${token}`)
       console.log(result)
-      setMsg('success')
+      setMsg('Verification Success')
       setIsError(false)
       setIsLoading(false)
       // router.push({
@@ -40,19 +39,23 @@ function ConfirmEmail() {
   useEffect(() => {
     // confirmEmailHandler()
     if (isError === false)
-      router.push({
-        pathname: '/auth/login',
-        query: { msg }
-      })
+      setTimeout(() => {
+        router.push({
+          pathname: '/auth/login',
+          query: { msg }
+        })
+
+      }, 2000)
   }, [isError])
   console.log(msg)
   return (
     <>
-    {isLoading && <Loading />}
+      {isLoading && <Loading />}
       <LayoutAuth title={'Confirm'} step={2}>
         <div className={styles.maincontainer}>
           <h3 className={styles.title}>Activate Your Account</h3>
           <div className={styles.signupfrom}>
+            {isError ? <></> : <div className={styles.successMsg}>{msg}</div>}
             <button className={styles.signupbutton} onClick={confirmEmailHandler}>
               Activate Account
             </button>
