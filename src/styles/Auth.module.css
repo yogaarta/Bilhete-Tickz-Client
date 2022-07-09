@@ -2,7 +2,7 @@
    margin: 5%;
    width: 45%;
    font-family: Mulish;
-  
+
 }
 
 .title {
@@ -92,6 +92,14 @@
    background-color: #5f2eea;
    color: #f7f7fc;
 }
+.dissignupbutton {
+   border: none;
+   margin-top: 50px;
+   height: 70px;
+   width: 100%;
+   color: #5f2eea;
+   background-color: #f7f7fc;
+}
 
 .forgotbutton {
    border: none;
@@ -102,6 +110,17 @@
    background-color: #5f2eea;
    color: #f7f7fc;
 }
+
+.disforgotbutton {
+   border: none;
+   margin-top: 100px;
+   margin-bottom: 125px;
+   height: 70px;
+   width: 100%;
+   color: #5f2eea;
+   background-color: #f7f7fc;
+}
+
 .forgotbutton2 {
    border: none;
    margin: 50px 0px;
@@ -110,6 +129,7 @@
    background-color: #5f2eea;
    color: #f7f7fc;
 }
+
 .disforgotbutton2 {
    border: none;
    margin: 50px 0px;
@@ -117,7 +137,6 @@
    width: 100%;
    color: #5f2eea;
    background-color: #f7f7fc;
-   cursor: default;
 }
 
 .buttonGoogleFb {
@@ -160,7 +179,7 @@
    margin-left: 15px;
 }
 
-@media (max-width: 767px) {
+@media (max-width: 768px) {
    .maincontainer {
       width: 89%;
    }

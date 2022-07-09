@@ -6,12 +6,14 @@ import { useState } from 'react'
 import LayoutAuth from '../../../components/LayoutAuth'
 import styles from '../../../styles/Confirm.module.css';
 import Loading from '../../../components/Loading'
+import CustomModal from '../../../components/CustomModal'
 
 
 function ConfirmEmail() {
   const [isError, setIsError] = useState(null)
   const [isLoading, setIsLoading] = useState(false)
   const [msg, setMsg] = useState('')
+  const [show, setShow] = useState(false)
   const router = useRouter()
   const { token } = router.query
   console.log(token)
@@ -21,32 +23,29 @@ function ConfirmEmail() {
       setIsLoading(true)
       const result = await axios.get(`${process.env.NEXT_PUBLIC_BE_HOST}/auth/confirm/${token}`)
       console.log(result)
-      setMsg('Verification Success')
       setIsError(false)
+      setMsg('Verification Success, Please Login')
+      setShow(true)
       setIsLoading(false)
-      // router.push({
-      //   pathname: '/auth/login',
-      //   query: { msg: result.message }
-      // })
     } catch (error) {
       console.log(error)
-      setMsg('Verification failed, please try again')
       setIsError(true)
+      setMsg('Verification failed, please try again')
+      setShow(true)
       setIsLoading(false)
     }
   }
 
-  useEffect(() => {
-    // confirmEmailHandler()
-    if (isError === false)
-      setTimeout(() => {
-        router.push({
-          pathname: '/auth/login',
-          query: { msg }
-        })
+  // useEffect(() => {
+  //   if (isError === false)
+  //     setTimeout(() => {
+  //       router.push({
+  //         pathname: '/auth/login',
+  //         query: { msg }
+  //       })
 
-      }, 2000)
-  }, [isError])
+  //     }, 2000)
+  // }, [isError])
   console.log(msg)
   return (
     <>
@@ -55,13 +54,14 @@ function ConfirmEmail() {
         <div className={styles.maincontainer}>
           <h3 className={styles.title}>Activate Your Account</h3>
           <div className={styles.signupfrom}>
-            {isError ? <></> : <div className={styles.successMsg}>{msg}</div>}
+            {/* {isError ? <></> : <div className={styles.successMsg}>{msg}</div>} */}
             <button className={styles.signupbutton} onClick={confirmEmailHandler}>
               Activate Account
             </button>
           </div>
         </div>
       </LayoutAuth>
+      <CustomModal show={show} setShow={setShow} title={isError ? 'Error' : 'Success'} body={msg} primeButton={'Login'} primeButtonHandler={()=>router.push('/auth/login')} isError={isError}/>
     </>
   )
 }

@@ -6,12 +6,23 @@
   letter-spacing: 0em;
 }
 
+.error{
+  color: white;
+  background-color: rgb(185, 62, 62);
+}
+
+.success{
+  color: white;
+  background-color: rgb(47, 168, 47);
+}
+
 .modalBody {
   font-family: Mulish;
   font-size: 18px;
   font-weight: 400;
   line-height: 25px;
   letter-spacing: 0em;
+  height: 100px;
 }
 
 .modalPrimaryButton {
@@ -20,6 +31,6 @@
   font-weight: 400;
   line-height: 25px;
   letter-spacing: 0em;
-  background: #6379F4;
+  background: #5f2eea;
   color: #FFFFFF;
 }

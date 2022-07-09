@@ -22,6 +22,7 @@ import { useDispatch, useSelector } from "react-redux";
 import axios from "axios";
 import { logoutAction } from "../../redux/actionCreator/login";
 import Loading from "../Loading";
+import CustomModal from "../CustomModal";
 
 
 const LayoutLoggedIn = ({ children, title }) => {
@@ -29,7 +30,8 @@ const LayoutLoggedIn = ({ children, title }) => {
   const [dropdown, showDropdown] = useState(false);
   const [search, showSearch] = useState(false);
   const [isLoading, setIsLoading] = useState(false)
-  
+  const [show, setShow] = useState(false)
+
   const router = useRouter();
   const dispatch = useDispatch()
 
@@ -41,16 +43,18 @@ const LayoutLoggedIn = ({ children, title }) => {
       console.log(response)
       dispatch(logoutAction())
       router.push('/')
+      setShow(false)
       setIsLoading(false)
     } catch (error) {
       console.log(error)
+      setShow(false)
       setIsLoading(false)
     }
   }
 
   return (
     <>
-    {isLoading && <Loading />}
+      {isLoading && <Loading />}
       <Head>
         <title>{title}</title>
       </Head>
@@ -100,9 +104,9 @@ const LayoutLoggedIn = ({ children, title }) => {
                 </div>
                 {loginData && loginData.token ?
                   <>
-                  {/* <Image src={}/> */}
+                    {/* <Image src={}/> */}
                     <div
-                      onClick={logoutHandler}
+                      onClick={()=> setShow(true)}
                       className={`${Styles.logoutButton}`}
                     >
                       Logout
@@ -203,6 +207,7 @@ const LayoutLoggedIn = ({ children, title }) => {
           <h6 className={`${Styles.FooterCr} text-center my-5`}>© 2020 Bilhete Tickz. All Rights Reserved.</h6>
         </footer>
       </div>
+      <CustomModal show={show} setShow={setShow} title={'Logout'} body={'Are You Sure?'} primeButton={'Logout'} primeButtonHandler={logoutHandler} isError={true} isSecondButton={false} isLogout={true}/>
     </>
   );
 };

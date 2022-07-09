@@ -7,6 +7,7 @@ import Link from 'next/link';
 import CustomModal from '../../../components/CustomModal';
 import { useRouter } from 'next/router';
 import Loading from '../../../components/Loading'
+import { useEffect } from 'react';
 
 export default function Register() {
    const [showPass, setShowPass] = useState(false);
@@ -16,6 +17,8 @@ export default function Register() {
    const [show, setShow] = useState(false);
    const [isError, setIsError] = useState(null);
    const [isLoading, setIsLoading] = useState(false)
+   const [agree, setAgree] = useState(false)
+   const [buttonActive, setButtonActive] = useState(false)
 
    const router = useRouter();
 
@@ -42,6 +45,10 @@ export default function Register() {
    const primeButtonHandler = () => {
       router.push('/auth/login');
    };
+
+   useEffect(()=>{
+      setButtonActive(email && password && agree)
+   },[email, password, agree])
 
    return (
       <>
@@ -84,12 +91,18 @@ export default function Register() {
                      </div>
                   </div>
                   <div className={styles.checkbox}>
-                     <input type="checkbox" />
-                     <div className={styles.titlecheckbox}>I agree to terms & conditions</div>
+                     <input type="checkbox" id='agree' onClick={()=> setAgree(!agree)}/>
+                     <label htmlFor='agree' className={styles.titlecheckbox}>I agree to terms & conditions</label>
                   </div>
+                  {buttonActive ? 
                   <button className={styles.signupbutton} onClick={register}>
                      Join for free now
                   </button>
+                  :
+                  <button className={styles.dissignupbutton}>
+                     Join for free now
+                  </button>
+                  }
                   <div className={styles.infosignup}>
                      <p>
                         Do you already have an account?{' '}
@@ -115,7 +128,7 @@ export default function Register() {
                </div>
             </div>
          </LayoutAuth>
-         <CustomModal show={show} setShow={setShow} title={isError ? 'Error' : 'Success'} body={msg} primeButton={'Login'} primeButtonHandler={primeButtonHandler} />
+         <CustomModal show={show} setShow={setShow} title={isError ? 'Error' : 'Success'} body={msg} primeButton={'Login'} primeButtonHandler={primeButtonHandler} isError={isError}/>
       </>
    );
 }
