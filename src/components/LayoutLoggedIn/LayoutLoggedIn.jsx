@@ -63,15 +63,21 @@ const LayoutLoggedIn = ({ children, title }) => {
             <Navbar.Toggle aria-controls="basic-navbar-nav" />
             <Navbar.Collapse id="basic-navbar-nav">
               <Nav className="ms-5 mt-3 mt-md-0 me-auto d-flex justify-content-between gap-md-4">
-                <Nav.Link className="text-dark" href="/movies">
+                <div className="text-dark btn" onClick={() => {
+                  router.push(`/movies/nowshowing`)
+                }}>
                   Movies
-                </Nav.Link>
-                <Nav.Link className="text-dark" href="/cinemas">
+                </div>
+                <div className="text-dark btn" onClick={() => {
+                  router.push(`/cinemas`)
+                }}>
                   Cinemas
-                </Nav.Link>
-                <Nav.Link className="text-dark" href="/order">
+                </div>
+                <div className="text-dark btn" onClick={() => {
+                  router.push(`/order`)
+                }}>
                   Buy Ticket
-                </Nav.Link>
+                </div>
               </Nav>
               <div className="d-flex gap-4 justify-content-md-end justify-content-end align-items-center">
                 <div
@@ -88,19 +94,13 @@ const LayoutLoggedIn = ({ children, title }) => {
                 <div className={`mt-1 ${Styles.searchNav}`}>
                   <Image
                     onClick={() => {
-                      router.push(`/movies`)
+                      router.push(`/movies/nowshowing`)
                     }}
                     src={Search}
                   />
-                  {/* {search ? (
-                    <div className={Styles.searchDrop}>
-                      <input type="text" id="" className={Styles.searchField} />
-                    </div>
-                  ) : null} */}
                 </div>
                 {loginData && loginData.token ?
                   <>
-                  {/* <Image src={}/> */}
                     <div
                       onClick={logoutHandler}
                       className={`${Styles.logoutButton}`}

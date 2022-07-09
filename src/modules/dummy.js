@@ -103,14 +103,16 @@ export const dummy1 = [
 ];
 
 export const month = [
-  {name: "January"},
-  {name: "February"},
-  {name: "Maret"},
-  {name: "April"},
-  {name: "May"},
-  {name: "June"},
-  {name: "July"},
-  {name: "August"},
-  {name: "September"},
-  {name: "December"},
+  {month:"January" ,id: "january"},
+  {month:"February",id: "february"},
+  {month:"Marc" ,id: "maret"},
+  {month:"April" ,id: "april"},
+  {month:"May" ,id: "may"},
+  {month:"June" ,id: "june"},
+  {month:"July" ,id: "july"},
+  {month:"August" ,id: "august"},
+  {month:"September" ,id: "september"},
+  {month:"October" ,id: "october"},
+  {month:"November" ,id: "november"},
+  {month:"December" ,id: "december"},
 ]

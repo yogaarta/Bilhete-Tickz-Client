@@ -51,13 +51,13 @@ const MovieDetail = () => {
                 <div className="mt-2 mt-md-4">
                   Release date
                   <section className="text-dark">
-                    {movies.release_date ? movies.release_date : ""}
+                    {movies.release_date ? movies.release_date.slice(0,10) : ""}
                   </section>
                 </div>
                 <div className="mt-2 mt-md-4">
                   Duration
                   <section className="text-dark">
-                    {movies.duration ? movies.duration : ""}
+                    {movies.duration ? movies.duration: ""}
                   </section>
                 </div>
                 <div className="mt-2 mt-md-4">

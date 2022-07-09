@@ -7,7 +7,7 @@ import Image from "next/image";
 // Css Module
 import styles from "../../styles/Home.module.css";
 
-const NowShowingCard = ({ image, id }) => {
+const NowShowingCard = ({ image, id, name }) => {
   const router = useRouter();
   return (
     <>
@@ -18,6 +18,7 @@ const NowShowingCard = ({ image, id }) => {
         }}
       >
         <Image src={image} width={160} height={245} alt="card" />
+        <p className="fw-bold text-center">{name}</p>
       </div>
     </>
   );

@@ -200,6 +200,11 @@
   cursor: pointer;
 }
 
+.headerNow {
+  padding-bottom: 10px;
+  border-bottom: 2px solid #5f2eea;
+}
+
 @media (max-width: 600px) {
   .listFooter>ul>li {
     margin-top: 5px;
