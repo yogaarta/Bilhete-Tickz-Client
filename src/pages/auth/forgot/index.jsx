@@ -1,4 +1,5 @@
 import axios from 'axios';
+import { useEffect } from 'react';
 import { useState } from 'react';
 import CustomModal from '../../../components/CustomModal';
 import LayoutAuth from '../../../components/LayoutAuth';
@@ -11,6 +12,7 @@ export default function Forgot() {
    const [isError, setIsError] = useState(null)
    const [msg, setMsg] = useState('')
    const [show, setShow] = useState(false)
+   const [buttonActive, setButtonActive] = useState(false)
 
    const activateHandler = async () => {
       try {
@@ -27,6 +29,10 @@ export default function Forgot() {
       }
    }
 
+   useEffect(()=>{
+      setButtonActive(email)
+   },[email])
+
    return (
       <>
          {isLoading && <Loading />}
@@ -39,7 +45,12 @@ export default function Forgot() {
                   <div className={styles.inputname}>
                      <input type="text" id="email" placeholder="Write your email" onChange={e => setEmail(e.target.value)} />
                   </div>
+                  {buttonActive ? 
                   <button className={styles.forgotbutton} onClick={activateHandler}>Active Now</button>
+                  :
+                  <button className={styles.disforgotbutton}>Active Now</button>
+
+                  }
                </div>
             </div>
          </LayoutAuth>

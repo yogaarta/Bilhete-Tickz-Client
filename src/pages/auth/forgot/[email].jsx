@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import LayoutAuth from '../../../components/LayoutAuth';
 import styles from '../../../styles/Auth.module.css';
-import { Eye, EyeSlashFill, Facebook, Google } from 'react-bootstrap-icons';
+import { Eye, EyeSlashFill } from 'react-bootstrap-icons';
 import Loading from '../../../components/Loading';
 import { useEffect } from 'react';
 import axios from 'axios';
@@ -29,8 +29,10 @@ export default function EditPass() {
       const { email } = router.query
       const body = { email, newPassword: password, confirmCode: code }
       const result = await axios.patch(`${process.env.NEXT_PUBLIC_BE_HOST}/users/edit-password`, body)
-      // setMsg(result)
+      setIsError(false)
+      setMsg(result.data.message)
       console.log(result)
+      setShow(true)
       setIsLoading(false)
     } catch (error) {
       setIsError(true)
@@ -83,8 +85,8 @@ export default function EditPass() {
               <div className={styles.password}>
                 <input
                   type={`${showPass2 ? 'text' : 'password'}`}
-                  id="password"
-                  placeholder="Write your password"
+                  id="password2"
+                  placeholder="Confirm your password"
                   onChange={(e) => {
                     setPassword2(e.target.value);
                   }}
@@ -119,7 +121,7 @@ export default function EditPass() {
           </div>
         </div>
       </LayoutAuth>
-      <CustomModal show={show} setShow={setShow} title={isError ? 'Error' : 'Success'} body={msg} primeButton={'Login'} primeButtonHandler={primeButtonHandler} />
+      <CustomModal show={show} setShow={setShow} title={isError ? 'Error' : 'Success'} body={msg} primeButton={'Login'} primeButtonHandler={primeButtonHandler} isError={isError} isSecondButton={isError ? true : false} />
     </>
   );
 }
