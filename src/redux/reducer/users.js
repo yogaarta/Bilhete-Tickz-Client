@@ -1,4 +1,4 @@
-import { GET_USER_INFO, PENDING, FULFILLED, REJECTED } from '../actionCreator/actionString';
+import { GET_USER_INFO, PENDING, FULFILLED, REJECTED, LOGOUT_ACCOUNT } from '../actionCreator/actionString';
 
 const initialState = {
    userInfo: [],
@@ -14,6 +14,8 @@ const userInfoReducer = (state = initialState, action) => {
          return { ...state, userInfo: action.payload.data.data[0], isLoading: false };
       case GET_USER_INFO + REJECTED:
          return { ...state, isLoading: false, err: action.payload };
+      case LOGOUT_ACCOUNT:
+         return initialState
       default:
          return state;
    }
