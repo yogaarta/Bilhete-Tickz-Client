@@ -13,23 +13,32 @@ import Card from "../assets/img/Card.png";
 import NowShowingCard from "../components/NowShowingCard";
 import UpcomingCard from "../components/UpcomingMoviesCard";
 // Axios
-import { getMoviesHomeAxios } from "../modules/movies"
-import { getUsersAction } from "../redux/actionCreator/users";
+import { getNowShowingMoviesAxios, getUpcomingMoviesAxios } from "../modules/movies"
+// import { getUsersAction } from "../redux/actionCreator/users";
 // import { getUsersAction } from "../redux/actionCreator/users";
 
 export default function Home() {
-  const { loginData } = useSelector((state) => state.auth);
+  // const { loginData } = useSelector((state) => state.auth);
   const [movies, setMovies] = useState([])
+  const [upMovies, setUpMovies] = useState([])
   const [errMsg, setErrMsg] =useState("")
   const router = useRouter();
   const dispatch = useDispatch();
 
   useEffect(() => {
-    dispatch(getUsersAction(loginData.token));
-    getMoviesHomeAxios()
+    getNowShowingMoviesAxios()
     .then((res) => {
       console.log(res)
       setMovies(res.data?.data)
+    })
+    .catch((err) => {
+      console.log(err)
+      setErrMsg(err.response?.data.msg)
+    })
+    getUpcomingMoviesAxios()
+    .then((res) => {
+      console.log(res)
+      setUpMovies(res.data?.data)
     })
     .catch((err) => {
       console.log(err)
@@ -64,10 +73,10 @@ export default function Home() {
       </header>
       <main>
         <div className="d-flex justify-content-between px-5 align-items-center">
-          <h4>Now Showing</h4>
+          <h4 className={styles.headerNow}>Now Showing</h4>
           <p
             onClick={() => {
-              router.push("/movies");
+              router.push("/movies/nowshowing?page=1");
             }}
             className={`${styles.clickAble} text-primary`}
           >
@@ -76,7 +85,7 @@ export default function Home() {
         </div>
         <div className={`d-flex justify-content-evenly my-5 mx-5 gap-4 flex-md-row`}>
           {movies.map((item) => (
-            <NowShowingCard image={item.img} key={item.id} />
+            <NowShowingCard name={item.name} key={item.id} id={item.id} image={item.img} />
           ))}
         </div>
         <div
@@ -85,7 +94,7 @@ export default function Home() {
           <h4>Upcoming Movies</h4>
           <p
             onClick={() => {
-              router.push("/movies");
+              router.push("/movies/upcoming?page=1");
             }}
             className={`${styles.clickAble} text-primary`}
           >
@@ -100,11 +109,9 @@ export default function Home() {
           ))}
         </div>
         <div className="d-flex justify-content-evenly my-5 mx-5 gap-4 flex-md-row flex-wrap">
-          <UpcomingCard image={Card} />
-          <UpcomingCard image={Card} />
-          <UpcomingCard image={Card} />
-          <UpcomingCard image={Card} />
-          <UpcomingCard image={Card} />
+          {upMovies.map((item) => (
+            <UpcomingCard name={item.name} key={item.id} id={item.id} image={item.img} />
+          ))}
         </div>
         <div className="container mt-5 text-center">
           <div className={styles.CardMember}>

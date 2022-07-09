@@ -119,12 +119,14 @@
 }
 
 .sortBy {
+  z-index: 99;
   background-color: #dedede;
   padding: 5px 10px;
   cursor: pointer;
   position: relative;
-  border: 1.5px solid black;
-  color: black;
+  Border: 1.5px solid #5f2eea;
+  border-radius: 10px;
+  color: #5f2eea;
   background-color: white;
   -moz-user-select: none;
   -webkit-user-select: none;
@@ -134,10 +136,12 @@
 }
 
 .menuSort {
+  z-index: 99;
   position: absolute;
   text-align: center;
-  border: 1.5px solid black;
-  color: black;
+  Border: 1.5px solid #5f2eea;
+  border-radius: 10px;
+  color: #5f2eea;
   background-color: white;
   width: 7.25%;
   -moz-user-select: none;
@@ -149,27 +153,14 @@
   margin-top: 1px;
 }
 
-.menuFilter {
-  position: absolute;
-  text-align: center;
-  border: 1.5px solid black;
-  color: black;
-  background-color: white;
-  width: 8%;
-  -moz-user-select: none;
-  -webkit-user-select: none;
-  -ms-user-select: none;
-  user-select: none;
-  -o-user-select: none;
-  cursor: pointer;
-  margin-top: 1px;
-}
 
 .menuOrder {
+  z-index: 99;
   position: absolute;
   text-align: center;
-  border: 1.5px solid black;
-  color: black;
+  border: 1.5px solid #5f2eea;
+  border-radius: 10px;
+  color: #5f2eea;
   background-color: white;
   width: 6.37%;
   -moz-user-select: none;
@@ -185,4 +176,35 @@
 .menuFilter > p,
 .menuOrder > p {
   margin: 10px;
+}
+
+.buttonMonth {
+  display: flex;
+  gap: 10px;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+
+.buttonMonth > button {
+  background-color: white;
+  border: 1px solid #5f2eea;
+  font-weight: bold;
+  color: #5f2eea;
+  padding: 5px 25px;
+  border-radius: 10px;
+  font-size: 15px;
+}
+
+.formInput > input {
+  background-color: white;
+  border: 1px solid #5f2eea;
+  font-weight: bold;
+  color: #5f2eea;
+  border-radius: 10px;
+  height: 100%;
+  padding: 5px 25px;
+}
+
+.formInput > input::placeholder{
+  color: #5f2eea;
 }

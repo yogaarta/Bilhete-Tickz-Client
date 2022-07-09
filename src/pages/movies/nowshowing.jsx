@@ -10,38 +10,37 @@ import Card from "../../assets/img/Card.png";
 //CssModule
 import styles from "../../styles/Movies.module.css";
 import NowShowingCard from "../../components/NowShowingCard";
+import UpcomingMoviesCard from "../../components/UpcomingMoviesCard/index";
 import { month } from "../../modules/dummy";
 //Axios
-import { getNowShowingMoviesAxios } from "../../modules/movies";
+import { getNowShowingMoviesAxios} from "../../modules/movies";
 
 const Movies = () => {
   const [nowMovies, setNowMovies] = useState([]);
   const [sortDrop, setSortDrop] = useState(false);
   const [orderDrop, setOrderDrop] = useState(false);
-  const [filterDrop, setFilterDrop] = useState(false);
   const [errMsg, setErrMsg] = useState("");
   const [search, setSearch] = useState("");
   const router = useRouter();
 
   useEffect(() => {
-    getNowShowingMoviesAxios()
+    const { name="", sort="", order="", page=""} = router.query;
+    getNowShowingMoviesAxios(name, sort, order, page)
       .then((res) => {
-        // console.log(res);
         setNowMovies(res.data?.data);
       })
       .catch((err) => {
         console.log(err);
         setErrMsg(err.response?.data.msg);
-      });
-  }, []);
+      })
+  }, [router]);
 
   const handleSearcMovie = (e) => {
     e.preventDefault()
-    router.push(`/movies?name=${search}`)
-    const { name = "", sort = "", order = "", page="1" } = router.query;
-    getNowShowingMoviesAxios(name, sort, order, page)
+    router.push(`/movies?name=${search}&page=1`)
+    const { name} = router.query;
+    getNowShowingMoviesAxios(name, "", "", "")
     .then((res) => {
-      console.log(res)
       setNowMovies(res.data?.data)
     })
     .catch((err) => {
@@ -59,10 +58,10 @@ const Movies = () => {
                 false ? styles.headerActive : null
               }`}
             >
-              Now Playing
+              Now Showing
             </h4>
             <div className="d-flex gap-2">
-              <form action="" onSubmit={handleSearcMovie}>
+              <form className={styles.formInput} onSubmit={handleSearcMovie}>
                 <input
                   type="text"
                   name="name"
@@ -123,7 +122,7 @@ const Movies = () => {
                   <div className={`${styles.menuSort}`}>
                     <p
                       onClick={() => {
-                        router.push(`/movies?sort=name`);
+                        router.push(`/movies?sort=name&order=asc`);
                         setSortDrop(!sortDrop);
                       }}
                     >
@@ -131,15 +130,15 @@ const Movies = () => {
                     </p>
                     <p
                       onClick={() => {
-                        router.push(`/movies?sort=time`);
+                        router.push(`/movies?sort=release&order=asc`);
                         setSortDrop(!sortDrop);
                       }}
                     >
-                      Time
+                      Relaese
                     </p>
                     <p
                       onClick={() => {
-                        router.push(`/movies`);
+                        router.push(`/movies?page=1`);
                         setSortDrop(!sortDrop);
                       }}
                     >
@@ -154,52 +153,8 @@ const Movies = () => {
             className={`d-flex justify-content-evenly my-5 mx-5 gap-3 flex-md-row flex-wrap`}
           >
             {nowMovies.map((item) => (
-              <NowShowingCard key={item.id} id={item.id} image={item.img} />
+              <NowShowingCard name={item.name} key={item.id} id={item.id} image={item.img} />
             ))}
-          </div>
-        </div>
-        <div className={`mt-4`}>
-          <div className="d-flex justify-content-between">
-            <h4
-              className={`fw-bold ${styles.headerCard} ${
-                false ? styles.headerActive : null
-              }`}
-            >
-              Upcoming Movies
-            </h4>
-            <div>
-              <div
-                onClick={() => {
-                  setFilterDrop(!filterDrop);
-                }}
-                className={styles.sortBy}
-              >
-                Filter <ChevronDown />
-              </div>
-              {filterDrop ? (
-                <div className={`${styles.menuFilter}`}>
-                  {month.map((item) => (
-                    <p
-                      key={item.name}
-                      onClick={() => {
-                        router.push(`/movies?month=${item.name}`);
-                        setFilterDrop(!filterDrop);
-                      }}
-                    >
-                      {item.name}
-                    </p>
-                  ))}
-                </div>
-              ) : null}
-            </div>
-          </div>
-          <div
-            className={`d-flex justify-content-evenly my-5 mx-5 gap-3 flex-md-row flex-wrap`}
-          >
-            <NowShowingCard image={Card} />
-            <NowShowingCard image={Card} />
-            <NowShowingCard image={Card} />
-            <NowShowingCard image={Card} />
           </div>
         </div>
       </div>

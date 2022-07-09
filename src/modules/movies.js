@@ -7,14 +7,15 @@ export const getMoviesHomeAxios = () => {
 }
 
 export const getNowShowingMoviesAxios = (name="", sort="", order="", page="1") => {
-  const URL = `${NEXT_PUBLIC_BE_HOST}/movies?name=${name}&sort=${sort}&order=${order}&page=${page}`
+  const URL = `${NEXT_PUBLIC_BE_HOST}/movies/nowshow?name=${name}&sort=${sort}&order=${order}&page=${page}`
   return axios.get(URL)
 }
 
-export const getUpcomingMoviesAxios = (name="", sort="", order="", page="") => {
-  const URL = `${NEXT_PUBLIC_BE_HOST}/movies/upcoming?name=${name}&sort=${sort}&order=${order}&page=${page}`
+export const getUpcomingMoviesAxios = (name="", month="",sort="", order="", page="1") => {
+  const URL = `${NEXT_PUBLIC_BE_HOST}/movies/upcoming?name=${name}&month=${month}&sort=${sort}&order=${order}&page=${page}`
   return axios.get(URL)
 }
+
 
 export const getMoviesDetailAxios = (id) => {
   const URL = `${NEXT_PUBLIC_BE_HOST}/movies/${id}`
