@@ -1,6 +1,8 @@
 .maincontainer {
    margin: 5%;
    width: 45%;
+   font-family: Mulish;
+  
 }
 
 .title {
@@ -100,6 +102,23 @@
    background-color: #5f2eea;
    color: #f7f7fc;
 }
+.forgotbutton2 {
+   border: none;
+   margin: 50px 0px;
+   height: 70px;
+   width: 100%;
+   background-color: #5f2eea;
+   color: #f7f7fc;
+}
+.disforgotbutton2 {
+   border: none;
+   margin: 50px 0px;
+   height: 70px;
+   width: 100%;
+   color: #5f2eea;
+   background-color: #f7f7fc;
+   cursor: default;
+}
 
 .buttonGoogleFb {
    display: flex;
@@ -139,4 +158,33 @@
    letter-spacing: 0.005em;
    color: #a0a3bd;
    margin-left: 15px;
+}
+
+@media (max-width: 767px) {
+   .maincontainer {
+      width: 89%;
+   }
+
+   .titlecheckbox {
+      font-size: 15px;
+   }
+
+   .desctitlelogin {
+      margin-bottom: 25px;
+   }
+}
+
+@media (max-width: 425px) {
+   .title {
+      margin-bottom: 10px;
+      font-size: 20px;
+   }
+
+   .desctitlelogin {
+      font-size: 12px;
+   }
+
+   .email {
+      padding-top: 20px;
+   }
 }
