@@ -1,4 +1,5 @@
 //Import from Package
+import { Modal } from "react-bootstrap";
 import { ChevronDown } from "react-bootstrap-icons";
 import { useState, useRef } from "react";
 //ComponentsLocal
@@ -12,11 +13,15 @@ import ImageCreate from "../../assets/img/Card.png";
 import Cine from "../../assets/icon/cine.png";
 import Location from "../../assets/icon/location.png";
 //Axios
-import { getCinemasBandungAxios } from "../../modules/cinemas";
+import { getCinemasBandungAxios, getCinemasJakartaAxios } from "../../modules/cinemas";
+import { createMoviesAxios } from "../../modules/movies";
 
 const CreateMovie = () => {
+  const [showModal, setShowModal] = useState(false)
   const [drop, setDrop] = useState(false);
   const [location, setLocation] = useState([]);
+  const [time, setTime] = useState([]);
+  const [cinemaId, setCinemaId] = useState([]);
   const [form, setForm] = useState({
     name: "",
     category: "",
@@ -27,23 +32,66 @@ const CreateMovie = () => {
     duration: "",
     synopsis: "",
     img: "",
-    time: "",
     price: "",
     director: "",
     show_date: "",
   });
+  const inputFile = useRef()
   const getCinemasBandung = () => {
     getCinemasBandungAxios()
       .then((res) => {
         console.log(res);
-        setLocation(res.data.data)
+        setLocation(res.data.data);
       })
       .catch((err) => {
         console.log(err);
       });
     setDrop(!drop);
   };
-  console.log(location)
+  const getCinemasJakarta = () => {
+    getCinemasJakartaAxios()
+      .then((res) => {
+        console.log(res);
+        setLocation(res.data.data);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+    setDrop(!drop);
+  };
+
+  const handleInputFile = (e) => {
+    const file = e.target.files[0]
+    setForm({...form, img: file})
+  }
+  const formCreateMovie = () => {
+    const body = new FormData()
+    body.append("name", form.name)
+    body.append("category", form.category)
+    body.append("release_date", form.release_date)
+    body.append("duration", form.hours+":"+form.minute)
+    body.append("synopsis", form.synopsis)
+    body.append("img", form.img)
+    body.append("img", form.img)
+    body.append("price", form.price)
+    body.append("director", form.director)
+    body.append("show_date", form.show_date)
+    body.append("time", time)
+    body.append("cinema_id", cinemaId)
+    return body
+  }
+
+  const handleCreateMovies = (e) => {
+    e.preventDefault()
+    const body = formCreateMovie()
+    createMoviesAxios(body, token).then((res) => {
+      console.log(res)
+    })
+    .catch((err) => {
+      console.log(err)
+    })
+  }
+
   return (
     <LayoutLoggedIn title="Create Movie">
       <div className={`${styles.containerCreateMovie}`}>
@@ -52,9 +100,13 @@ const CreateMovie = () => {
             <h5 className="fw-bold">Movie Description</h5>
             <div className={`${styles.cardDescription}`}>
               <div className="d-flex p-4 gap-4">
-                <div className="col-md-4 p-4 border border-1 rounded-3">
+                <div onClick={(e) => {
+                  inputFile.current.click()
+                  e.preventDefault()
+                }} className="btn col-md-4 p-4 border border-1 rounded-3">
                   <Image src={ImageCreate} />
                 </div>
+                <input type="file" hidden ref={inputFile} onChange={handleInputFile}/>
                 <div className="col-md-7">
                   <div className="form-group">
                     <label
@@ -244,7 +296,7 @@ const CreateMovie = () => {
                 {drop ? (
                   <div className={`${styles.menuLoc} d-flex flex-column`}>
                     <button
-                      onClick={() => {}}
+                      onClick={getCinemasJakarta}
                       className={`btn my-2 ${styles.btnLoc}`}
                     >
                       Jakarta
@@ -261,12 +313,19 @@ const CreateMovie = () => {
               <div className="d-flex flex-wrap gap-3 justify-content-between py-4">
                 {location.map((item) => (
                   <div
-                  className={`col-md-3 mt-4 ${
-                    false ? styles.chooseCinema : null
-                  }`}
-                >
-                  <Image key={item.id} src={item.pictures ? item.pictures : <></>} width={100} height={30} alt="cine" />
-                </div>
+                    onClick={() => {
+                      setCinemaId([...cinemaId, item.id]);
+                    }}
+                    className={`btn col-md-3 mt-4`}
+                  >
+                    <Image
+                      key={item.id}
+                      src={item.pictures ? item.pictures : <></>}
+                      width={100}
+                      height={30}
+                      alt="cine"
+                    />
+                  </div>
                 ))}
               </div>
             </div>
@@ -282,20 +341,41 @@ const CreateMovie = () => {
                   setForm({ ...form, show_date: e.target.value });
                 }}
               />
-              <div className="d-flex flex-wrap gap-3 justify-content-evenly py-4">
-                <p>08:30am</p>
-                <p>08:30am</p>
-                <p>08:30am</p>
-                <p>08:30am</p>
-                <p>08:30am</p>
-                <p>08:30am</p>
-                <p>08:30am</p>
-                <p>08:30am</p>
+              <div className="d-flex flex-wrap gap-1 py-4">
+                <button onClick={() => {
+                  setShowModal(true)
+                }} className="btn btn-outline-primary ">+</button>
+                {time.map((item) => (
+                  <button className="btn">{item}</button>
+                ))}
               </div>
             </div>
+            <button onClick={handleCreateMovies} className={`mt-5 ${styles.btnCreate}`}>Create Movie</button>
           </div>
         </div>
       </div>
+      <Modal show={showModal} onHide={() => {setShowModal(false)}}>
+        <Modal.Header closeButton>Choose time</Modal.Header>
+        <Modal.Body>
+          <div className="d-flex gap-2">
+          <button onClick={() => {
+            setTime([...time, "08:30am"])
+          }} className="btn btn-outline-primary">08:30am</button>
+          <button onClick={() => {
+            setTime([...time, "10:30am"])
+          }} className="btn btn-outline-primary">10:30am</button>
+          <button onClick={() => {
+            setTime([...time, "12:00am"])
+          }} className="btn btn-outline-primary">12:00am</button>
+          <button onClick={() => {
+            setTime([...time, "04:30am"])
+          }} className="btn btn-outline-primary">04:30am</button>
+          <button onClick={() => {
+            setTime([...time, "07:30pm"])
+          }} className="btn btn-outline-primary">07:30pm</button>
+          </div>
+        </Modal.Body>
+      </Modal>
     </LayoutLoggedIn>
   );
 };

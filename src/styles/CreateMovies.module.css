@@ -55,3 +55,11 @@
   z-index: 9;
   margin-top: 5px;
 }
+
+.btnCreate {
+  border: 1px solid #5F2EEA;
+  background-color: transparent;
+  color: #5F2EEA;
+  padding: 10px 50px;
+  border-radius: 10px;
+}
