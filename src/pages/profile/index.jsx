@@ -16,14 +16,23 @@ import Show from '../../assets/icon/show.png';
 import Hide from '../../assets/icon/hide.png';
 import CardOrderHistory from '../../components/CardOrderHistory';
 import axios from 'axios';
+import Loading from '../../components/Loading';
+import CustomModal from '../../components/CustomModal';
 
 const EditProfile = () => {
-   const { firstname, lastname, email, phone_number, point, pictures } = useSelector((state) => state.userInfo.userInfo);
+   const { userInfo: {firstname, lastname, email, phone_number, point, pictures}, isLoading } = useSelector((state) => state.userInfo);
+   // const {isLoading} = useSelector(state => state.userInfo)
    const { token } = useSelector((state) => state.auth.loginData);
    const [showDrop, setShowDrop] = useState(false);
    const [active, setActive] = useState(false);
    const [showPass, setShowPass] = useState(false);
    const [showPassConfirm, setShowPassConfirm] = useState(false);
+   const [previewImg, setPreviewImg] = useState(null)
+   const [loading, setLoading] = useState(false)
+   const [isError, setIsError] = useState(null)
+   const [show, setShow] = useState(false)
+   const [msg, setMsg] = useState('')
+
    const inputFile = useRef();
 
    const dispatch = useDispatch();
@@ -44,7 +53,15 @@ const EditProfile = () => {
 
    const handleUpload = (e) => {
       const file = e.target.files[0];
-      setForm({ ...form, image: file });
+      if(file){
+         const reader = new FileReader()
+         reader.onload = () => {
+            setPreviewImg(reader.result)
+            setForm({ ...form, image: file });
+         }
+         reader.readAsDataURL(file)
+      }
+      setShowDrop(!showDrop)
    };
 
    const updateForm = () => {
@@ -61,250 +78,269 @@ const EditProfile = () => {
    const handleUpdate = async (e) => {
       e.preventDefault();
       try {
+         setLoading(true)
+         setIsError(null)
          const body = updateForm();
          const config = { headers: { Authorization: `Bearer ${token}` } };
          const result = await axios.patch(`${process.env.NEXT_PUBLIC_BE_HOST}/users`, body, config);
-         alert(result.data.message);
+         setIsError(false)
+         setMsg(result.data.message);
+         setShow(true)
+         setLoading(false)
          dispatch(getUsersAction(token));
       } catch (error) {
          console.log(error);
+         setIsError(true)
+         setMsg(error.response.data.message)
+         setShow(true)
+         setLoading(false)
       }
    };
 
    return (
-      <LayoutLoggedIn title="Edit Profile">
-         <div className={`${styles.profileContainer}`}>
-            <form className="container d-flex flex-md-row flex-column gap-4 gap-md-0 justify-content-between" onSubmit={handleUpdate}>
-               <div className="col-md-3">
-                  <div className={`text-center ${styles.cardName}`}>
-                     <div className="d-flex justify-content-between align-items-center">
-                        <p className="pt-md-3">INFO</p>
-                        <div className="position-relative">
-                           <ThreeDots
+      <>
+         {isLoading && <Loading />}
+         {loading && <Loading />}
+         <LayoutLoggedIn title="Edit Profile">
+            <div className={`${styles.profileContainer}`}>
+               <form className="container d-flex flex-md-row flex-column gap-4 gap-md-0 justify-content-between" onSubmit={handleUpdate}>
+                  <div className="col-md-3">
+                     <div className={`text-center ${styles.cardName}`}>
+                        <div className="d-flex justify-content-between align-items-center">
+                           <p className="pt-md-3">INFO</p>
+                           <div className="position-relative">
+                              <ThreeDots
+                                 onClick={() => {
+                                    setShowDrop(!showDrop);
+                                 }}
+                                 className={styles.Threedots}
+                              />
+                              {showDrop ? (
+                                 <>
+                                    <div
+                                       onClick={() => {
+                                          inputFile.current.click();
+                                       }}
+                                       className={styles.dropProfile}
+                                    >
+                                       Edit Photo
+                                    </div>
+                                    <input type="file" name="profile" hidden ref={inputFile} onChange={handleUpload} />
+                                 </>
+                              ) : null}
+                           </div>
+                        </div>
+                        <div className={styles.borderBottom}>
+                           <Image src={previewImg ? previewImg : pictures ? pictures : Default} width={'150px'} height={'150px'} alt="profile" className={styles.profPict} />
+                           <h6 className="fw-bold">
+                              {firstname || email} {lastname}
+                           </h6>
+                           <p>Movigoers</p>
+                        </div>
+                        <div className="text-start mt-md-4 py-4">
+                           <h6>Loyality Points</h6>
+                           <div className={`text-center mt-md-4 ${styles.cardMember}`}>
+                              <div className="d-flex align-items-center justify-content-between gap-3  text-white px-5">
+                                 <p className="col-md-5">Moviegoers</p>
+                                 <div className="col-md-2">
+                                    <Image src={Star} alt="cardMember" />
+                                 </div>
+                              </div>
+                              <div className="text-white text-start px-5 mt-1">
+                                 <p>
+                                    {point || 0} <span>points</span>{' '}
+                                 </p>
+                              </div>
+                           </div>
+                           <p className="text-center mt-md-4">{point || 0} point become a master</p>
+                           <div className={styles.cardLoadContainer}>
+                              <div className={styles.cardLoad}></div>
+                           </div>
+                        </div>
+                     </div>
+                  </div>
+                  <div className="col-md-8">
+                     <div className={styles.cardEditHeader}>
+                        <div className="d-flex gap-5 pt-2">
+                           <p
                               onClick={() => {
-                                 setShowDrop(!showDrop);
+                                 setActive(!active);
                               }}
-                              className={styles.Threedots}
-                           />
-                           {showDrop ? (
-                              <>
-                                 <div
-                                    onClick={() => {
-                                       inputFile.current.click();
-                                    }}
-                                    className={styles.dropProfile}
-                                 >
-                                    Edit Photo
-                                 </div>
-                                 <input type="file" name="profile" hidden ref={inputFile} onChange={handleUpload} />
-                              </>
-                           ) : null}
+                              className={`${active ? styles.clickActive : styles.clickDisable}`}
+                           >
+                              Account Setting
+                           </p>
+                           <p
+                              onClick={() => {
+                                 setActive(!active);
+                              }}
+                              className={`${!active ? styles.clickActive : styles.clickDisable}`}
+                           >
+                              Order History
+                           </p>
                         </div>
                      </div>
-                     <div className={styles.borderBottom}>
-                        <Image src={pictures ? pictures : Default} width={'150px'} height={'150px'} alt="default" />
-                        <h6 className="fw-bold">
-                           {firstname || email} {lastname}
-                        </h6>
-                        <p>Movigoers</p>
-                     </div>
-                     <div className="text-start mt-md-4 py-4">
-                        <h6>Loyality Points</h6>
-                        <div className={`text-center mt-md-4 ${styles.cardMember}`}>
-                           <div className="d-flex align-items-center justify-content-between gap-3  text-white px-5">
-                              <p className="col-md-5">Moviegoers</p>
-                              <div className="col-md-2">
-                                 <Image src={Star} alt="cardMember" />
-                              </div>
-                           </div>
-                           <div className="text-white text-start px-5 mt-1">
-                              <p>
-                                 {point || 0} <span>points</span>{' '}
-                              </p>
-                           </div>
-                        </div>
-                        <p className="text-center mt-md-4">{point || 0} point become a master</p>
-                        <div className={styles.cardLoadContainer}>
-                           <div className={styles.cardLoad}></div>
-                        </div>
-                     </div>
-                  </div>
-               </div>
-               <div className="col-md-8">
-                  <div className={styles.cardEditHeader}>
-                     <div className="d-flex gap-5 pt-2">
-                        <p
-                           onClick={() => {
-                              setActive(!active);
-                           }}
-                           className={`${active ? styles.clickActive : styles.clickDisable}`}
-                        >
-                           Account Setting
-                        </p>
-                        <p
-                           onClick={() => {
-                              setActive(!active);
-                           }}
-                           className={`${!active ? styles.clickActive : styles.clickDisable}`}
-                        >
-                           Order History
-                        </p>
-                     </div>
-                  </div>
-                  {!active ? (
-                     <>
-                        <CardOrderHistory />
-                        <CardOrderHistory />
-                        <CardOrderHistory />
-                     </>
-                  ) : (
-                     <>
-                        <div className={styles.cardEdit}>
-                           <p className={styles.headerEdit}>Detail Information</p>
-                           <div className="d-flex justify-content-between gap-3">
-                              <div className="col-md-6">
-                                 <div className="form-group">
-                                    <label htmlFor="firstname" className="mb-2">
-                                       First Name
-                                    </label>
-                                    <div className={styles.fieldInput}>
-                                       <input
-                                          type="text"
-                                          className={`${styles.input}`}
-                                          id="firstname"
-                                          aria-describedby="emailHelp"
-                                          placeholder={firstname || 'Enter your first name'}
-                                          onChange={(e) => {
-                                             setForm({ ...form, firstname: e.target.value });
-                                          }}
-                                       />
+                     {!active ? (
+                        <>
+                           <CardOrderHistory />
+                           <CardOrderHistory />
+                           <CardOrderHistory />
+                        </>
+                     ) : (
+                        <>
+                           <div className={styles.cardEdit}>
+                              <p className={styles.headerEdit}>Detail Information</p>
+                              <div className="d-flex justify-content-between gap-3">
+                                 <div className="col-md-6">
+                                    <div className="form-group">
+                                       <label htmlFor="firstname" className="mb-2">
+                                          First Name
+                                       </label>
+                                       <div className={styles.fieldInput}>
+                                          <input
+                                             type="text"
+                                             className={`${styles.input}`}
+                                             id="firstname"
+                                             aria-describedby="emailHelp"
+                                             value={form.firstname}
+                                             placeholder={'Enter your first name'}
+                                             onChange={(e) => {
+                                                setForm({ ...form, firstname: e.target.value });
+                                             }}
+                                          />
+                                       </div>
                                     </div>
-                                 </div>
-                                 <div className="form-group mt-3">
-                                    <label htmlFor="email" className="mb-2">
-                                       Email
-                                    </label>
-                                    <div className={styles.fieldInput}>
-                                       <input
-                                          type="email"
-                                          className={`${styles.input}`}
-                                          id="email"
-                                          placeholder={email || 'Enter your email'}
-                                          onChange={(e) => {
-                                             setForm({ ...form, email: e.target.value });
-                                          }}
-                                       />
-                                    </div>
-                                 </div>
-                              </div>
-                              <div className="col-md-6">
-                                 <div className="form-group">
-                                    <label htmlFor="lastname" className="mb-2">
-                                       Last Name
-                                    </label>
-                                    <div className={styles.fieldInput}>
-                                       <input
-                                          type="text"
-                                          className={`${styles.input}`}
-                                          id="lastname"
-                                          aria-describedby="emailHelp"
-                                          placeholder={lastname || 'Enter your last name'}
-                                          onChange={(e) => {
-                                             setForm({ ...form, lastname: e.target.value });
-                                          }}
-                                       />
-                                    </div>
-                                 </div>
-                                 <div className="form-group mt-3">
-                                    <label htmlFor="phone" className="mb-2">
-                                       Phone
-                                    </label>
-                                    <div className={styles.fieldInput}>
-                                       <input
-                                          type="text"
-                                          className={`${styles.input}`}
-                                          id="phone"
-                                          placeholder={phone_number || 'Enter your phone'}
-                                          onChange={(e) => {
-                                             setForm({ ...form, phone_number: e.target.value });
-                                          }}
-                                       />
-                                    </div>
-                                 </div>
-                              </div>
-                           </div>
-                        </div>
-                        <div className={styles.cardEdit}>
-                           <p className={styles.headerEdit}>Account and Privacy</p>
-                           <div className="d-flex justify-content-between gap-3">
-                              <div className="col-md-6">
-                                 <div className="form-group">
-                                    <label htmlFor="npass" className="mb-2">
-                                       New Password
-                                    </label>
-                                    <div className={`d-flex align-items-center ${styles.fieldInput}`}>
-                                       <input
-                                          type={showPass ? 'text' : 'password'}
-                                          className={`${styles.input}`}
-                                          id="npass"
-                                          aria-describedby="emailHelp"
-                                          placeholder="Write your password"
-                                          onChange={(e) => {
-                                             setForm({ ...form, newPassword: e.target.value });
-                                          }}
-                                       />
-                                       <div
-                                          onClick={() => {
-                                             setShowPass(!showPass);
-                                          }}
-                                       >
-                                          <Image className="position-absolute" src={showPass ? Show : Hide} />
+                                    <div className="form-group mt-3">
+                                       <label htmlFor="email" className="mb-2">
+                                          Email
+                                       </label>
+                                       <div className={styles.fieldInput}>
+                                          <input
+                                             type="email"
+                                             disabled
+                                             className={`${styles.input}`}
+                                             id="email"
+                                             value={form.email}
+                                             placeholder={'Enter your email'}
+                                             onChange={(e) => {
+                                                setForm({ ...form, email: e.target.value });
+                                             }}
+                                          />
                                        </div>
                                     </div>
                                  </div>
-                              </div>
-                              <div className="col-md-6">
-                                 <div className="form-group">
-                                    <label htmlFor="cpass" className="mb-2">
-                                       Confirm Password
-                                    </label>
-                                    <div className={`d-flex align-items-center ${styles.fieldInput}`}>
-                                       <input
-                                          type={showPassConfirm ? 'text' : 'password'}
-                                          className={`${styles.input}`}
-                                          id="npass"
-                                          aria-describedby="emailHelp"
-                                          placeholder="Confirm your password"
-                                          onChange={(e) => {
-                                             setForm({
-                                                ...form,
-                                                confirmPassword: e.target.value,
-                                             });
-                                          }}
-                                       />
-                                       <div
-                                          onClick={() => {
-                                             setShowPassConfirm(!showPassConfirm);
-                                          }}
-                                       >
-                                          <Image className="position-absolute" src={showPassConfirm ? Show : Hide} />
+                                 <div className="col-md-6">
+                                    <div className="form-group">
+                                       <label htmlFor="lastname" className="mb-2">
+                                          Last Name
+                                       </label>
+                                       <div className={styles.fieldInput}>
+                                          <input
+                                             type="text"
+                                             className={`${styles.input}`}
+                                             id="lastname"
+                                             aria-describedby="emailHelp"
+                                             value={form.lastname}
+                                             placeholder={'Enter your last name'}
+                                             onChange={(e) => {
+                                                setForm({ ...form, lastname: e.target.value });
+                                             }}
+                                          />
+                                       </div>
+                                    </div>
+                                    <div className="form-group mt-3">
+                                       <label htmlFor="phone" className="mb-2">
+                                          Phone
+                                       </label>
+                                       <div className={styles.fieldInput}>
+                                          <input
+                                             type="text"
+                                             className={`${styles.input}`}
+                                             id="phone"
+                                             value={form.phone_number}
+                                             placeholder={'Enter your phone'}
+                                             onChange={(e) => {
+                                                setForm({ ...form, phone_number: e.target.value });
+                                             }}
+                                          />
                                        </div>
                                     </div>
                                  </div>
                               </div>
                            </div>
-                        </div>
-                        <div className="text-center text-md-start">
-                           <button type="submit" className={styles.buttonChanges} onClick={handleUpdate}>
-                              Update Changes
-                           </button>
-                        </div>
-                     </>
-                  )}
-               </div>
-            </form>
-         </div>
-      </LayoutLoggedIn>
+                           <div className={styles.cardEdit}>
+                              <p className={styles.headerEdit}>Account and Privacy</p>
+                              <div className="d-flex justify-content-between gap-3">
+                                 <div className="col-md-6">
+                                    <div className="form-group">
+                                       <label htmlFor="npass" className="mb-2">
+                                          New Password
+                                       </label>
+                                       <div className={`d-flex align-items-center ${styles.fieldInput}`}>
+                                          <input
+                                             type={showPass ? 'text' : 'password'}
+                                             className={`${styles.input}`}
+                                             id="npass"
+                                             aria-describedby="emailHelp"
+                                             placeholder="Write your password"
+                                             onChange={(e) => {
+                                                setForm({ ...form, newPassword: e.target.value });
+                                             }}
+                                          />
+                                          <div
+                                             onClick={() => {
+                                                setShowPass(!showPass);
+                                             }}
+                                          >
+                                             <Image className="position-absolute" src={showPass ? Show : Hide} />
+                                          </div>
+                                       </div>
+                                    </div>
+                                 </div>
+                                 <div className="col-md-6">
+                                    <div className="form-group">
+                                       <label htmlFor="cpass" className="mb-2">
+                                          Confirm Password
+                                       </label>
+                                       <div className={`d-flex align-items-center ${styles.fieldInput}`}>
+                                          <input
+                                             type={showPassConfirm ? 'text' : 'password'}
+                                             className={`${styles.input}`}
+                                             id="npass"
+                                             aria-describedby="emailHelp"
+                                             placeholder="Confirm your password"
+                                             onChange={(e) => {
+                                                setForm({
+                                                   ...form,
+                                                   confirmPassword: e.target.value,
+                                                });
+                                             }}
+                                          />
+                                          <div
+                                             onClick={() => {
+                                                setShowPassConfirm(!showPassConfirm);
+                                             }}
+                                          >
+                                             <Image className="position-absolute" src={showPassConfirm ? Show : Hide} />
+                                          </div>
+                                       </div>
+                                    </div>
+                                 </div>
+                              </div>
+                           </div>
+                           <div className="text-center text-md-start">
+                              <button type="submit" className={styles.buttonChanges} onClick={handleUpdate}>
+                                 Update Changes
+                              </button>
+                           </div>
+                        </>
+                     )}
+                  </div>
+               </form>
+            </div>
+         </LayoutLoggedIn>
+         <CustomModal show={show} setShow={setShow} title={isError ? 'Error' : 'Success'} body={msg} isSecondButton={false} primeButton={isError? 'Try Again' : 'Ok'} primeButtonHandler={() => setShow(false)} isError={isError}/>
+      </>
    );
 };
 

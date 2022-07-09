@@ -100,6 +100,15 @@
   font-weight: bolder;
 }
 
+.profPict{
+  object-fit: cover;
+  object-position: 50% 50%;
+  border-radius: 50%;
+  width: 50px;
+  height: 50px;
+  cursor: pointer;
+}
+
 .FooterLayout {
   padding: 100px 50px;
 }

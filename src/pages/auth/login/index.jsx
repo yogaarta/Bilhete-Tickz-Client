@@ -11,6 +11,7 @@ import { getUsersAction } from '../../../redux/actionCreator/users';
 
 import Loading from '../../../components/Loading'
 import { useEffect } from 'react';
+import CustomModal from '../../../components/CustomModal';
 
 export default function Login() {
    const { token } = useSelector((state) => state.auth.loginData);
@@ -18,37 +19,58 @@ export default function Login() {
    const [email, setEmail] = useState('');
    const [password, setPassword] = useState('');
    const [msgError, setMsgError] = useState('');
+   const [show, setShow] = useState(false);
+   const [loading, setLoading] = useState(false)
+   const [buttonActive, setButtonActive] = useState(false)
    // const [isLoading, setIsLoading] = useState(false)
 
-   const {loginData, isLoading, isError} = useSelector(state => state.auth)
+   const { loginData, isLoading, isError, msg } = useSelector(state => state.auth)
+   // const { isLoadingUser = isLoading } = useSelector(state => state.userInfo)
 
    const router = useRouter();
    const dispatch = useDispatch();
 
    const login = async () => {
-      try {
-         // setIsLoading(true)
-         const body = {
-            email,
-            password,
-         };
-         dispatch(loginAction(body));
-         // dispatch(getUsersAction(loginData.token));
-         // setIsLoading(false)
-         
-      } catch (error) {
+      const body = {
+         email,
+         password,
+      };
+
+      dispatch(loginAction(body))
+      .then(result => {
+         console.log(result)
+         setShow(true)
+      })
+      .catch(error => {
+         console.log(error)
          setMsgError(error.response?.data.message.msg);
-         setIsLoading(false);
-      }
+         setShow(true)
+      })
    };
 
-   useEffect(()=>{
-      if(isError === false) router.push('/')
-   },[isError])
+   const primeButtonHandler = () => {
+      setLoading(true)
+      dispatch(getUsersAction(loginData.token))
+      .then(result => {
+         console.log(result)
+         setLoading(false)
+         setShow(false)
+         router.push('/');
+      })
+      .catch(error => {
+         console.log(error)
+         setLoading(false)
+      })
+   };
+
+   useEffect(() => {
+      setButtonActive(email && password)
+   }, [email, password])
 
    return (
       <>
          {isLoading && <Loading />}
+         {loading && <Loading />}
          <LayoutAuth title={'Sign In'}>
             <div className={styles.maincontainer}>
                <h1 className={styles.titlesign}>Sign In</h1>
@@ -87,13 +109,19 @@ export default function Login() {
                         </div>
                      </div>
                   </div>
+                  {buttonActive ? 
                   <button className={styles.signupbutton} onClick={login}>
                      Sign In
                   </button>
+                     :
+                  <button className={styles.dissignupbutton}>
+                     Sign In
+                  </button>
+                     }
                   <div className={styles.infosignup}>
                      <p>
                         Do you already have an account?{' '}
-                        <Link href="/auth/forgot-password">
+                        <Link href="/auth/forgot">
                            <span className={styles.login}>Reset Now</span>
                         </Link>
                      </p>
@@ -115,6 +143,7 @@ export default function Login() {
                </div>
             </div>
          </LayoutAuth>
+         <CustomModal show={show} setShow={setShow} title={isError ? 'Error' : 'Success'} body={msg} primeButton={'Proceed'} primeButtonHandler={primeButtonHandler} isError={isError} isSecondButton={isError ? true : false}/>
       </>
    );
 }
