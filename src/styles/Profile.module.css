@@ -22,6 +22,15 @@
 .borderBottom {
   border-bottom: 1px solid #dedede;
 }
+
+.profPict{
+  width: 150px;
+  height: 150px;
+  object-fit: cover;
+  object-position: 50% 50%;
+  border-radius: 50%;
+}
+
 .cardMember {
   background-image: url(../assets/img/cardmember.png);
   height: 150px;
