@@ -16,12 +16,20 @@ import { getMoviesDetailAxios, getShowTimesAxios } from "../../modules/movies";
 const MovieDetail = () => {
   const [dropdown, setDropdown] = useState();
   const [movies, setMovies] = useState([]);
+  const [cinemas, setCinemas] = useState([]);
+  const [date, setDate] = useState("");
+  const [errMsg, setErrMsg] = useState("");
   const router = useRouter();
-  const {id="", location="", date="", sort="", order="", page=""} = router.query
+  const {
+    id = "",
+    location = "",
+    sort = "",
+    order = "",
+    page = "",
+  } = router.query;
   useEffect(() => {
     getMoviesDetailAxios(id)
       .then((res) => {
-        console.log(res);
         setMovies(res.data?.data);
       })
       .catch((err) => {
@@ -31,15 +39,16 @@ const MovieDetail = () => {
 
   useEffect(() => {
     getShowTimesAxios(id, location, date, sort, order, page)
-    .then((res) => {
-      console.log(res)
-    })
-    .catch((err) => {
-      console.log(err)
-    })
+      .then((res) => {
+        console.log(res);
+        setCinemas(res.data?.data);
+      })
+      .catch((err) => {
+        setErrMsg(err.response?.data.message);
+      });
     setDropdown(false);
-  }, [router])
-
+  }, [router]);
+  console.log(errMsg);
   return (
     <LayoutLoggedIn title="Movies Detail">
       <div className={`container`}>
@@ -103,7 +112,15 @@ const MovieDetail = () => {
           <h4 className="text-center fw-bold mb-3">Showtimes and Tickets</h4>
           <div className="d-flex justify-content-center gap-3">
             <div className={`${styles.dropDate}`}>
-              <input type="date" className={styles.unBlockable} />
+              <input
+                type="date"
+                className={styles.unBlockable}
+                value={date}
+                onChange={(e) => {
+                  setDate(e.target.value);
+                  router.push(`/movies/${router.query.id}?date=${date}`);
+                }}
+              />
             </div>
             <div
               onClick={() => {
@@ -123,15 +140,33 @@ const MovieDetail = () => {
               {dropdown ? (
                 <div className={`position-absolute mt-3 ${styles.dropContent}`}>
                   <div
-                    onClick={() => {
-                      
+                    onClick={(e) => {
+                      e.preventDefault();
+                      if (router.asPath.includes("date")) {
+                        router.push(
+                          `/movies/${router.query.id}?location=jakarta&date=${router.query.date}`
+                        );
+                      }
+                      router.push(
+                        `/movies/${router.query.id}?location=jakarta`
+                      );
                     }}
                     className="my-4"
                   >
                     Jakarta
                   </div>
                   <div
-                    onClick={""}
+                    onClick={(e) => {
+                      e.preventDefault();
+                      if (router.asPath.includes("date")) {
+                        router.push(
+                          `/movies/${router.query.id}?location=bandung&date=${router.query.date}`
+                        );
+                      }
+                      router.push(
+                        `/movies/${router.query.id}?location=bandung`
+                      );
+                    }}
                     className="my-4"
                   >
                     Bandung
@@ -141,9 +176,25 @@ const MovieDetail = () => {
             </div>
           </div>
           <div className="d-flex justify-content-center gap-3 flex-wrap mt-5">
-            <CardCinema />
-            <CardCinema />
-            <CardCinema />
+            {cinemas.length > 0 ? (
+              <>
+                {cinemas.map((item) => (
+                  <CardCinema
+                    key={item.id}
+                    address={item.address}
+                    pictures={item.pictures}
+                    time={item.list_time}
+                    location={item.location}
+                    price={item.price}
+                    name={item.name}
+                  />
+                ))}
+              </>
+            ) : (
+              <>
+                <h1>...</h1>
+              </>
+            )}
           </div>
         </div>
         <div className="d-flex justify-content-center mt-4 mt-md-5">

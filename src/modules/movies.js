@@ -32,7 +32,7 @@ export const getMoviesDetailAxios = (id) => {
   return axios.get(URL)
 }
 
-export const getShowTimesAxios = (id, location, date, sort, order, page) => {
-  const URL = `${NEXT_PUBLIC_BE_HOST}/movies/${id}?location=${location}&date=${date}&sort=${sort}&order=${order}&page=${page}`
+export const getShowTimesAxios = (id="", location="", date="", sort="", order="", page="") => {
+  const URL = `${NEXT_PUBLIC_BE_HOST}/showtimes/${id}?location=${location}&date=${date}&sort=${sort}&order=${order}&page=${page}`
   return axios.get(URL)
 }
