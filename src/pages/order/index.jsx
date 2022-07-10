@@ -1,5 +1,5 @@
 // Import
-import { useState } from "react";
+import { useEffect, useState } from "react";
 // Components Next
 import Image from "next/image";
 // Assets
@@ -10,10 +10,24 @@ import LayoutLoggedIn from "../../components/LayoutLoggedIn/LayoutLoggedIn";
 import styles from "../../styles/Order.module.css";
 //Dummy
 import { dummy, dummy1 } from "../../modules/dummy";
+import { useRouter } from "next/router";
+import { useSelector } from "react-redux";
 
 const Order = () => {
   const [select, selectedSeat] = useState("");
   console.log(select);
+
+  const { token } = useSelector(state => state.auth.loginData)
+
+  const router = useRouter()
+  useEffect(() => {
+    if (!token) {
+      router.push({
+        pathname: '/auth/login',
+        query: { msg: 'You need to login first!' }
+      }, '/auth/login')
+    }
+  }, [])
   return (
     <LayoutLoggedIn title="Order">
       <div className={styles.orderContainer}>
@@ -77,16 +91,16 @@ const Order = () => {
                 <h6 className="mt-4 fw-bold">Seating Key</h6>
                 <div className="d-flex justify-content-center mt-4">
                   <div className="col-md-3 d-flex gap-2">
-                      <div className={`${styles.availableSeat}`}></div>
-                      <h6>Available</h6>
+                    <div className={`${styles.availableSeat}`}></div>
+                    <h6>Available</h6>
                   </div>
                   <div className="col-md-3 d-flex gap-2">
-                      <div className={`${styles.selectedSeat}`}></div>
-                      <h6>Selected</h6>
+                    <div className={`${styles.selectedSeat}`}></div>
+                    <h6>Selected</h6>
                   </div>
                   <div className="col-md-3 d-flex gap-2">
-                      <div className={`${styles.soldSeat}`}></div>
-                      <h6>Sold</h6>
+                    <div className={`${styles.soldSeat}`}></div>
+                    <h6>Sold</h6>
                   </div>
                 </div>
               </div>

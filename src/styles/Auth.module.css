@@ -33,6 +33,7 @@
    margin: 20px 0px;
    height: 60px;
    align-items: center;
+   border-radius: 4px;
 }
 
 .inputname input {
@@ -40,6 +41,7 @@
    height: 50px;
    width: 100%;
    margin-left: 20px;
+   border-radius: 4px;
 }
 
 .inputname input:focus {
@@ -91,6 +93,7 @@
    width: 100%;
    background-color: #5f2eea;
    color: #f7f7fc;
+   border-radius: 4px;
 }
 .dissignupbutton {
    border: none;
@@ -99,6 +102,7 @@
    width: 100%;
    color: #5f2eea;
    background-color: #f7f7fc;
+   border-radius: 4px;
 }
 
 .forgotbutton {
@@ -109,6 +113,7 @@
    width: 100%;
    background-color: #5f2eea;
    color: #f7f7fc;
+   border-radius: 4px;
 }
 
 .disforgotbutton {
@@ -119,6 +124,7 @@
    width: 100%;
    color: #5f2eea;
    background-color: #f7f7fc;
+   border-radius: 4px;
 }
 
 .forgotbutton2 {
@@ -128,6 +134,7 @@
    width: 100%;
    background-color: #5f2eea;
    color: #f7f7fc;
+   border-radius: 4px;
 }
 
 .disforgotbutton2 {
@@ -137,6 +144,7 @@
    width: 100%;
    color: #5f2eea;
    background-color: #f7f7fc;
+   border-radius: 4px;
 }
 
 .buttonGoogleFb {
