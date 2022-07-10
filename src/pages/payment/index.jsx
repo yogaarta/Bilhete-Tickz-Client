@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import Image from 'next/image'
 
 import LayoutLoggedIn from '../../components/LayoutLoggedIn/LayoutLoggedIn'
@@ -12,8 +12,21 @@ import Dana from '../../assets/icon/dana.png'
 import Bca from '../../assets/icon/bca.png'
 import Bri from '../../assets/icon/bri.png'
 import Ovo from '../../assets/icon/ovo.png'
+import { useRouter } from 'next/router'
+import { useSelector } from 'react-redux'
 
 export default function Payment() {
+  const router = useRouter()
+  const { token } = useSelector(state => state.auth.loginData)
+
+  useEffect(() => {
+    if (!token) {
+      router.push({
+        pathname: '/auth/login',
+        query: { msg: 'You need to login first!' }
+      }, '/auth/login')
+    }
+  }, [])
   return (
     <>
       <LayoutLoggedIn title={"Payment"}>
@@ -100,11 +113,11 @@ export default function Payment() {
               <div className={styles.card}>
                 <label htmlFor="name" className={styles.label}>
                   Full Name
-                  <input type="text" name='name' id='name' placeholder='Input Full Name' className={styles.input}/>
+                  <input type="text" name='name' id='name' placeholder='Input Full Name' className={styles.input} />
                 </label>
                 <label htmlFor="email" className={styles.label}>
                   Email
-                  <input type="text" name='email' id='email' placeholder='Input Email' className={styles.input}/>
+                  <input type="text" name='email' id='email' placeholder='Input Email' className={styles.input} />
                 </label>
                 <label htmlFor="phone" className={styles.label}>
                   Phone Number

@@ -18,6 +18,7 @@ import CardOrderHistory from '../../components/CardOrderHistory';
 import axios from 'axios';
 import Loading from '../../components/Loading';
 import CustomModal from '../../components/CustomModal';
+import { useRouter } from 'next/router';
 
 const EditProfile = () => {
    const { userInfo: {firstname, lastname, email, phone_number, point, pictures}, isLoading } = useSelector((state) => state.userInfo);
@@ -35,9 +36,16 @@ const EditProfile = () => {
 
    const inputFile = useRef();
 
+   const router = useRouter()
    const dispatch = useDispatch();
 
    useEffect(() => {
+      if(!token){
+         router.push({
+            pathname: '/auth/login',
+            query: {msg: 'You need to login first!'}
+         }, '/auth/login')
+      }
       dispatch(getUsersAction(token));
    }, []);
 

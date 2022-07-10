@@ -14,12 +14,12 @@ import { useEffect } from 'react';
 import CustomModal from '../../../components/CustomModal';
 
 export default function Login() {
-   const { token } = useSelector((state) => state.auth.loginData);
    const [showPass, setShowPass] = useState(false);
    const [email, setEmail] = useState('');
    const [password, setPassword] = useState('');
    const [msgError, setMsgError] = useState('');
    const [show, setShow] = useState(false);
+   const [authShow, setAuthShow] = useState(false)
    const [loading, setLoading] = useState(false)
    const [buttonActive, setButtonActive] = useState(false)
    // const [isLoading, setIsLoading] = useState(false)
@@ -64,6 +64,9 @@ export default function Login() {
    };
 
    useEffect(() => {
+      if(router.query.msg){
+         setAuthShow(true)
+      }
       setButtonActive(email && password)
    }, [email, password])
 
@@ -144,6 +147,7 @@ export default function Login() {
             </div>
          </LayoutAuth>
          <CustomModal show={show} setShow={setShow} title={isError ? 'Error' : 'Success'} body={msg} primeButton={'Proceed'} primeButtonHandler={primeButtonHandler} isError={isError} isSecondButton={isError ? true : false}/>
+         <CustomModal show={authShow} setShow={setAuthShow} title={'Error'} body={router.query.msg} secondButton={'OK'} isError={true} isSecondButton={true}/>
       </>
    );
 }
