@@ -1,12 +1,24 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import Image from 'next/image'
 
 import { Download, Printer } from 'react-bootstrap-icons'
 import styles from '../../styles/Ticket.module.css'
 import LayoutLoggedIn from '../../components/LayoutLoggedIn/LayoutLoggedIn'
 import Barcode from '../../assets/icon/barcode.png'
+import { useRouter } from 'next/router'
+import { useSelector } from 'react-redux'
 
 export default function Ticket() {
+  const router = useRouter()
+  const { token } = useSelector(state => state.auth.loginData)
+  useEffect(() => {
+    if (!token) {
+      router.push({
+        pathname: '/auth/login',
+        query: { msg: 'You need to login first!' }
+      }, '/auth/login')
+    }
+  }, [])
   return (
     <>
       <LayoutLoggedIn title={"Ticket"}>
