@@ -3,7 +3,12 @@ const { NEXT_PUBLIC_BE_HOST } = process.env
 
 export const createMoviesAxios = (body, token) => {
   const URL = `${NEXT_PUBLIC_BE_HOST}/movies`
-  return axios.post(URL, body, {headers: { 'Authorization': `Bearer ${token}` }})
+  return axios.post(URL, body, {
+    headers: {
+      Authorization: `Bearer ${token}`,
+      "Content-Type": "multipart/form-data",
+    }
+  })
 }
 
 export const getMoviesHomeAxios = () => {
@@ -11,12 +16,12 @@ export const getMoviesHomeAxios = () => {
   return axios.get(URL)
 }
 
-export const getNowShowingMoviesAxios = (name="", sort="", order="", page="1") => {
+export const getNowShowingMoviesAxios = (name = "", sort = "", order = "", page = "1") => {
   const URL = `${NEXT_PUBLIC_BE_HOST}/movies/nowshow?name=${name}&sort=${sort}&order=${order}&page=${page}`
   return axios.get(URL)
 }
 
-export const getUpcomingMoviesAxios = (name="", month="",sort="", order="", page="1") => {
+export const getUpcomingMoviesAxios = (name = "", month = "", sort = "", order = "", page = "1") => {
   const URL = `${NEXT_PUBLIC_BE_HOST}/movies/upcoming?name=${name}&month=${month}&sort=${sort}&order=${order}&page=${page}`
   return axios.get(URL)
 }

@@ -2,7 +2,10 @@
 import { Modal } from "react-bootstrap";
 import { ChevronDown } from "react-bootstrap-icons";
 import { useState, useRef } from "react";
+import { useSelector } from "react-redux";
+import { useRouter } from "next/router";
 //ComponentsLocal
+import CustomModal from "../../components/CustomModal/index";
 import LayoutLoggedIn from "../../components/LayoutLoggedIn/LayoutLoggedIn";
 //Compenents Next
 import Image from "next/image";
@@ -10,15 +13,24 @@ import Image from "next/image";
 import styles from "../../styles/CreateMovies.module.css";
 //Assets
 import ImageCreate from "../../assets/img/Card.png";
-import Cine from "../../assets/icon/cine.png";
 import Location from "../../assets/icon/location.png";
+import Default from "../../assets/img/default.jpg";
 //Axios
-import { getCinemasBandungAxios, getCinemasJakartaAxios } from "../../modules/cinemas";
+import {
+  getCinemasBandungAxios,
+  getCinemasJakartaAxios,
+} from "../../modules/cinemas";
 import { createMoviesAxios } from "../../modules/movies";
 
 const CreateMovie = () => {
-  const [showModal, setShowModal] = useState(false)
+  const token = useSelector((state) => state.auth.loginData?.token);
+  const [showModal, setShowModal] = useState(false);
+  const [showTime, setShowTime] = useState(false);
   const [drop, setDrop] = useState(false);
+  const [show, setShow] = useState(false);
+  const [isError, setIsError] = useState(false);
+  const [errMsg, setErrMsg] = useState("");
+  const [successMsg, setSuccessMsg] = useState("");
   const [location, setLocation] = useState([]);
   const [time, setTime] = useState([]);
   const [cinemaId, setCinemaId] = useState([]);
@@ -36,7 +48,9 @@ const CreateMovie = () => {
     director: "",
     show_date: "",
   });
-  const inputFile = useRef()
+  const inputFile = useRef();
+  const router = useRouter();
+
   const getCinemasBandung = () => {
     getCinemasBandungAxios()
       .then((res) => {
@@ -61,37 +75,75 @@ const CreateMovie = () => {
   };
 
   const handleInputFile = (e) => {
-    const file = e.target.files[0]
-    setForm({...form, img: file})
-  }
+    const file = e.target.files[0];
+    setForm({ ...form, img: file });
+  };
   const formCreateMovie = () => {
-    const body = new FormData()
-    body.append("name", form.name)
-    body.append("category", form.category)
-    body.append("release_date", form.release_date)
-    body.append("duration", form.hours+":"+form.minute)
-    body.append("synopsis", form.synopsis)
-    body.append("img", form.img)
-    body.append("img", form.img)
-    body.append("price", form.price)
-    body.append("director", form.director)
-    body.append("show_date", form.show_date)
-    body.append("time", time)
-    body.append("cinema_id", cinemaId)
-    return body
-  }
+    const body = new FormData();
+    if (form.name !== "") {
+      body.append("name", form.name);
+    }
+    if (form.category !== "") {
+      body.append("category", form.category);
+    }
+    if (form.release_date !== "") {
+      body.append("release_date", form.release_date);
+    }
+    if (form.duration !== "") {
+      body.append("duration", form.duration);
+    }
+    if (form.cast !== "") {
+      body.append("cast", form.cast);
+    }
+    if (form.synopsis !== "") {
+      body.append("synopsis", form.synopsis);
+    }
+    if (form.img !== "") {
+      body.append("img", form.img);
+    }
+    if (form.price !== "") {
+      body.append("price", form.price);
+    }
+    if (form.director !== "") {
+      body.append("director", form.director);
+    }
+    if (form.show_date !== "") {
+      body.append("show_date", form.show_date);
+    }
+    if (time.length !== 0) {
+      body.append("time", JSON.stringify(time));
+    }
+    if (cinemaId.length !== 0) {
+      body.append("cinemas_id", JSON.stringify(cinemaId));
+    }
+    return body;
+  };
+
+  const primeButtonHandler = () => {
+    setForm({});
+    setShow(false);
+    if(!isError){
+      return router.push("/movies/nowshowing")
+    }
+  };
 
   const handleCreateMovies = (e) => {
-    e.preventDefault()
-    const body = formCreateMovie()
-    createMoviesAxios(body, token).then((res) => {
-      console.log(res)
-    })
-    .catch((err) => {
-      console.log(err)
-    })
-  }
-
+    e.preventDefault();
+    const body = formCreateMovie();
+    createMoviesAxios(body, token)
+      .then((res) => {
+        console.log(res);
+        setIsError(false);
+        setShow(true);
+        setSuccessMsg(res.data.message);
+      })
+      .catch((err) => {
+        console.log(err);
+        setErrMsg(err.response?.data.message);
+        setIsError(true);
+        setShow(true);
+      });
+  };
   return (
     <LayoutLoggedIn title="Create Movie">
       <div className={`${styles.containerCreateMovie}`}>
@@ -100,13 +152,21 @@ const CreateMovie = () => {
             <h5 className="fw-bold">Movie Description</h5>
             <div className={`${styles.cardDescription}`}>
               <div className="d-flex p-4 gap-4">
-                <div onClick={(e) => {
-                  inputFile.current.click()
-                  e.preventDefault()
-                }} className="btn col-md-4 p-4 border border-1 rounded-3">
-                  <Image src={ImageCreate} />
+                <div
+                  onClick={(e) => {
+                    inputFile.current.click();
+                    e.preventDefault();
+                  }}
+                  className="btn col-md-4 p-4 border border-1 rounded-3"
+                >
+                  <Image src={Default} />
                 </div>
-                <input type="file" hidden ref={inputFile} onChange={handleInputFile}/>
+                <input
+                  type="file"
+                  hidden
+                  ref={inputFile}
+                  onChange={handleInputFile}
+                />
                 <div className="col-md-7">
                   <div className="form-group">
                     <label
@@ -271,6 +331,27 @@ const CreateMovie = () => {
                   />
                 </div>
               </div>
+              <div className="form-group my-3 px-4">
+                <label
+                  htmlFor="price"
+                  className={`fw-light ${styles.labelFont}`}
+                >
+                  Price
+                </label>
+                <div>
+                  <input
+                    type="text"
+                    name="shotimes"
+                    id="showtimes"
+                    className={`form-control mt-1 bg-light w-50 ${styles.inputForm}`}
+                    value={form.price}
+                    placeholder="Enter price of ticket"
+                    onChange={(e) => {
+                      setForm({ ...form, price: e.target.value });
+                    }}
+                  />
+                </div>
+              </div>
             </div>
           </div>
           <div className="col-md-4">
@@ -313,13 +394,13 @@ const CreateMovie = () => {
               <div className="d-flex flex-wrap gap-3 justify-content-between py-4">
                 {location.map((item) => (
                   <div
+                    key={item.id}
                     onClick={() => {
                       setCinemaId([...cinemaId, item.id]);
                     }}
                     className={`btn col-md-3 mt-4`}
                   >
                     <Image
-                      key={item.id}
                       src={item.pictures ? item.pictures : <></>}
                       width={100}
                       height={30}
@@ -332,6 +413,7 @@ const CreateMovie = () => {
             <h5 className="fw-bold my-3">Showtimes</h5>
             <div className={`${styles.cardDescription}`}>
               <input
+                pattern="\d{1,2}/\d{1,2}/\d{4}"
                 type="date"
                 name="shotimes"
                 id="showtimes"
@@ -342,40 +424,111 @@ const CreateMovie = () => {
                 }}
               />
               <div className="d-flex flex-wrap gap-1 py-4">
-                <button onClick={() => {
-                  setShowModal(true)
-                }} className="btn btn-outline-primary ">+</button>
-                {time.map((item) => (
-                  <button className="btn">{item}</button>
-                ))}
+                <button
+                  onClick={() => {
+                    setShowModal(true);
+                  }}
+                  className="btn btn-outline-primary "
+                >
+                  +
+                </button>
+                {showTime
+                  ? time.map((item) => (
+                      <button key={item} className="btn">
+                        {item}
+                      </button>
+                    ))
+                  : null}
               </div>
             </div>
-            <button onClick={handleCreateMovies} className={`mt-5 ${styles.btnCreate}`}>Create Movie</button>
+            <button
+              onClick={handleCreateMovies}
+              className={`mt-5 w-100 ${styles.btnCreate}`}
+            >
+              Create Movie
+            </button>
           </div>
         </div>
       </div>
-      <Modal show={showModal} onHide={() => {setShowModal(false)}}>
+      <Modal
+        show={showModal}
+        onHide={() => {
+          setShowModal(false);
+        }}
+      >
         <Modal.Header closeButton>Choose time</Modal.Header>
         <Modal.Body>
           <div className="d-flex gap-2">
-          <button onClick={() => {
-            setTime([...time, "08:30am"])
-          }} className="btn btn-outline-primary">08:30am</button>
-          <button onClick={() => {
-            setTime([...time, "10:30am"])
-          }} className="btn btn-outline-primary">10:30am</button>
-          <button onClick={() => {
-            setTime([...time, "12:00am"])
-          }} className="btn btn-outline-primary">12:00am</button>
-          <button onClick={() => {
-            setTime([...time, "04:30am"])
-          }} className="btn btn-outline-primary">04:30am</button>
-          <button onClick={() => {
-            setTime([...time, "07:30pm"])
-          }} className="btn btn-outline-primary">07:30pm</button>
+            <button
+              onClick={() => {
+                setTime([...time, "08:30am"]);
+              }}
+              className="btn btn-outline-primary"
+            >
+              08:30am
+            </button>
+            <button
+              onClick={() => {
+                setTime([...time, "10:30am"]);
+              }}
+              className="btn btn-outline-primary"
+            >
+              10:30am
+            </button>
+            <button
+              onClick={() => {
+                setTime([...time, "12:00am"]);
+              }}
+              className="btn btn-outline-primary"
+            >
+              12:00am
+            </button>
+            <button
+              onClick={() => {
+                setTime([...time, "04:30am"]);
+              }}
+              className="btn btn-outline-primary"
+            >
+              04:30am
+            </button>
+            <button
+              onClick={() => {
+                setTime([...time, "07:30pm"]);
+              }}
+              className="btn btn-outline-primary"
+            >
+              07:30pm
+            </button>
           </div>
         </Modal.Body>
+        <Modal.Footer>
+          <button
+            onClick={() => {
+              setShowTime(false);
+              setTime([]);
+            }}
+            className="btn btn-primary"
+          >
+            Reset
+          </button>
+          <button
+            onClick={() => {
+              setShowTime(true);
+              setForm({ ...form, duration: form.hours + ":" + form.minute });
+            }}
+            className="btn btn-primary"
+          >
+            Confirm
+          </button>
+        </Modal.Footer>
       </Modal>
+      <CustomModal
+        show={show}
+        setShow={setShow}
+        title={isError ? "Error" : "Success"}
+        body={isError ? errMsg : successMsg}
+        primeButtonHandler={primeButtonHandler}
+      />
     </LayoutLoggedIn>
   );
 };
