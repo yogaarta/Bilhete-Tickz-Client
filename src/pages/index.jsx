@@ -14,8 +14,7 @@ import NowShowingCard from "../components/NowShowingCard";
 import UpcomingCard from "../components/UpcomingMoviesCard";
 // Axios
 import { getNowShowingMoviesAxios, getUpcomingMoviesAxios } from "../modules/movies"
-// import { getUsersAction } from "../redux/actionCreator/users";
-// import { getUsersAction } from "../redux/actionCreator/users";
+import { month } from "../modules/dummy"
 
 export default function Home() {
   // const { loginData } = useSelector((state) => state.auth);
@@ -46,17 +45,6 @@ export default function Home() {
     })
   }, []);
 
-  const month = [
-    { id: 1, month: "Januari" },
-    { id: 2, month: "February" },
-    { id: 3, month: "Maret" },
-    { id: 4, month: "April" },
-    { id: 5, month: "May" },
-    { id: 6, month: "June" },
-    { id: 7, month: "July" },
-    { id: 8, month: "August" },
-    { id: 9, month: "September" },
-  ];
 
   return (
     <LayoutLoggedIn title="Home">
@@ -71,8 +59,8 @@ export default function Home() {
           <Image src={Header} alt="header" />
         </div>
       </header>
-      <main>
-        <div className="d-flex justify-content-between px-5 align-items-center">
+      <main className={styles.containerHome}>
+        <div className={`d-flex justify-content-between px-5 align-items-center`}>
           <h4 className={styles.headerNow}>Now Showing</h4>
           <p
             onClick={() => {
@@ -83,7 +71,7 @@ export default function Home() {
             view all
           </p>
         </div>
-        <div className={`d-flex justify-content-evenly my-5 mx-5 gap-4 flex-md-row`}>
+        <div className={`d-flex justify-content-start my-5 mx-5 gap-4 flex-md-row`}>
           {movies.map((item) => (
             <NowShowingCard name={item.name} key={item.id} id={item.id} image={item.img} />
           ))}
@@ -108,7 +96,7 @@ export default function Home() {
             </button>
           ))}
         </div>
-        <div className="d-flex justify-content-evenly my-5 mx-5 gap-4 flex-md-row flex-wrap">
+        <div className="d-flex justify-content-start my-5 mx-5 gap-4 flex-md-row flex-wrap">
           {upMovies.map((item) => (
             <UpcomingCard name={item.name} key={item.id} id={item.id} image={item.img} />
           ))}
