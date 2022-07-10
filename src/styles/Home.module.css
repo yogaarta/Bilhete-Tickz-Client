@@ -6,6 +6,10 @@
   font-family: "Mulish", sans-serif;
 }
 
+.containerHome {
+  padding: 20px 50px;
+}
+
 .BrandName {
   font-weight: 700;
   color: #5f2eea;

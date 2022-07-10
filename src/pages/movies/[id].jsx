@@ -7,19 +7,18 @@ import Image from "next/image";
 //Components Local
 import LayoutLoggedIn from "../../components/LayoutLoggedIn/LayoutLoggedIn";
 //Assets
-import ImageDetail from "../../assets/img/ImageDetail.png";
-import Loading from "../../assets/icon/loading.png";
+import Loading from "../../assets/icon/loading.gif";
 //CssModule
 import styles from "../../styles/Movies.module.css";
 import CardCinema from "../../components/CardCinemas";
-import { getMoviesDetailAxios } from "../../modules/movies";
+import { getMoviesDetailAxios, getShowTimesAxios } from "../../modules/movies";
 
 const MovieDetail = () => {
   const [dropdown, setDropdown] = useState();
   const [movies, setMovies] = useState([]);
   const router = useRouter();
+  const {id="", location="", date="", sort="", order="", page=""} = router.query
   useEffect(() => {
-    const { id } = router.query;
     getMoviesDetailAxios(id)
       .then((res) => {
         console.log(res);
@@ -29,9 +28,21 @@ const MovieDetail = () => {
         console.log(err);
       });
   }, [router]);
+
+  useEffect(() => {
+    getShowTimesAxios(id, location, date, sort, order, page)
+    .then((res) => {
+      console.log(res)
+    })
+    .catch((err) => {
+      console.log(err)
+    })
+    setDropdown(false);
+  }, [router])
+
   return (
     <LayoutLoggedIn title="Movies Detail">
-      <div className="container">
+      <div className={`container`}>
         {movies.img ? (
           <>
             <div className="d-flex justify-content-between">
@@ -51,18 +62,22 @@ const MovieDetail = () => {
                 <div className="mt-2 mt-md-4">
                   Release date
                   <section className="text-dark">
-                    {movies.release_date ? movies.release_date.slice(0,10) : ""}
+                    {movies.release_date
+                      ? movies.release_date.slice(0, 10)
+                      : ""}
                   </section>
                 </div>
                 <div className="mt-2 mt-md-4">
                   Duration
                   <section className="text-dark">
-                    {movies.duration ? movies.duration: ""}
+                    {movies.duration ? movies.duration : ""}
                   </section>
                 </div>
                 <div className="mt-2 mt-md-4">
                   Directed by
-                  <section className="text-dark">{""}</section>
+                  <section className="text-dark">
+                    {movies.director ? movies.director : null}
+                  </section>
                 </div>
                 <div className="mt-2 mt-md-4">
                   Casts
@@ -80,7 +95,9 @@ const MovieDetail = () => {
             </div>
           </>
         ) : (
-          <Image src={Loading} />
+          <div className="d-flex justify-content-center">
+            <Image src={Loading} />
+          </div>
         )}
         <div className={`${styles.showTimes}`}>
           <h4 className="text-center fw-bold mb-3">Showtimes and Tickets</h4>
@@ -105,10 +122,20 @@ const MovieDetail = () => {
               </div>
               {dropdown ? (
                 <div className={`position-absolute mt-3 ${styles.dropContent}`}>
-                  <div className="my-2">Jogja</div>
-                  <div className="my-2">Purwokerto</div>
-                  <div className="my-2">Purwokerto</div>
-                  <div className="my-2">Purwokerto</div>
+                  <div
+                    onClick={() => {
+                      
+                    }}
+                    className="my-4"
+                  >
+                    Jakarta
+                  </div>
+                  <div
+                    onClick={""}
+                    className="my-4"
+                  >
+                    Bandung
+                  </div>
                 </div>
               ) : null}
             </div>
