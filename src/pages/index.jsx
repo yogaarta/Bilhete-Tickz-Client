@@ -89,13 +89,13 @@ export default function Home() {
             view all
           </p>
         </div>
-        <div className="d-flex justify-content-center gap-3 my-5 flex-md-row flex-wrap">
+        {/* <div className="d-flex justify-content-center gap-3 my-5 flex-md-row flex-wrap">
           {month.map((item) => (
             <button key={item.id} className={styles.buttonMonth}>
               {item.month}
             </button>
           ))}
-        </div>
+        </div> */}
         <div className="d-flex justify-content-start my-5 mx-5 gap-4 flex-md-row flex-wrap">
           {upMovies.map((item) => (
             <UpcomingCard name={item.name} key={item.id} id={item.id} image={item.img} />

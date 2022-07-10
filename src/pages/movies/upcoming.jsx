@@ -48,7 +48,7 @@ const Movies = () => {
 
   const handleSearcUpcomingMovie = (e) => {
     e.preventDefault();
-    router.push(`/movies?name=${search1}&page=1`);
+    router.push(`/movies/upcoming?name=${search1}&page=1`);
     const { name } = router.query;
     getNowShowingMoviesAxios(name, "", "", "")
       .then((res) => {
