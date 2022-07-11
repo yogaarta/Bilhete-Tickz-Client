@@ -17,7 +17,7 @@ export const getMoviesHomeAxios = () => {
 }
 
 export const getNowShowingMoviesAxios = (name = "", sort = "", order = "", page = "1") => {
-  const URL = `${NEXT_PUBLIC_BE_HOST}/movies/nowshowing?name=${name}&sort=${sort}&order=${order}&page=${page}`
+  const URL = `${NEXT_PUBLIC_BE_HOST}/movies/nowshow?name=${name}&sort=${sort}&order=${order}&page=${page}`
   return axios.get(URL)
 }
 
