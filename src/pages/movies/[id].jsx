@@ -19,6 +19,7 @@ const MovieDetail = () => {
   const [cinemas, setCinemas] = useState([]);
   const [date, setDate] = useState("");
   const [errMsg, setErrMsg] = useState("");
+  const [showTimesId, setShowTimesId] = useState('')
   const router = useRouter();
   const {
     id = "",
@@ -48,7 +49,7 @@ const MovieDetail = () => {
       });
     setDropdown(false);
   }, [router]);
-  console.log(errMsg);
+  console.log(cinemas);
   return (
     <LayoutLoggedIn title="Movies Detail">
       <div className={`container`}>
@@ -187,6 +188,8 @@ const MovieDetail = () => {
                     location={item.location}
                     price={item.price}
                     name={item.name}
+                    showTimesId={showTimesId}
+                    setShowTimesId={setShowTimesId}
                   />
                 ))}
               </>

@@ -90,9 +90,20 @@
   font-size: 11px;
 }
 
+
 .Hours > p {
   margin: 0;
-  width: 70px;
+  /* width: 70px; */
+  cursor: pointer;
+  padding: 5px;
+  border-radius: 10px;
+}
+
+.Hours .timeSelected{
+  font-weight: 600;
+  color: #ffffff;
+  background-color: #5f2eea;
+  /* border: 1px solid #000000; */
 }
 
 .cardBorder {

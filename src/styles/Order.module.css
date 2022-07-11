@@ -10,8 +10,8 @@
 
 .buttonChange {
   border: none;
-  background-color: #eff0f6;
-  color: hsl(231, 78%, 52%);
+  background-color: #5f2eea;
+  color: #eff0f6;
   padding: 10px 35px;
   border-radius: 10px;
 }
@@ -22,11 +22,20 @@
   padding: 60px 90px;
 }
 
+.cardScreen .title, .cardScreen .screen {
+  width: 520px;
+}
+
+.cardScreen .legend {
+  width: 520px;
+  gap: 30px;
+}
+
 .seatAvailable {
   background-color: #d6d8e7;
 }
 
-.buttonOrder > button {
+.buttonOrder>button {
   border-radius: 15px;
   width: 300px;
   height: 50px;
@@ -34,14 +43,19 @@
 
 .buttonChangev2 {
   border: 2px solid #5f2eea;
-  color: #5f2eea;
-  background-color: none;
+  color: white;
+  background-color: #5f2eea;
 }
 
 .buttonCheckout {
   border: 2px solid #5f2eea;
   color: white;
   background-color: #5f2eea;
+}
+.disbuttonCheckout {
+  border: 2px solid #5f2eea;
+  color: #5f2eea;
+  background-color: #f5f6f8;
 }
 
 .orderInfo {
@@ -58,7 +72,7 @@
   margin-top: 20px;
 }
 
-.seatContainer > section {
+.seatContainer>section {
   display: flex;
   flex-direction: row;
 }
@@ -70,13 +84,24 @@
   width: 180px;
 }
 
-.seat > button {
+.seat>button {
   background-color: #D6D8E7;
   border: none;
   border-radius: 3px;
 }
 
-.seat > button:hover {
+.seat>.selected {
+  background-color: #5F2EEA;
+  border: none;
+  border-radius: 3px;
+}
+.seat>.sold {
+  background-color: #6E7191;
+  border: none;
+  border-radius: 3px;
+}
+
+.seat>.avalaible:hover {
   background-color: #5F2EEA;
 }
 
@@ -101,13 +126,14 @@
 .exScreen {
   border-radius: 10px;
   height: 8px;
-  width: 77%;
+  /* width: 77%; */
+  width: 400px;
   background-color: #5f2eea;
 }
 
-.seatName > div,
-.seatNumber > div,
-.seatNumber2 > div {
+.seatName>div,
+.seatNumber>div,
+.seatNumber2>div {
   font-size: 13px;
   width: 18px;
   text-align: center;
@@ -117,13 +143,13 @@
   background-color: #d6d8e7;
 }
 
-.buttonOrder > button {
+.buttonOrder>button {
   border-radius: 15px;
   width: 300px;
   height: 50px;
 }
 
-.buttonChangev2 {
+/* .buttonChangev2 {
   border: 2px solid #5f2eea;
   color: #5f2eea;
   background-color: none;
@@ -133,7 +159,7 @@
   border: 2px solid #5f2eea;
   color: white;
   background-color: #5f2eea;
-}
+} */
 
 .orderInfo {
   font-size: 15px;
@@ -155,14 +181,14 @@
 }
 
 .soldSeat {
-  background-color: #5a5d85;
+  background-color: #6E7191;
   width: 21px;
   height: 21px;
   border-radius: 5px;
 }
 
 @media only screen and (max-width: 600px) {
-  .buttonOrder > button {
+  .buttonOrder>button {
     width: 200px;
     height: 50px;
   }
@@ -174,7 +200,7 @@
 }
 
 @media only screen and (min-width: 600px) {
-  .buttonOrder > button {
+  .buttonOrder>button {
     width: 180px;
     height: 50px;
   }
@@ -186,7 +212,7 @@
 }
 
 @media only screen and (min-width: 768px) {
-  .buttonOrder > button {
+  .buttonOrder>button {
     width: 180px;
     height: 50px;
   }
