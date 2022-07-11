@@ -17,7 +17,7 @@ const NowShowingCard = ({ image, id, name }) => {
           router.push(`/movies/${id}`);
         }}
       >
-        <Image src={image} width={160} height={245} alt="card" />
+        <Image src={image} width={160} height={245} alt="card" className={styles.image}/>
         <p className="fw-bold text-center">{name}</p>
       </div>
     </>

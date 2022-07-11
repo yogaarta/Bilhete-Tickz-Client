@@ -147,6 +147,13 @@
   margin-top: 5px;
 }
 
+.cardShowing .image {
+  width: 160px;
+  height: 245px;
+  object-fit: cover;
+  object-position: 50% 50%;
+}
+
 .UpcomingRow {
   margin-top: 100px;
 }

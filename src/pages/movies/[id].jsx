@@ -12,6 +12,8 @@ import Loading from "../../assets/icon/loading.gif";
 import styles from "../../styles/Movies.module.css";
 import CardCinema from "../../components/CardCinemas";
 import { getMoviesDetailAxios, getShowTimesAxios } from "../../modules/movies";
+import { paymentCheckAxios } from "../../modules/payment";
+import { useSelector } from "react-redux";
 
 const MovieDetail = () => {
   const [dropdown, setDropdown] = useState();
@@ -20,6 +22,10 @@ const MovieDetail = () => {
   const [date, setDate] = useState("");
   const [errMsg, setErrMsg] = useState("");
   const [showTimesId, setShowTimesId] = useState('')
+  const [isLoading, setIsLoading] = useState(false)
+  const [checkMsg, setCheckMsg] = useState('')
+
+  const { token } = useSelector(state => state.auth.loginData)
   const router = useRouter();
   const {
     id = "",
@@ -28,6 +34,7 @@ const MovieDetail = () => {
     order = "",
     page = "",
   } = router.query;
+
   useEffect(() => {
     getMoviesDetailAxios(id)
       .then((res) => {
@@ -49,7 +56,30 @@ const MovieDetail = () => {
       });
     setDropdown(false);
   }, [router]);
-  console.log(cinemas);
+
+  // useEffect(()=>{
+
+  // },[checkMsg])
+
+  const checkPayment = async () => {
+    try {
+      setIsLoading(true)
+      const result = await paymentCheckAxios(token)
+      console.log(result)
+      // setCheckMsg(result.message)
+      if (result.data.message === 'there are unpaid transactions') {
+        router.push(`/payment/${result.data.data.id}`)
+      }
+      if (result.data.message === 'no unpaid transactions') {
+        router.push(`/order/${showTimesId}`)
+      }
+      setIsLoading(false)
+    } catch (error) {
+      console.log(error)
+      setIsLoading(false)
+    }
+  }
+
   return (
     <LayoutLoggedIn title="Movies Detail">
       <div className={`container`}>
@@ -62,7 +92,7 @@ const MovieDetail = () => {
                     src={movies.img ? movies.img : Loading}
                     width={movies.img ? "236px" : "100px"}
                     height={movies.img ? "362px" : "100px"}
-                    alt="MovieDetail"
+                    alt="MovieDetail" className={styles.image}
                   />
                 </div>
               </div>
@@ -190,6 +220,7 @@ const MovieDetail = () => {
                     name={item.name}
                     showTimesId={showTimesId}
                     setShowTimesId={setShowTimesId}
+                    checkPayment={checkPayment}
                   />
                 ))}
               </>

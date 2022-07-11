@@ -19,6 +19,7 @@ import { useSelector } from "react-redux";
 
 //RequestAxios
 import { paymentCheckAxios, confirmPaymentAxios } from "../../modules/payment";
+import { currencyFormatter } from "../../helper/formatter";
 
 export default function Payment() {
   const [show, setShow] = useState(false);
@@ -26,11 +27,15 @@ export default function Payment() {
   const [confirm, setConfirm] = useState(false);
   const [errMsg, setErrMsg] = useState("");
   const [idPayment, setIdPayment] = useState("");
+  const [method, setMethod] = useState('')
   const router = useRouter();
   const orderInfo = useSelector((state) => state.order?.orderInfo);
   const seat = useSelector((state) => state.order?.seat);
   const total = useSelector((state) => state.order?.total);
   const { token } = useSelector((state) => state.auth?.loginData);
+
+  const methodSrc = method === "gpay" ? Gpay : method === 'visa' ? Visa : method === 'gopay' ? Gopay : method === 'paypal' ? Paypal : method === 'dana' ? Dana : method === 'bca' ? Bca : method === 'bri' ? Bri : Ovo
+
   useEffect(() => {
     if (!token) {
       router.push(
@@ -47,6 +52,7 @@ export default function Payment() {
     paymentCheckAxios(token)
       .then((res) => {
         console.log(res);
+        setMethod(res.data?.data.payment_method)
         setIdPayment(res.data?.data.id);
       })
       .catch((err) => {
@@ -115,13 +121,13 @@ export default function Payment() {
                 <div className={styles.borderLine}></div>
                 <div className={styles.cardItem}>
                   <div className={styles.key}>Total payment</div>
-                  <div className={styles.value}>{`Rp.${total}`}</div>
+                  <div className={styles.value}>{currencyFormatter.format(total)}</div>
                 </div>
                 <div className={styles.borderLine}></div>
                 <div className={styles.cardItem}>
                   <div className={styles.key}>Payment Method</div>
                   <div className={`btn ${styles.paymentCard}`}>
-                    <Image src={Gpay} className={styles.methodImg} />
+                    <Image src={methodSrc} className={styles.methodImg} />
                   </div>
                 </div>
               </div>
