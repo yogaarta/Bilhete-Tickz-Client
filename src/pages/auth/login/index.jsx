@@ -64,11 +64,15 @@ export default function Login() {
    };
 
    useEffect(() => {
+      setButtonActive(email && password)
+   }, [email, password])
+
+   useEffect(() => {
       if(router.query.msg){
          setAuthShow(true)
       }
-      setButtonActive(email && password)
-   }, [email, password])
+   }, [])
+   
 
    return (
       <>

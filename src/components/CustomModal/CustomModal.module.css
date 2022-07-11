@@ -8,12 +8,14 @@
 
 .error{
   color: white;
-  background-color: rgb(185, 62, 62);
+  /* background-color: rgb(185, 62, 62); */
+  background-color: #dc3545;
 }
 
 .success{
   color: white;
-  background-color: rgb(47, 168, 47);
+  /* background-color: rgb(47, 168, 47); */
+  background-color: #157347;;
 }
 
 .modalBody {
@@ -31,6 +33,6 @@
   font-weight: 400;
   line-height: 25px;
   letter-spacing: 0em;
-  background: #5f2eea;
+  /* background: #5f2eea; */
   color: #FFFFFF;
 }
