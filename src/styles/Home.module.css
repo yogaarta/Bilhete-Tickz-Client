@@ -6,6 +6,10 @@
   font-family: "Mulish", sans-serif;
 }
 
+.containerHome {
+  padding: 20px 50px;
+}
+
 .BrandName {
   font-weight: 700;
   color: #5f2eea;
@@ -14,6 +18,10 @@
 }
 
 .BrandName .logo {
+  transform: rotate(-45deg);
+}
+
+.BrandFooter .logo {
   transform: rotate(-45deg);
 }
 
@@ -139,6 +147,13 @@
   margin-top: 5px;
 }
 
+.cardShowing .image {
+  width: 160px;
+  height: 245px;
+  object-fit: cover;
+  object-position: 50% 50%;
+}
+
 .UpcomingRow {
   margin-top: 100px;
 }
@@ -225,5 +240,12 @@
     width: 20%;
     height: auto;
     margin-top: 20px;
+  }
+}
+
+@media (max-width: 1200px) {
+  .buttonCard{
+    width: 100%;
+    font-size: 11px;
   }
 }

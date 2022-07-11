@@ -3,6 +3,7 @@ import { useState, useEffect } from "react";
 import { useRouter } from "next/router";
 import { ChevronDown } from "react-bootstrap-icons";
 //Components Next
+
 //Components Local
 import LayoutLoggedIn from "../../components/LayoutLoggedIn/LayoutLoggedIn";
 //Assets
@@ -10,8 +11,6 @@ import Card from "../../assets/img/Card.png";
 //CssModule
 import styles from "../../styles/Movies.module.css";
 import NowShowingCard from "../../components/NowShowingCard";
-import UpcomingMoviesCard from "../../components/UpcomingMoviesCard/index";
-import { month } from "../../modules/dummy";
 //Axios
 import { getNowShowingMoviesAxios} from "../../modules/movies";
 
@@ -37,7 +36,7 @@ const Movies = () => {
 
   const handleSearcMovie = (e) => {
     e.preventDefault()
-    router.push(`/movies?name=${search}&page=1`)
+    router.push(`/movies/nowshowing?name=${search}&page=1`)
     const { name} = router.query;
     getNowShowingMoviesAxios(name, "", "", "")
     .then((res) => {
@@ -52,14 +51,22 @@ const Movies = () => {
     <LayoutLoggedIn title="Movies">
       <div className="container">
         <div className={`mt-4`}>
-          <div className="d-flex align-items-center justify-content-between">
-            <h4
-              className={`fw-bold ${styles.headerCard} ${
-                false ? styles.headerActive : null
-              }`}
+          <div className="d-flex flex-column flex-md-row align-items-center justify-content-between">
+          <div className="d-flex gap-5">
+            <h5
+              className={`fw-bold btn ${styles.headerCard} ${styles.headerActive}`}
             >
-              Now Showing
-            </h4>
+              Now Showing Movies
+            </h5>
+            <h5
+            onClick={() => {
+              router.push(`/movies/upcoming`)
+            }}
+              className={`fw-bold btn ${styles.headerCard}`}
+            >
+              Upcoming Movies
+            </h5>
+            </div>
             <div className="d-flex gap-2">
               <form className={styles.formInput} onSubmit={handleSearcMovie}>
                 <input
@@ -86,7 +93,7 @@ const Movies = () => {
                       onClick={() => {
                         if (router.query.sort) {
                           router.push(
-                            `/movies?sort=${router.query.sort}&order=asc`
+                            `/movies/nowshowing?sort=${router.query.sort}&order=asc`
                           );
                         }
                         setOrderDrop(!orderDrop);
@@ -98,7 +105,7 @@ const Movies = () => {
                       onClick={() => {
                         if (router.query.sort) {
                           router.push(
-                            `/movies?sort=${router.query.sort}&order=desc`
+                            `/movies/nowshowing?sort=${router.query.sort}&order=desc`
                           );
                         }
                         setOrderDrop(!orderDrop);
@@ -122,7 +129,7 @@ const Movies = () => {
                   <div className={`${styles.menuSort}`}>
                     <p
                       onClick={() => {
-                        router.push(`/movies?sort=name&order=asc`);
+                        router.push(`/movies/nowshowing?sort=name&order=asc`);
                         setSortDrop(!sortDrop);
                       }}
                     >
@@ -130,7 +137,7 @@ const Movies = () => {
                     </p>
                     <p
                       onClick={() => {
-                        router.push(`/movies?sort=release&order=asc`);
+                        router.push(`/movies/nowshowing?sort=release&order=asc`);
                         setSortDrop(!sortDrop);
                       }}
                     >
@@ -138,7 +145,7 @@ const Movies = () => {
                     </p>
                     <p
                       onClick={() => {
-                        router.push(`/movies?page=1`);
+                        router.push(`/movies/nowshowing?page=1`);
                         setSortDrop(!sortDrop);
                       }}
                     >
@@ -150,7 +157,7 @@ const Movies = () => {
             </div>
           </div>
           <div
-            className={`d-flex justify-content-evenly my-5 mx-5 gap-3 flex-md-row flex-wrap`}
+            className={`d-flex justify-content-start my-5 mx-5 gap-4 flex-md-row flex-wrap`}
           >
             {nowMovies.map((item) => (
               <NowShowingCard name={item.name} key={item.id} id={item.id} image={item.img} />

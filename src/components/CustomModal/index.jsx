@@ -16,7 +16,7 @@ export default function CustomModal({ show, setShow, title, body, secondButton, 
       <Modal.Footer>
         {isSecondButton ?
           <Button variant="secondary" onClick={() => setShow(false)}>
-            {secondButton ? secondButton : "Cancel"}
+            {secondButton ? secondButton : isError ? "OK" : "Cancel"}
           </Button>
           :
           <></>
@@ -24,14 +24,14 @@ export default function CustomModal({ show, setShow, title, body, secondButton, 
         {isError ?
           <></>
           :
-          <Button variant="primary" className={styles.modalPrimaryButton}
+          <Button variant="success" className={styles.modalPrimaryButton}
             onClick={primeButtonHandler}>
             {primeButton ? primeButton : "Proceed"}
           </Button>
         }
         {isLogout ?
           <>
-            <Button variant="primary" className={styles.modalPrimaryButton}
+            <Button variant="danger" className={styles.modalPrimaryButton}
               onClick={primeButtonHandler}>
               {primeButton ? primeButton : "Proceed"}
             </Button>

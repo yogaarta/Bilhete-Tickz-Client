@@ -10,6 +10,13 @@
   background-color: white;
 }
 
+.image {
+  width: 150px;
+  height: 250px;
+  object-fit: cover;
+  object-position: 50% 50%;
+}
+
 .inputForm {
   border-radius: 10px;
   height: 45px;

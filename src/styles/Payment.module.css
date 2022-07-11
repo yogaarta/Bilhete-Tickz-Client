@@ -3,6 +3,7 @@
   background-color: #F5F6F8;
   padding: 50px 5%;
   gap: 2.5%;
+  justify-content: center;
 }
 
 .leftPart {
@@ -38,6 +39,7 @@
 .paymentInfo .cardItem {
   display: flex;
   justify-content: space-between;
+  align-items: center;
 }
 
 .card {
@@ -79,6 +81,17 @@
   display: flex;
   justify-content: center;
   align-items: center;
+  cursor: pointer;
+}
+.paymentCardActive {
+  width: 150px;
+  height: 60px;
+  border: 5px solid #5F2EEA;
+  border-radius: 8px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  cursor: pointer;
 }
 
 .methodImg {

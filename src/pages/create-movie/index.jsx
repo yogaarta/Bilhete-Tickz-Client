@@ -1,6 +1,6 @@
 //Import from Package
 import { Modal } from "react-bootstrap";
-import { ChevronDown } from "react-bootstrap-icons";
+import { ChevronDown, X } from "react-bootstrap-icons";
 import { useState, useRef } from "react";
 import { useSelector } from "react-redux";
 import { useRouter } from "next/router";
@@ -12,7 +12,6 @@ import Image from "next/image";
 //CssModule
 import styles from "../../styles/CreateMovies.module.css";
 //Assets
-import ImageCreate from "../../assets/img/Card.png";
 import Location from "../../assets/icon/location.png";
 import Default from "../../assets/img/default.jpg";
 //Axios
@@ -34,6 +33,7 @@ const CreateMovie = () => {
   const [location, setLocation] = useState([]);
   const [time, setTime] = useState([]);
   const [cinemaId, setCinemaId] = useState([]);
+  const [previewImg, setPreviewImg] = useState(null)
   const [form, setForm] = useState({
     name: "",
     category: "",
@@ -76,7 +76,14 @@ const CreateMovie = () => {
 
   const handleInputFile = (e) => {
     const file = e.target.files[0];
-    setForm({ ...form, img: file });
+    if(file){
+      const reader = new FileReader()
+      reader.onload = () => {
+        setPreviewImg(reader.result)
+        setForm({ ...form, img: file });
+      }
+      reader.readAsDataURL(file)
+    }
   };
   const formCreateMovie = () => {
     const body = new FormData();
@@ -116,19 +123,24 @@ const CreateMovie = () => {
     if (cinemaId.length !== 0) {
       body.append("cinemas_id", JSON.stringify(cinemaId));
     }
+    if (location.length !== 0) {
+      body.append("location", JSON.stringify(location));
+    }
     return body;
   };
 
   const primeButtonHandler = () => {
     setForm({});
     setShow(false);
-    if(!isError){
-      return router.push("/movies/nowshowing")
+    if (!isError) {
+      return router.push("/movies/nowshowing");
     }
   };
 
   const handleCreateMovies = (e) => {
     e.preventDefault();
+    console.log(token)
+    console.log(location)
     const body = formCreateMovie();
     createMoviesAxios(body, token)
       .then((res) => {
@@ -139,7 +151,7 @@ const CreateMovie = () => {
       })
       .catch((err) => {
         console.log(err);
-        setErrMsg(err.response?.data.message);
+        setErrMsg(err.response?.data.message.msg);
         setIsError(true);
         setShow(true);
       });
@@ -159,7 +171,7 @@ const CreateMovie = () => {
                   }}
                   className="btn col-md-4 p-4 border border-1 rounded-3"
                 >
-                  <Image src={Default} />
+                  <Image src={previewImg ? previewImg : Default} width={'150px'} height={'250px'} className={styles.image}/>
                 </div>
                 <input
                   type="file"
@@ -427,10 +439,23 @@ const CreateMovie = () => {
                 <button
                   onClick={() => {
                     setShowModal(true);
+                    setForm({
+                      ...form,
+                      duration: form.hours + ":" + form.minute,
+                    });
+                    console.log(form);
                   }}
                   className="btn btn-outline-primary "
                 >
                   +
+                </button>
+                <button
+                  onClick={() => {
+                    setTime([]);
+                  }}
+                  className="ms-2 btn btn-outline-primary "
+                >
+                  RESET
                 </button>
                 {showTime
                   ? time.map((item) => (
@@ -461,7 +486,10 @@ const CreateMovie = () => {
           <div className="d-flex gap-2">
             <button
               onClick={() => {
-                setTime([...time, "08:30am"]);
+                if (!time.includes("08:30am")) {
+                  setTime([...time, "08:30am"]);
+                }
+                setShowTime(true)
               }}
               className="btn btn-outline-primary"
             >
@@ -469,7 +497,10 @@ const CreateMovie = () => {
             </button>
             <button
               onClick={() => {
-                setTime([...time, "10:30am"]);
+                if (!time.includes("10:30am")) {
+                  setTime([...time,"10:30am" ]);
+                }
+                setShowTime(true)
               }}
               className="btn btn-outline-primary"
             >
@@ -477,7 +508,10 @@ const CreateMovie = () => {
             </button>
             <button
               onClick={() => {
-                setTime([...time, "12:00am"]);
+                if (!time.includes("12:00am")) {
+                  setTime([...time, "12:00am"]);
+                }
+                setShowTime(true)
               }}
               className="btn btn-outline-primary"
             >
@@ -485,7 +519,10 @@ const CreateMovie = () => {
             </button>
             <button
               onClick={() => {
-                setTime([...time, "04:30am"]);
+                if (!time.includes("04:30am")) {
+                  setTime([...time,"04:30am"]);
+                }
+                setShowTime(true)
               }}
               className="btn btn-outline-primary"
             >
@@ -493,7 +530,10 @@ const CreateMovie = () => {
             </button>
             <button
               onClick={() => {
-                setTime([...time, "07:30pm"]);
+                if (!time.includes("07:30pm")) {
+                  setTime([...time,"07:30pm"]);
+                }
+                setShowTime(true)
               }}
               className="btn btn-outline-primary"
             >
@@ -501,26 +541,6 @@ const CreateMovie = () => {
             </button>
           </div>
         </Modal.Body>
-        <Modal.Footer>
-          <button
-            onClick={() => {
-              setShowTime(false);
-              setTime([]);
-            }}
-            className="btn btn-primary"
-          >
-            Reset
-          </button>
-          <button
-            onClick={() => {
-              setShowTime(true);
-              setForm({ ...form, duration: form.hours + ":" + form.minute });
-            }}
-            className="btn btn-primary"
-          >
-            Confirm
-          </button>
-        </Modal.Footer>
       </Modal>
       <CustomModal
         show={show}
@@ -528,6 +548,7 @@ const CreateMovie = () => {
         title={isError ? "Error" : "Success"}
         body={isError ? errMsg : successMsg}
         primeButtonHandler={primeButtonHandler}
+        isError={isError}
       />
     </LayoutLoggedIn>
   );
