@@ -1,6 +1,6 @@
 //Import from Package
 import { Modal } from "react-bootstrap";
-import { ChevronDown } from "react-bootstrap-icons";
+import { ChevronDown, X } from "react-bootstrap-icons";
 import { useState, useRef } from "react";
 import { useSelector } from "react-redux";
 import { useRouter } from "next/router";
@@ -12,7 +12,6 @@ import Image from "next/image";
 //CssModule
 import styles from "../../styles/CreateMovies.module.css";
 //Assets
-import ImageCreate from "../../assets/img/Card.png";
 import Location from "../../assets/icon/location.png";
 import Default from "../../assets/img/default.jpg";
 //Axios
@@ -122,15 +121,16 @@ const CreateMovie = () => {
   const primeButtonHandler = () => {
     setForm({});
     setShow(false);
-    if(!isError){
-      return router.push("/movies/nowshowing")
+    if (!isError) {
+      return router.push("/movies/nowshowing");
     }
   };
 
   const handleCreateMovies = (e) => {
     e.preventDefault();
-    setForm({ ...form, duration: form.hours + ":" + form.minute })
-    // console.log(form)
+    console.log(form)
+    console.log(time)
+    console.log(cinemaId)
     const body = formCreateMovie();
     createMoviesAxios(body, token)
       .then((res) => {
@@ -141,7 +141,7 @@ const CreateMovie = () => {
       })
       .catch((err) => {
         console.log(err);
-        setErrMsg(err.response?.data.message);
+        setErrMsg(err.response?.data.message.msg);
         setIsError(true);
         setShow(true);
       });
@@ -429,10 +429,23 @@ const CreateMovie = () => {
                 <button
                   onClick={() => {
                     setShowModal(true);
+                    setForm({
+                      ...form,
+                      duration: form.hours + ":" + form.minute,
+                    });
+                    console.log(form);
                   }}
                   className="btn btn-outline-primary "
                 >
                   +
+                </button>
+                <button
+                  onClick={() => {
+                    setTime([]);
+                  }}
+                  className="ms-2 btn btn-outline-primary "
+                >
+                  RESET
                 </button>
                 {showTime
                   ? time.map((item) => (
@@ -463,11 +476,10 @@ const CreateMovie = () => {
           <div className="d-flex gap-2">
             <button
               onClick={() => {
-                let newTime = [...time]
-                if(!time.includes("08:30am")){
-                  newTime.push("08:30am")
-                  setTime(newTime)
+                if (!time.includes("08:30am")) {
+                  setTime([...time, "08:30am"]);
                 }
+                setShowTime(true)
               }}
               className="btn btn-outline-primary"
             >
@@ -475,11 +487,10 @@ const CreateMovie = () => {
             </button>
             <button
               onClick={() => {
-                let newTime = [...time]
-                if(!time.includes("10:30am")){
-                  newTime.push("10:30am")
-                  setTime(newTime)
+                if (!time.includes("10:30am")) {
+                  setTime([...time,"10:30am" ]);
                 }
+                setShowTime(true)
               }}
               className="btn btn-outline-primary"
             >
@@ -487,11 +498,10 @@ const CreateMovie = () => {
             </button>
             <button
               onClick={() => {
-                let newTime = [...time]
-                if(!time.includes("12:00am")){
-                  newTime.push("12:00am")
-                  setTime(newTime)
+                if (!time.includes("12:00am")) {
+                  setTime([...time, "12:00am"]);
                 }
+                setShowTime(true)
               }}
               className="btn btn-outline-primary"
             >
@@ -499,11 +509,10 @@ const CreateMovie = () => {
             </button>
             <button
               onClick={() => {
-                let newTime = [...time]
-                if(!time.includes("04:30am")){
-                  newTime.push("04:30am")
-                  setTime(newTime)
+                if (!time.includes("04:30am")) {
+                  setTime([...time,"04:30am"]);
                 }
+                setShowTime(true)
               }}
               className="btn btn-outline-primary"
             >
@@ -511,11 +520,10 @@ const CreateMovie = () => {
             </button>
             <button
               onClick={() => {
-                let newTime = [...time]
-                if(!time.includes("07:30pm")){
-                  newTime.push("07:30pm")
-                  setTime(newTime)
+                if (!time.includes("07:30pm")) {
+                  setTime([...time,"07:30pm"]);
                 }
+                setShowTime(true)
               }}
               className="btn btn-outline-primary"
             >
@@ -523,26 +531,6 @@ const CreateMovie = () => {
             </button>
           </div>
         </Modal.Body>
-        <Modal.Footer>
-          <button
-            onClick={() => {
-              setShowTime(false);
-              setTime([]);
-            }}
-            className="btn btn-primary"
-          >
-            Reset
-          </button>
-          <button
-            onClick={() => {
-              setShowTime(true);
-              setShowModal(false);
-            }}
-            className="btn btn-primary"
-          >
-            Confirm
-          </button>
-        </Modal.Footer>
       </Modal>
       <CustomModal
         show={show}
