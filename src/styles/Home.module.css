@@ -235,3 +235,10 @@
     margin-top: 20px;
   }
 }
+
+@media (max-width: 1200px) {
+  .buttonCard{
+    width: 100%;
+    font-size: 11px;
+  }
+}

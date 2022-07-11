@@ -34,7 +34,7 @@ const MovieDetail = () => {
    useEffect(() => {
       getShowTimesAxios(id, location, date, sort, order, page)
          .then((res) => {
-            // console.log(res);
+            console.log(res);
             setCinemas(res.data?.data);
          })
          .catch((err) => {
@@ -42,8 +42,6 @@ const MovieDetail = () => {
          });
       setDropdown(false);
    }, [router]);
-   // console.log(errMsg);
-
    return (
       <LayoutLoggedIn title="Movies Detail">
          <div className={`container`}>
