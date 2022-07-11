@@ -115,6 +115,9 @@ const CreateMovie = () => {
     if (cinemaId.length !== 0) {
       body.append("cinemas_id", JSON.stringify(cinemaId));
     }
+    if (location.length !== 0) {
+      body.append("location", JSON.stringify(location));
+    }
     return body;
   };
 
@@ -128,9 +131,8 @@ const CreateMovie = () => {
 
   const handleCreateMovies = (e) => {
     e.preventDefault();
-    console.log(form)
-    console.log(time)
-    console.log(cinemaId)
+    console.log(token)
+    console.log(location)
     const body = formCreateMovie();
     createMoviesAxios(body, token)
       .then((res) => {
@@ -538,6 +540,7 @@ const CreateMovie = () => {
         title={isError ? "Error" : "Success"}
         body={isError ? errMsg : successMsg}
         primeButtonHandler={primeButtonHandler}
+        isError={isError}
       />
     </LayoutLoggedIn>
   );

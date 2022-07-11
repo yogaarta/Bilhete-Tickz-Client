@@ -20,7 +20,7 @@ const UpcomingCard = ({ image, id, name, category }) => {
           onClick={() => {
             router.push(`/movies/${id}`);
           }}
-          className={styles.buttonCard}
+          className={`col-md-6 ${styles.buttonCard}`}
         >
           Details
         </button>

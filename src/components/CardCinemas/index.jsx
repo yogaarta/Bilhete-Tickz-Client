@@ -6,16 +6,15 @@ const CardCinema = ({ address, pictures, time, location, price, name }) => {
   return (
     <div className={`col-lg-3 col-md-4 col-10 ${styles.CardCinemas}`}>
       <div
-        className={`d-flex p-md-3 p-3 gap-3 justify-content-around align-items-center ${styles.cardBorder}`}
+        className={`d-flex p-md-3 p-3 gap-3 justify-content-start align-items-center ${styles.cardBorder}`}
       >
         <div className="col-md-5 text-center">
           <Image src={pictures} width={100} height={40} alt="cinemas" />
         </div>
-        <div className={` ${styles.subTitle} col-md-6`}>
+        <div className={` ${styles.subTitle} col-md-7`}>
           <h5>{name}</h5>
-          <p>
-            {address},<br /> {location}
-          </p>
+          <p>{address}</p>
+          <p>{location}</p>
         </div>
       </div>
       <div

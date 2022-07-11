@@ -48,7 +48,6 @@ const MovieDetail = () => {
       });
     setDropdown(false);
   }, [router]);
-  console.log(errMsg);
   return (
     <LayoutLoggedIn title="Movies Detail">
       <div className={`container`}>
