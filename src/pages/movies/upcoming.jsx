@@ -22,7 +22,6 @@ const Movies = () => {
   const [orderDrop1, setOrderDrop1] = useState(false);
   const [errMsg, setErrMsg] = useState("");
   const [search1, setSearch1] = useState("");
-  const [release, setRelease] = useState("");
   const router = useRouter();
   const timeElapsed = Date.now();
   const today = new Date(timeElapsed).getUTCMonth();

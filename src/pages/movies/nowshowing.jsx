@@ -36,7 +36,7 @@ const Movies = () => {
 
   const handleSearcMovie = (e) => {
     e.preventDefault()
-    router.push(`/movies?name=${search}&page=1`)
+    router.push(`/movies/nowshowing?name=${search}&page=1`)
     const { name} = router.query;
     getNowShowingMoviesAxios(name, "", "", "")
     .then((res) => {
@@ -93,7 +93,7 @@ const Movies = () => {
                       onClick={() => {
                         if (router.query.sort) {
                           router.push(
-                            `/movies?sort=${router.query.sort}&order=asc`
+                            `/movies/nowshowing?sort=${router.query.sort}&order=asc`
                           );
                         }
                         setOrderDrop(!orderDrop);
@@ -105,7 +105,7 @@ const Movies = () => {
                       onClick={() => {
                         if (router.query.sort) {
                           router.push(
-                            `/movies?sort=${router.query.sort}&order=desc`
+                            `/movies/nowshowing?sort=${router.query.sort}&order=desc`
                           );
                         }
                         setOrderDrop(!orderDrop);
@@ -129,7 +129,7 @@ const Movies = () => {
                   <div className={`${styles.menuSort}`}>
                     <p
                       onClick={() => {
-                        router.push(`/movies?sort=name&order=asc`);
+                        router.push(`/movies/nowshowing?sort=name&order=asc`);
                         setSortDrop(!sortDrop);
                       }}
                     >
@@ -137,7 +137,7 @@ const Movies = () => {
                     </p>
                     <p
                       onClick={() => {
-                        router.push(`/movies?sort=release&order=asc`);
+                        router.push(`/movies/nowshowing?sort=release&order=asc`);
                         setSortDrop(!sortDrop);
                       }}
                     >
@@ -145,7 +145,7 @@ const Movies = () => {
                     </p>
                     <p
                       onClick={() => {
-                        router.push(`/movies?page=1`);
+                        router.push(`/movies/nowshowing?page=1`);
                         setSortDrop(!sortDrop);
                       }}
                     >
