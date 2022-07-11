@@ -1,8 +1,11 @@
 import styles from "../../styles/Movies.module.css";
 import Ebu from "../../assets/icon/ebu.png";
 import Image from "next/image";
+import { useRouter } from "next/router";
 
-const CardCinema = ({ address, pictures, time, location, price, name }) => {
+
+const CardCinema = ({ address, pictures, time, location, price, name, showTimesId, setShowTimesId }) => {
+  const router = useRouter()
   return (
     <div className={`col-lg-3 col-md-4 col-10 ${styles.CardCinemas}`}>
       <div
@@ -23,7 +26,10 @@ const CardCinema = ({ address, pictures, time, location, price, name }) => {
         {time.length > 0 ? (
           <>
             {time.map((item) => (
-              <p key={item.id}>{item.time}</p>
+              <p key={item.id}
+                className={showTimesId === item.id ? styles.timeSelected : styles.time}
+                onClick={() => { setShowTimesId(item.id) }}
+              >{item.time}</p>
             ))}
           </>
         ) : null}
@@ -33,8 +39,12 @@ const CardCinema = ({ address, pictures, time, location, price, name }) => {
         <h5>{`Rp.${price}`}</h5>
       </div>
       <div className="d-flex px-md-4 px-4 py-2 py-md-2 justify-content-between align-items-center">
-        <button className={styles.buttonBook}>Book now</button>
-        <p>Add to cart</p>
+        <button className={styles.buttonBook}
+          onClick={() => {
+            router.push(`/order/${showTimesId}`)
+          }}
+        >Book now</button>
+        <div>Add to cart</div>
       </div>
     </div>
   );
