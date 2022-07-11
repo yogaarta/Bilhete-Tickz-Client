@@ -18,13 +18,14 @@ import { useRouter } from "next/router";
 import { useSelector } from "react-redux";
 
 //RequestAxios
+import { paymentCheckAxios, confirmPaymentAxios } from "../../modules/payment";
 
 export default function Payment() {
   const [show, setShow] = useState(false);
   const [isError, setIsError] = useState(false);
   const [confirm, setConfirm] = useState(false);
   const [errMsg, setErrMsg] = useState("");
-  const [successMsg, setSuccessMsg] = useState("");
+  const [idPayment, setIdPayment] = useState("");
   const router = useRouter();
   const orderInfo = useSelector((state) => state.order?.orderInfo);
   const seat = useSelector((state) => state.order?.seat);
@@ -42,17 +43,35 @@ export default function Payment() {
     }
   }, [token]);
 
+  useEffect(() => {
+    paymentCheckAxios(token)
+      .then((res) => {
+        console.log(res);
+        setIdPayment(res.data?.data.id);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  }, [token]);
+
   const handleConfirmPayment = (e) => {
-    e.preventDefault()
-    setShow(true)
-    setConfirm(true)
+    e.preventDefault();
+    setShow(true);
+    setConfirm(true);
   };
   const handleCancelPayment = (e) => {
-    e.preventDefault()
-    setShow(true)
-    setConfirm(false)
+    e.preventDefault();
+    setShow(true);
+    setConfirm(false);
   };
   const primeButtonHandler = () => {
+    confirmPaymentAxios(token, idPayment)
+      .then((res) => {
+        console.log(res);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
     setShow(false);
     if (!isError) {
       return router.push("/movies/nowshowing");
@@ -121,7 +140,13 @@ export default function Payment() {
           show={show}
           setShow={setShow}
           title={"Confirm Payment"}
-          body={isError ? errMsg : confirm ? "Are you sure to confirm?" : "Are you sure to cancel confirm?"}
+          body={
+            isError
+              ? errMsg
+              : confirm
+              ? "Are you sure to confirm?"
+              : "Are you sure to cancel confirm?"
+          }
           primeButtonHandler={confirm ? primeButtonHandler : cancelHandler}
           isError={isError}
         />
