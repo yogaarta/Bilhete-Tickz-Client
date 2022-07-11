@@ -129,6 +129,8 @@ const CreateMovie = () => {
 
   const handleCreateMovies = (e) => {
     e.preventDefault();
+    setForm({ ...form, duration: form.hours + ":" + form.minute })
+    // console.log(form)
     const body = formCreateMovie();
     createMoviesAxios(body, token)
       .then((res) => {
@@ -461,7 +463,11 @@ const CreateMovie = () => {
           <div className="d-flex gap-2">
             <button
               onClick={() => {
-                setTime([...time, "08:30am"]);
+                let newTime = [...time]
+                if(!time.includes("08:30am")){
+                  newTime.push("08:30am")
+                  setTime(newTime)
+                }
               }}
               className="btn btn-outline-primary"
             >
@@ -469,7 +475,11 @@ const CreateMovie = () => {
             </button>
             <button
               onClick={() => {
-                setTime([...time, "10:30am"]);
+                let newTime = [...time]
+                if(!time.includes("10:30am")){
+                  newTime.push("10:30am")
+                  setTime(newTime)
+                }
               }}
               className="btn btn-outline-primary"
             >
@@ -477,7 +487,11 @@ const CreateMovie = () => {
             </button>
             <button
               onClick={() => {
-                setTime([...time, "12:00am"]);
+                let newTime = [...time]
+                if(!time.includes("12:00am")){
+                  newTime.push("12:00am")
+                  setTime(newTime)
+                }
               }}
               className="btn btn-outline-primary"
             >
@@ -485,7 +499,11 @@ const CreateMovie = () => {
             </button>
             <button
               onClick={() => {
-                setTime([...time, "04:30am"]);
+                let newTime = [...time]
+                if(!time.includes("04:30am")){
+                  newTime.push("04:30am")
+                  setTime(newTime)
+                }
               }}
               className="btn btn-outline-primary"
             >
@@ -493,7 +511,11 @@ const CreateMovie = () => {
             </button>
             <button
               onClick={() => {
-                setTime([...time, "07:30pm"]);
+                let newTime = [...time]
+                if(!time.includes("07:30pm")){
+                  newTime.push("07:30pm")
+                  setTime(newTime)
+                }
               }}
               className="btn btn-outline-primary"
             >
@@ -514,7 +536,7 @@ const CreateMovie = () => {
           <button
             onClick={() => {
               setShowTime(true);
-              setForm({ ...form, duration: form.hours + ":" + form.minute });
+              setShowModal(false);
             }}
             className="btn btn-primary"
           >
