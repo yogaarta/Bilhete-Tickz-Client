@@ -68,11 +68,26 @@ export default function Payment() {
         setErrMsg(err.response?.data.message.msg);
       });
   };
-  const primeButtonHandler = () => {
-    setShow(false);
-    if (!isError) {
-      return router.push("/movies/nowshowing");
-    }
+  const primeButtonHandler = (e) => {
+    e.preventDefault();
+    const body = {
+      quantity: seat.length,
+      total,
+      showtimes_id: orderInfo.showTimesId,
+      seat: seat.join(","),
+      users_id: id,
+    };
+    postPaymentAxios(body, token)
+      .then((res) => {
+        console.log(res);
+        setIsError(false);
+        router.push("/payment/confirm");
+      })
+      .catch((err) => {
+        console.log(err);
+        setIsError(true);
+        setErrMsg(err.response?.data.message.msg);
+      });
   };
   return (
     <>
@@ -152,7 +167,9 @@ export default function Payment() {
             </section>
             <section className={styles.buttonContainer}>
               <div className={styles.prevStep}>Previous step</div>
-              <div onClick={handlePayment} className={styles.payButton}>
+              <div onClick={() => {
+                setShow(true)
+              }} className={styles.payButton}>
                 Pay your order
               </div>
             </section>
@@ -205,10 +222,9 @@ export default function Payment() {
         <CostumModal
           show={show}
           setShow={setShow}
-          title={isError ? "Error" : "Success"}
-          body={isError ? errMsg : successMsg}
+          title={"Payment"}
+          body={isError ? errMsg : "Are you sure to pay your order?"}
           primeButtonHandler={primeButtonHandler}
-          isError={isError}
         />
       </LayoutLoggedIn>
     </>

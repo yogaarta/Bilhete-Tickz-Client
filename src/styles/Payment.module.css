@@ -3,6 +3,7 @@
   background-color: #F5F6F8;
   padding: 50px 5%;
   gap: 2.5%;
+  justify-content: center;
 }
 
 .leftPart {
@@ -38,6 +39,7 @@
 .paymentInfo .cardItem {
   display: flex;
   justify-content: space-between;
+  align-items: center;
 }
 
 .card {
