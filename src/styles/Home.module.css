@@ -21,6 +21,10 @@
   transform: rotate(-45deg);
 }
 
+.BrandFooter .logo {
+  transform: rotate(-45deg);
+}
+
 .dropDownNav {
   cursor: pointer;
   position: relative;
