@@ -21,6 +21,10 @@
   transform: rotate(-45deg);
 }
 
+.BrandFooter .logo {
+  transform: rotate(-45deg);
+}
+
 .dropDownNav {
   cursor: pointer;
   position: relative;
@@ -229,5 +233,12 @@
     width: 20%;
     height: auto;
     margin-top: 20px;
+  }
+}
+
+@media (max-width: 1200px) {
+  .buttonCard{
+    width: 100%;
+    font-size: 11px;
   }
 }

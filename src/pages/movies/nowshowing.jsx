@@ -51,7 +51,7 @@ const Movies = () => {
     <LayoutLoggedIn title="Movies">
       <div className="container">
         <div className={`mt-4`}>
-          <div className="d-flex align-items-center justify-content-between">
+          <div className="d-flex flex-column flex-md-row align-items-center justify-content-between">
           <div className="d-flex gap-5">
             <h5
               className={`fw-bold btn ${styles.headerCard} ${styles.headerActive}`}
