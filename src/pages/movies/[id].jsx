@@ -65,6 +65,15 @@ const MovieDetail = () => {
   const checkPayment = async () => {
     try {
       setIsLoading(true)
+      if (!token) {
+        return router.push(
+          {
+            pathname: "/auth/login",
+            query: { msg: "You need to login first!" },
+          },
+          "/auth/login"
+        );
+      }
       const result = await paymentCheckAxios(token)
       console.log(result)
       // setCheckMsg(result.message)

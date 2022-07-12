@@ -22,16 +22,14 @@ import { useRouter } from 'next/router';
 import { getAllHistoryAxios } from '../../modules/payment';
 
 const EditProfile = () => {
-   const {
-      userInfo: { firstname, lastname, email, phone_number, point, pictures },
-      isLoading,
-   } = useSelector((state) => state.userInfo);
+   const { userInfo: { firstname, lastname, email, phone_number, point, pictures }, isLoading } = useSelector((state) => state.userInfo);
    // const {isLoading} = useSelector(state => state.userInfo)
    const { token } = useSelector((state) => state.auth.loginData);
    const [showDrop, setShowDrop] = useState(false);
    const [active, setActive] = useState(false);
    const [showPass, setShowPass] = useState(false);
    const [showPassConfirm, setShowPassConfirm] = useState(false);
+   const [buttonActive, setButtonActive] = useState(false)
    const [previewImg, setPreviewImg] = useState(null);
    const [loading, setLoading] = useState(false);
    const [isError, setIsError] = useState(null);
@@ -46,13 +44,10 @@ const EditProfile = () => {
 
    useEffect(() => {
       if (!token) {
-         router.push(
-            {
-               pathname: '/auth/login',
-               query: { msg: 'You need to login first!' },
-            },
-            '/auth/login'
-         );
+         router.push({
+            pathname: '/auth/login',
+            query: { msg: 'You need to login first!' }
+         }, '/auth/login')
       }
       dispatch(getUsersAction(token));
       getAllHistoryAxios(token)
@@ -64,6 +59,7 @@ const EditProfile = () => {
          });
    }, []);
 
+
    const [form, setForm] = useState({
       firstname: firstname,
       lastname: lastname,
@@ -73,6 +69,10 @@ const EditProfile = () => {
       confirmPassword: '',
       image: pictures,
    });
+
+   useEffect(() => {
+      setButtonActive(form.newPassword === form.confirmPassword)
+   }, [form]);
 
    const handleUpload = (e) => {
       const file = e.target.files[0];
@@ -363,9 +363,15 @@ const EditProfile = () => {
                               </div>
                            </div>
                            <div className="text-center text-md-start">
+                              {buttonActive ? 
                               <button type="submit" className={styles.buttonChanges} onClick={handleUpdate}>
                                  Update Changes
                               </button>
+                              :
+                              <button type="submit" className={styles.disbuttonChanges}>
+                                 Update Changes
+                              </button>
+                              }
                            </div>
                         </>
                      )}

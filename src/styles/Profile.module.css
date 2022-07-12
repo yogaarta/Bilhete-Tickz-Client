@@ -129,6 +129,16 @@
    color: white;
 }
 
+.disbuttonChanges {
+  color: #5f2eea;
+  margin-top: 50px;
+  border: 1px solid #5f2eea;
+  height: 56px;
+  width: 360px;
+  border-radius: 16px;
+  background-color: white;
+}
+
 .dropProfile {
    position: absolute;
    box-shadow: 0px 2px 10px 0 rgba(73, 73, 73, 0.226);
