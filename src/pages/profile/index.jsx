@@ -212,7 +212,7 @@ const EditProfile = () => {
                            ) : (
                               getHistory.map((result) => (
                                  <>
-                                    <CardOrderHistory key={result.id} name={result.name} show_date={result.show_date} name_cinemas={result.name_cinemas} status={result.status} />
+                                    <CardOrderHistory key={result.id} id={result.id} name={result.name} show_date={result.show_date} name_cinemas={result.name_cinemas} status={result.status} />
                                  </>
                               ))
                            )}

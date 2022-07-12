@@ -5,9 +5,9 @@ export const postPaymentAxios = (body, token) => {
    return axios.post(URL, body, { headers: { Authorization: `Bearer ${token}` } });
 };
 
-export const confirmPaymentAxios = (token, id) => {
+export const confirmPaymentAxios = (id, token) => {
    const URL = `${process.env.NEXT_PUBLIC_BE_HOST}/payments/${id}`;
-   return axios.patch(URL, { headers: { Authorization: `Bearer ${token}` } });
+   return axios.patch(URL, undefined, { headers: { Authorization: `Bearer ${token}` } });
 };
 
 export const paymentCheckAxios = (token) => {

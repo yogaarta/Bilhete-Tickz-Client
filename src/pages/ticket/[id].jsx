@@ -11,13 +11,17 @@ import moment from 'moment';
 
 import { getTicketAxios } from '../../modules/ticket';
 
+import { currencyFormatter } from '../../helper/formatter';
+
 export default function Ticket() {
    const [tiket, setTiket] = useState('');
    const router = useRouter();
    const { token } = useSelector((state) => state.auth.loginData);
 
+   const { id } = router.query;
+
    useEffect(() => {
-      getTicketAxios(token)
+      getTicketAxios(token, id)
          .then((result) => {
             setTiket(result.data.data.data[0]);
          })
@@ -34,6 +38,7 @@ export default function Ticket() {
          );
       }
    }, []);
+
    return (
       <>
          <LayoutLoggedIn title={'Ticket'}>
@@ -76,7 +81,7 @@ export default function Ticket() {
                               </div>
                               <div className={styles.info}>
                                  <div className={styles.title}>Price</div>
-                                 <div className={styles.valuePrice}>{tiket.total || 'Total not found'}</div>
+                                 <div className={styles.valuePrice}>{currencyFormatter.format(tiket.total) || 'Total not found'}</div>
                               </div>
                            </div>
                         </div>

@@ -3,8 +3,11 @@ import { ChevronDown } from 'react-bootstrap-icons';
 import moment from 'moment';
 //CssModule
 import styles from '../../styles/Profile.module.css';
+import { useRouter } from 'next/router';
 
-const CardOrderHistory = ({ name, show_date, name_cinemas, status }) => {
+const CardOrderHistory = ({ name, show_date, name_cinemas, status, id }) => {
+   const router = useRouter();
+
    return (
       <>
          <div className={styles.cardOrder}>
@@ -31,7 +34,7 @@ const CardOrderHistory = ({ name, show_date, name_cinemas, status }) => {
                </div>
                <div className="col-md-3">
                   <div className={`position-relative ${styles.ShowDetails}`}>
-                     <p>
+                     <p onClick={() => router.push(`/ticket/${id}`)}>
                         Show Details <ChevronDown />
                      </p>
                   </div>
