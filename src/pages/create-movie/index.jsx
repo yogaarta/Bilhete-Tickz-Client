@@ -27,6 +27,7 @@ const CreateMovie = () => {
   const [showTime, setShowTime] = useState(false);
   const [drop, setDrop] = useState(false);
   const [show, setShow] = useState(false);
+  const [cinemasId, setCinemasId] = useState("");
   const [isError, setIsError] = useState(false);
   const [errMsg, setErrMsg] = useState("");
   const [successMsg, setSuccessMsg] = useState("");
@@ -139,8 +140,8 @@ const CreateMovie = () => {
 
   const handleCreateMovies = (e) => {
     e.preventDefault();
-    console.log(token)
-    console.log(location)
+    console.log(token);
+    console.log(location);
     const body = formCreateMovie();
     createMoviesAxios(body, token)
       .then((res) => {
@@ -373,6 +374,7 @@ const CreateMovie = () => {
                 <div
                   onClick={() => {
                     setDrop(!drop);
+                    setCinemaId([])
                   }}
                   className={`d-flex justify-content-between align-items-center ${styles.cardDrop}`}
                 >
@@ -409,8 +411,11 @@ const CreateMovie = () => {
                     key={item.id}
                     onClick={() => {
                       setCinemaId([...cinemaId, item.id]);
+                      setCinemasId(item.id)
                     }}
-                    className={`btn col-md-3 mt-4`}
+                    className={`btn col-md-1 mt-4 ${
+                      cinemasId === item.id ? styles.chooseCinema : styles.cinema
+                    }`}
                   >
                     <Image
                       src={item.pictures ? item.pictures : <></>}
@@ -489,7 +494,7 @@ const CreateMovie = () => {
                 if (!time.includes("08:30am")) {
                   setTime([...time, "08:30am"]);
                 }
-                setShowTime(true)
+                setShowTime(true);
               }}
               className="btn btn-outline-primary"
             >
@@ -498,9 +503,9 @@ const CreateMovie = () => {
             <button
               onClick={() => {
                 if (!time.includes("10:30am")) {
-                  setTime([...time,"10:30am" ]);
+                  setTime([...time, "10:30am"]);
                 }
-                setShowTime(true)
+                setShowTime(true);
               }}
               className="btn btn-outline-primary"
             >
@@ -511,7 +516,7 @@ const CreateMovie = () => {
                 if (!time.includes("12:00am")) {
                   setTime([...time, "12:00am"]);
                 }
-                setShowTime(true)
+                setShowTime(true);
               }}
               className="btn btn-outline-primary"
             >
@@ -520,9 +525,9 @@ const CreateMovie = () => {
             <button
               onClick={() => {
                 if (!time.includes("04:30am")) {
-                  setTime([...time,"04:30am"]);
+                  setTime([...time, "04:30am"]);
                 }
-                setShowTime(true)
+                setShowTime(true);
               }}
               className="btn btn-outline-primary"
             >
@@ -531,9 +536,9 @@ const CreateMovie = () => {
             <button
               onClick={() => {
                 if (!time.includes("07:30pm")) {
-                  setTime([...time,"07:30pm"]);
+                  setTime([...time, "07:30pm"]);
                 }
-                setShowTime(true)
+                setShowTime(true);
               }}
               className="btn btn-outline-primary"
             >

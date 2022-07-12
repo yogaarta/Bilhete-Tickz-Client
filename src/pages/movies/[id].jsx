@@ -64,15 +64,6 @@ const MovieDetail = () => {
   const checkPayment = async () => {
     try {
       setIsLoading(true)
-      // if (!token) {
-      //   return router.push(
-      //     {
-      //       pathname: "/auth/login",
-      //       query: { msg: "You need to login first!" },
-      //     },
-      //     "/auth/login"
-      //   );
-      // }
       const result = await paymentCheckAxios(token)
       console.log(result)
       // setCheckMsg(result.message)
@@ -90,164 +81,161 @@ const MovieDetail = () => {
   }
 
   return (
-    <>
-    {isLoading && <Loading />}
-      <LayoutLoggedIn title="Movies Detail">
-        <div className={`container`}>
-          {movies.img ? (
-            <>
-              <div className="d-flex justify-content-between">
-                <div className="col-md-3 col-3 text-center">
-                  <div className={styles.cardDetail}>
-                    <Image
-                      src={movies.img ? movies.img : Loading}
-                      width={movies.img ? "236px" : "100px"}
-                      height={movies.img ? "362px" : "100px"}
-                      alt="MovieDetail" className={styles.image}
-                    />
-                  </div>
-                </div>
-                <div className={`col-md-8 col-8 ${styles.descDetail}`}>
-                  <h1>{movies.name ? movies.name : ""}</h1>
-                  <p>{movies.category ? movies.category : ""}</p>
-                  <div className="mt-2 mt-md-4">
-                    Release date
-                    <section className="text-dark">
-                      {movies.release_date
-                        ? movies.release_date.slice(0, 10)
-                        : ""}
-                    </section>
-                  </div>
-                  <div className="mt-2 mt-md-4">
-                    Duration
-                    <section className="text-dark">
-                      {movies.duration ? movies.duration : ""}
-                    </section>
-                  </div>
-                  <div className="mt-2 mt-md-4">
-                    Directed by
-                    <section className="text-dark">
-                      {movies.director ? movies.director : null}
-                    </section>
-                  </div>
-                  <div className="mt-2 mt-md-4">
-                    Casts
-                    <section className="text-dark">
-                      {movies.cast ? movies.cast : ""}
-                    </section>
-                  </div>
+    <LayoutLoggedIn title="Movies Detail">
+      <div className={`container`}>
+        {movies.img ? (
+          <>
+            <div className="d-flex justify-content-between">
+              <div className="col-md-3 col-3 text-center">
+                <div className={styles.cardDetail}>
+                  <Image
+                    src={movies.img ? movies.img : Loading}
+                    width={movies.img ? "236px" : "100px"}
+                    height={movies.img ? "362px" : "100px"}
+                    alt="MovieDetail" className={styles.image}
+                  />
                 </div>
               </div>
-              <div className={`mt-5 ${styles.synopsis}`}>
-                Synopsis
-                <section className="mt-4">
-                  {movies.synopsis ? movies.synopsis : ""}
-                </section>
+              <div className={`col-md-8 col-8 ${styles.descDetail}`}>
+                <h1>{movies.name ? movies.name : ""}</h1>
+                <p>{movies.category ? movies.category : ""}</p>
+                <div className="mt-2 mt-md-4">
+                  Release date
+                  <section className="text-dark">
+                    {movies.release_date
+                      ? movies.release_date.slice(0, 10)
+                      : ""}
+                  </section>
+                </div>
+                <div className="mt-2 mt-md-4">
+                  Duration
+                  <section className="text-dark">
+                    {movies.duration ? movies.duration : ""}
+                  </section>
+                </div>
+                <div className="mt-2 mt-md-4">
+                  Directed by
+                  <section className="text-dark">
+                    {movies.director ? movies.director : null}
+                  </section>
+                </div>
+                <div className="mt-2 mt-md-4">
+                  Casts
+                  <section className="text-dark">
+                    {movies.cast ? movies.cast : ""}
+                  </section>
+                </div>
               </div>
-            </>
-          ) : (
-            <div className="d-flex justify-content-center">
-              <Image src={Loading} />
             </div>
-          )}
-          <div className={`${styles.showTimes}`}>
-            <h4 className="text-center fw-bold mb-3">Showtimes and Tickets</h4>
-            <div className="d-flex justify-content-center gap-3">
-              <div className={`${styles.dropDate}`}>
-                <input
-                  type="date"
-                  className={styles.unBlockable}
-                  value={date}
-                  onChange={(e) => {
-                    setDate(e.target.value);
-                    router.push(`/movies/${router.query.id}?date=${date}`);
-                  }}
-                />
-              </div>
-              <div
-                onClick={() => {
-                  setDropdown(!dropdown);
+            <div className={`mt-5 ${styles.synopsis}`}>
+              Synopsis
+              <section className="mt-4">
+                {movies.synopsis ? movies.synopsis : ""}
+              </section>
+            </div>
+          </>
+        ) : (
+          <div className="d-flex justify-content-center">
+            <Image src={Loading} />
+          </div>
+        )}
+        <div className={`${styles.showTimes}`}>
+          <h4 className="text-center fw-bold mb-3">Showtimes and Tickets</h4>
+          <div className="d-flex justify-content-center gap-3">
+            <div className={`${styles.dropDate}`}>
+              <input
+                type="date"
+                className={styles.unBlockable}
+                value={date}
+                onChange={(e) => {
+                  setDate(e.target.value);
+                  router.push(`/movies/${router.query.id}?date=${date}`);
                 }}
-                className={`${styles.dropLoc} ${styles.unBlockable}`}
-              >
-                <div className="d-flex justify-content-between">
-                  <div className="d-flex align-items-center gap-3">
-                    <GeoAlt />
-                    <div>Location</div>
+              />
+            </div>
+            <div
+              onClick={() => {
+                setDropdown(!dropdown);
+              }}
+              className={`${styles.dropLoc} ${styles.unBlockable}`}
+            >
+              <div className="d-flex justify-content-between">
+                <div className="d-flex align-items-center gap-3">
+                  <GeoAlt />
+                  <div>Location</div>
+                </div>
+                <div>
+                  <ChevronDown />
+                </div>
+              </div>
+              {dropdown ? (
+                <div className={`position-absolute mt-3 ${styles.dropContent}`}>
+                  <div
+                    onClick={(e) => {
+                      e.preventDefault();
+                      if (router.asPath.includes("date")) {
+                        router.push(
+                          `/movies/${router.query.id}?location=jakarta&date=${router.query.date}`
+                        );
+                      }
+                      router.push(
+                        `/movies/${router.query.id}?location=jakarta`
+                      );
+                    }}
+                    className="my-4"
+                  >
+                    Jakarta
                   </div>
-                  <div>
-                    <ChevronDown />
+                  <div
+                    onClick={(e) => {
+                      e.preventDefault();
+                      if (router.asPath.includes("date")) {
+                        router.push(
+                          `/movies/${router.query.id}?location=bandung&date=${router.query.date}`
+                        );
+                      }
+                      router.push(
+                        `/movies/${router.query.id}?location=bandung`
+                      );
+                    }}
+                    className="my-4"
+                  >
+                    Bandung
                   </div>
                 </div>
-                {dropdown ? (
-                  <div className={`position-absolute mt-3 ${styles.dropContent}`}>
-                    <div
-                      onClick={(e) => {
-                        e.preventDefault();
-                        if (router.asPath.includes("date")) {
-                          router.push(
-                            `/movies/${router.query.id}?location=jakarta&date=${router.query.date}`
-                          );
-                        }
-                        router.push(
-                          `/movies/${router.query.id}?location=jakarta`
-                        );
-                      }}
-                      className="my-4"
-                    >
-                      Jakarta
-                    </div>
-                    <div
-                      onClick={(e) => {
-                        e.preventDefault();
-                        if (router.asPath.includes("date")) {
-                          router.push(
-                            `/movies/${router.query.id}?location=bandung&date=${router.query.date}`
-                          );
-                        }
-                        router.push(
-                          `/movies/${router.query.id}?location=bandung`
-                        );
-                      }}
-                      className="my-4"
-                    >
-                      Bandung
-                    </div>
-                  </div>
-                ) : null}
-              </div>
-            </div>
-            <div className="d-flex justify-content-center gap-3 flex-wrap mt-5">
-              {cinemas.length > 0 ? (
-                <>
-                  {cinemas.map((item) => (
-                    <CardCinema
-                      key={item.id}
-                      address={item.address}
-                      pictures={item.pictures}
-                      time={item.list_time}
-                      location={item.location}
-                      price={item.price}
-                      name={item.name}
-                      showTimesId={showTimesId}
-                      setShowTimesId={setShowTimesId}
-                      checkPayment={checkPayment}
-                    />
-                  ))}
-                </>
-              ) : (
-                <>
-                  <h1>...</h1>
-                </>
-              )}
+              ) : null}
             </div>
           </div>
-          <div className="d-flex justify-content-center mt-4 mt-md-5">
-            <button className={styles.buttonPag}>1</button>
+          <div className="d-flex justify-content-center gap-3 flex-wrap mt-5">
+            {cinemas.length > 0 ? (
+              <>
+                {cinemas.map((item) => (
+                  <CardCinema
+                    key={item.id}
+                    address={item.address}
+                    pictures={item.pictures}
+                    time={item.list_time}
+                    location={item.location}
+                    price={item.price}
+                    name={item.name}
+                    showTimesId={showTimesId}
+                    setShowTimesId={setShowTimesId}
+                    checkPayment={checkPayment}
+                  />
+                ))}
+              </>
+            ) : (
+              <>
+                <h1>...</h1>
+              </>
+            )}
           </div>
         </div>
-      </LayoutLoggedIn>
-    </>
+        <div className="d-flex justify-content-center mt-4 mt-md-5">
+          <button className={styles.buttonPag}>1</button>
+        </div>
+      </div>
+    </LayoutLoggedIn>
   );
 };
 
