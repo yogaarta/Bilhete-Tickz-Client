@@ -1,6 +1,9 @@
 import React, { useEffect, useState } from 'react';
 import Image from 'next/image';
 
+import html2canvas from 'html2canvas'
+import jsPdf from 'jspdf'
+
 import { Download, Printer } from 'react-bootstrap-icons';
 import styles from '../../styles/Ticket.module.css';
 import LayoutLoggedIn from '../../components/LayoutLoggedIn/LayoutLoggedIn';
@@ -39,13 +42,44 @@ export default function Ticket() {
       }
    }, []);
 
+   function downloadPDF() {
+      const domElement = document.getElementById('ticket')
+      html2canvas(domElement, {
+         onclone: (document) => {
+            document.getElementById('print-button').style.visibility = 'hidden'
+            document.getElementById('print-button2').style.visibility = 'hidden'
+         }
+      })
+         .then((canvas) => {
+            const img = canvas.toDataURL('ticket/png')
+            const pdf = new jsPdf({ orientation: 'landscape' })
+            pdf.addImage(img, 'JPEG', 0, 0, 300, 190)
+            pdf.save(`bilhete-tickz-${id}.pdf`)
+         })
+   }
+   function printPDF() {
+      const domElement = document.getElementById('ticket')
+      html2canvas(domElement, {
+         onclone: (document) => {
+            document.getElementById('print-button').style.visibility = 'hidden'
+            document.getElementById('print-button2').style.visibility = 'hidden'
+         }
+      })
+         .then((canvas) => {
+            const img = canvas.toDataURL('ticket/png')
+            const pdf = new jsPdf({ orientation: 'landscape' })
+            pdf.addImage(img, 'JPEG', 0, 0, 300, 190)
+            window.open(pdf.output('bloburl'))
+         })
+   }
+
    return (
       <>
          <LayoutLoggedIn title={'Ticket'}>
             <main className={styles.mainContainer}>
-               <section className={styles.card}>
+               <section className={styles.card} id='ticket'>
                   <div className={styles.title}>Proof of Payment</div>
-                  <div className={styles.ticketContainer}>
+                  <div className={styles.ticketContainer} >
                      <div className={styles.leftTicket}>
                         <div className={styles.header}>
                            <div className={styles.logo}>Bilhete Tickz</div>
@@ -133,10 +167,14 @@ export default function Ticket() {
                      </div>
                   </div>
                   <div className={styles.buttonContainer}>
-                     <div className={styles.button}>
+                     <div className={styles.button} id='print-button'
+                        onClick={downloadPDF}
+                     >
                         <Download /> Download
                      </div>
-                     <div className={styles.button}>
+                     <div className={styles.button} id='print-button2'
+                        onClick={printPDF}
+                     >
                         <Printer /> Print
                      </div>
                   </div>
