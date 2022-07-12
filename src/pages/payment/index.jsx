@@ -49,30 +49,6 @@ export default function Payment() {
     setButtonActive(method)
   }, [token, method]);
 
-  // const handlePayment = (e) => {
-  //   e.preventDefault();
-  //   const body = {
-  //     quantity: seat.length,
-  //     total,
-  //     showtimes_id: orderInfo.showTimesId,
-  //     seat: seat.join(","),
-  //     users_id: id,
-  //   };
-  //   postPaymentAxios(body, token)
-  //     .then((res) => {
-  //       console.log(res);
-  //       setIsError(false);
-  //       setShow(true);
-  //       setSuccessMsg("Payment checkout success");
-  //     })
-  //     .catch((err) => {
-  //       console.log(err);
-  //       setShow(true);
-  //       setIsError(true);
-  //       setErrMsg(err.response?.data.message.msg);
-  //     });
-  // };
-
   const primeButtonHandler = (e) => {
     e.preventDefault();
     const body = {

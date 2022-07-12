@@ -174,7 +174,7 @@ const EditProfile = () => {
                               onClick={() => {
                                  setActive(!active);
                               }}
-                              className={`${active ? styles.clickActive : styles.clickDisable}`}
+                              className={`${!active ? styles.clickActive : styles.clickDisable}`}
                            >
                               Account Setting
                            </p>
@@ -182,13 +182,13 @@ const EditProfile = () => {
                               onClick={() => {
                                  setActive(!active);
                               }}
-                              className={`${!active ? styles.clickActive : styles.clickDisable}`}
+                              className={`${active ? styles.clickActive : styles.clickDisable}`}
                            >
                               Order History
                            </p>
                         </div>
                      </div>
-                     {!active ? (
+                     {active ? (
                         <>
                            <CardOrderHistory />
                            <CardOrderHistory />
