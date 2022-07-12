@@ -104,10 +104,15 @@
   border-radius: 10px;
 }
 
+.time {
+  font-size: 10px;
+}
+
 .Hours .timeSelected{
   font-weight: 600;
   color: #ffffff;
   background-color: #5f2eea;
+  font-size: 10px;
   /* border: 1px solid #000000; */
 }
 
