@@ -27,7 +27,8 @@ export default function Payment() {
   const [confirm, setConfirm] = useState(false);
   const [errMsg, setErrMsg] = useState("");
   const [idPayment, setIdPayment] = useState("");
-  const [method, setMethod] = useState('')
+  const [paymentInfo, setPaymentInfo] = useState([]);
+  const [method, setMethod] = useState('');
   const router = useRouter();
   const orderInfo = useSelector((state) => state.order?.orderInfo);
   const seat = useSelector((state) => state.order?.seat);
@@ -53,6 +54,7 @@ export default function Payment() {
       .then((res) => {
         console.log(res);
         setMethod(res.data?.data.payment_method)
+        setPaymentInfo(res.data.data)
         setIdPayment(res.data?.data.id);
       })
       .catch((err) => {
@@ -116,12 +118,12 @@ export default function Payment() {
                 <div className={styles.borderLine}></div>
                 <div className={styles.cardItem}>
                   <div className={styles.key}>Number of tickets</div>
-                  <div className={styles.value}>{seat.length} pieces</div>
+                  <div className={styles.value}>{paymentInfo.quantity} pieces</div>
                 </div>
                 <div className={styles.borderLine}></div>
                 <div className={styles.cardItem}>
                   <div className={styles.key}>Total payment</div>
-                  <div className={styles.value}>{currencyFormatter.format(total)}</div>
+                  <div className={styles.value}>{currencyFormatter.format(paymentInfo.total)}</div>
                 </div>
                 <div className={styles.borderLine}></div>
                 <div className={styles.cardItem}>
