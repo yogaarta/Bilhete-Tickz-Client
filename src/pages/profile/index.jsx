@@ -19,34 +19,49 @@ import axios from 'axios';
 import Loading from '../../components/Loading';
 import CustomModal from '../../components/CustomModal';
 import { useRouter } from 'next/router';
+import { getAllHistoryAxios } from '../../modules/payment';
 
 const EditProfile = () => {
-   const { userInfo: {firstname, lastname, email, phone_number, point, pictures}, isLoading } = useSelector((state) => state.userInfo);
+   const {
+      userInfo: { firstname, lastname, email, phone_number, point, pictures },
+      isLoading,
+   } = useSelector((state) => state.userInfo);
    // const {isLoading} = useSelector(state => state.userInfo)
    const { token } = useSelector((state) => state.auth.loginData);
    const [showDrop, setShowDrop] = useState(false);
    const [active, setActive] = useState(false);
    const [showPass, setShowPass] = useState(false);
    const [showPassConfirm, setShowPassConfirm] = useState(false);
-   const [previewImg, setPreviewImg] = useState(null)
-   const [loading, setLoading] = useState(false)
-   const [isError, setIsError] = useState(null)
-   const [show, setShow] = useState(false)
-   const [msg, setMsg] = useState('')
+   const [previewImg, setPreviewImg] = useState(null);
+   const [loading, setLoading] = useState(false);
+   const [isError, setIsError] = useState(null);
+   const [show, setShow] = useState(false);
+   const [msg, setMsg] = useState('');
+   const [getHistory, setGetHistory] = useState([]);
 
    const inputFile = useRef();
 
-   const router = useRouter()
+   const router = useRouter();
    const dispatch = useDispatch();
 
    useEffect(() => {
-      if(!token){
-         router.push({
-            pathname: '/auth/login',
-            query: {msg: 'You need to login first!'}
-         }, '/auth/login')
+      if (!token) {
+         router.push(
+            {
+               pathname: '/auth/login',
+               query: { msg: 'You need to login first!' },
+            },
+            '/auth/login'
+         );
       }
       dispatch(getUsersAction(token));
+      getAllHistoryAxios(token)
+         .then((result) => {
+            setGetHistory(result.data.data.data);
+         })
+         .catch((error) => {
+            console.log(error);
+         });
    }, []);
 
    const [form, setForm] = useState({
@@ -61,15 +76,15 @@ const EditProfile = () => {
 
    const handleUpload = (e) => {
       const file = e.target.files[0];
-      if(file){
-         const reader = new FileReader()
+      if (file) {
+         const reader = new FileReader();
          reader.onload = () => {
-            setPreviewImg(reader.result)
+            setPreviewImg(reader.result);
             setForm({ ...form, image: file });
-         }
-         reader.readAsDataURL(file)
+         };
+         reader.readAsDataURL(file);
       }
-      setShowDrop(!showDrop)
+      setShowDrop(!showDrop);
    };
 
    const updateForm = () => {
@@ -86,24 +101,26 @@ const EditProfile = () => {
    const handleUpdate = async (e) => {
       e.preventDefault();
       try {
-         setLoading(true)
-         setIsError(null)
+         setLoading(true);
+         setIsError(null);
          const body = updateForm();
          const config = { headers: { Authorization: `Bearer ${token}` } };
          const result = await axios.patch(`${process.env.NEXT_PUBLIC_BE_HOST}/users`, body, config);
-         setIsError(false)
+         setIsError(false);
          setMsg(result.data.message);
-         setShow(true)
-         setLoading(false)
+         setShow(true);
+         setLoading(false);
          dispatch(getUsersAction(token));
       } catch (error) {
          console.log(error);
-         setIsError(true)
-         setMsg(error.response.data.message)
-         setShow(true)
-         setLoading(false)
+         setIsError(true);
+         setMsg(error.response.data.message);
+         setShow(true);
+         setLoading(false);
       }
    };
+
+   console.log(getHistory);
 
    return (
       <>
@@ -190,7 +207,16 @@ const EditProfile = () => {
                      </div>
                      {!active ? (
                         <>
-                           <CardOrderHistory />
+                           {getHistory === 0 ? (
+                              <div>Loading..</div>
+                           ) : (
+                              getHistory.map((result, idx) => (
+                                 <>
+                                    <CardOrderHistory key={idx} name={result.name} show_date={result.show_date} name_cinemas={result.name_cinemas} />
+                                 </>
+                              ))
+                           )}
+
                            {/* <CardOrderHistory />
                            <CardOrderHistory /> */}
                         </>
@@ -347,7 +373,7 @@ const EditProfile = () => {
                </form>
             </div>
          </LayoutLoggedIn>
-         <CustomModal show={show} setShow={setShow} title={isError ? 'Error' : 'Success'} body={msg} isSecondButton={false} primeButton={isError? 'Try Again' : 'Ok'} primeButtonHandler={() => setShow(false)} isError={isError}/>
+         <CustomModal show={show} setShow={setShow} title={isError ? 'Error' : 'Success'} body={msg} isSecondButton={false} primeButton={isError ? 'Try Again' : 'Ok'} primeButtonHandler={() => setShow(false)} isError={isError} />
       </>
    );
 };

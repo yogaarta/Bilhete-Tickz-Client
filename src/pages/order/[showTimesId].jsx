@@ -30,6 +30,7 @@ const Order = () => {
   const [order, setOrder] = useState({
     name: "",
     cinema: "",
+    cinemaLogo: "",
     date: "",
     time: "",
     price: 0,
@@ -49,22 +50,22 @@ const Order = () => {
         `${process.env.NEXT_PUBLIC_BE_HOST}/showtimes/detail/${showTimesId}`,
         config
       );
-      setShowTimes(result.data.data.data);
-      setShowTimesInfo(result.data.data.data[0]);
+      console.log(result)
+      setShowTimes(result.data.data);
       setOrder({
         ...order,
-        name: showTimesInfo.name,
-        cinema: showTimesInfo.cinema_name,
-        date: showTimesInfo.show_date,
-        time: showTimesInfo.time,
-        price: showTimesInfo.price,
+        name: showTimes.movies_name,
+        cinema: showTimes.cinemas_name,
+        cinemaLogo: showTimes.cinemas_logo,
+        date: showTimes.show_date,
+        time: showTimes.time,
+        price: showTimes.price,
         showTimesId,
       });
       let newSoldSeat = [];
-      showTimes.map((item) => newSoldSeat.push(item.seat));
+      showTimes.list_seat && showTimes.list_seat.map((item) => newSoldSeat.push(item.seat));
       setSoldSeat([...newSoldSeat]);
       setMsg("success");
-      console.log(result);
       setIsLoading(false);
     } catch (error) {
       console.log(error);
@@ -91,7 +92,7 @@ const Order = () => {
 
   const checkOutHandler = () => {
     dispatch(
-      addOrder(order, selectSeat, selectSeat.length * showTimesInfo.price)
+      addOrder(order, selectSeat, selectSeat.length * order.price)
     );
     router.push("/payment");
   };
@@ -108,7 +109,7 @@ const Order = () => {
                 <div className={`${styles.cardOrderPage} p-4 my-4`}>
                   <div className="d-flex flex-column flex-md-row justify-content-between align-items-center">
                     <h5 className="fw-bold">
-                      {showTimesInfo && showTimesInfo.name}
+                      {order.name}
                     </h5>
                     <button
                       className={styles.buttonChange}
@@ -269,18 +270,17 @@ const Order = () => {
                 <div className={`${styles.cardOrderPage} text-center p-4 my-4`}>
                   <Image
                     src={
-                      showTimesInfo && showTimesInfo.cinema_name === "CineOne21"
+                      order.cinema === "CineOne21"
                         ? Cine
-                        : showTimesInfo &&
-                          showTimesInfo.cinema_name === "hiflix"
+                        : order.cinema === "hiflix"
                         ? Hi
                         : Ebu
                     }
                   />
                   <h4 className="mt-2">
-                    {showTimesInfo && showTimesInfo.cinema_name === "CineOne21"
+                    {order.cinema === "CineOne21"
                       ? "CineOne21 Cinema"
-                      : showTimesInfo && showTimesInfo.cinema_name === "hiflix"
+                      : order.cinema === "hiflix"
                       ? "Hiflix Cinema"
                       : "Ebu.id Cinema"}
                   </h4>
@@ -289,19 +289,19 @@ const Order = () => {
                   >
                     <p>Movie selected</p>
                     <p className="fw-bold">
-                      {showTimesInfo && showTimesInfo.name}
+                      {order.name}
                     </p>
                   </div>
                   <div
                     className={`d-flex justify-content-between ${styles.orderInfo}`}
                   >
                     <p>
-                      {moment(showTimesInfo && showTimesInfo.show_date).format(
+                      {moment(order.date).format(
                         "dddd, DD MMM YYYY"
                       )}
                     </p>
                     <p className="fw-bold">
-                      {showTimesInfo && showTimesInfo.time}
+                      {order.time}
                     </p>
                   </div>
                   <div
@@ -310,7 +310,7 @@ const Order = () => {
                     <p>One ticket price</p>
                     <p className="fw-bold">
                       {currencyFormatter.format(
-                        showTimesInfo && showTimesInfo.price
+                        order.price
                       )}
                     </p>
                   </div>
@@ -330,7 +330,7 @@ const Order = () => {
                     <h5>Total Payment</h5>
                     <h5 className="fw-bold">
                       {currencyFormatter.format(
-                        showTimesInfo && selectSeat.length * showTimesInfo.price
+                        selectSeat.length * order.price
                       )}
                     </h5>
                   </div>
