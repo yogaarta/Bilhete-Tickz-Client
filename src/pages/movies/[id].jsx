@@ -19,6 +19,7 @@ const MovieDetail = () => {
   const [cinemas, setCinemas] = useState([]);
   const [date, setDate] = useState("");
   const [errMsg, setErrMsg] = useState("");
+  const [isError, setIsError] = useState(false)
   const [showTimesId, setShowTimesId] = useState('')
   const router = useRouter();
   const {
@@ -43,13 +44,16 @@ const MovieDetail = () => {
       .then((res) => {
         console.log(res);
         setCinemas(res.data?.data);
+        setIsError(false)
       })
       .catch((err) => {
+        console.log(err)
+        setIsError(true)
         setErrMsg(err.response?.data.message);
       });
     setDropdown(false);
   }, [router]);
-  console.log(cinemas);
+
   return (
     <LayoutLoggedIn title="Movies Detail">
       <div className={`container`}>
@@ -112,7 +116,8 @@ const MovieDetail = () => {
         <div className={`${styles.showTimes}`}>
           <h4 className="text-center fw-bold mb-3">Showtimes and Tickets</h4>
           <div className="d-flex justify-content-center gap-3">
-            <div className={`${styles.dropDate}`}>
+            <form className={`${styles.dropDate}`}
+            >
               <input
                 type="date"
                 className={styles.unBlockable}
@@ -122,7 +127,8 @@ const MovieDetail = () => {
                   router.push(`/movies/${router.query.id}?date=${date}`);
                 }}
               />
-            </div>
+              <button type="submit" hidden></button>
+            </form>
             <div
               onClick={() => {
                 setDropdown(!dropdown);
@@ -177,7 +183,7 @@ const MovieDetail = () => {
             </div>
           </div>
           <div className="d-flex justify-content-center gap-3 flex-wrap mt-5">
-            {cinemas.length > 0 ? (
+            {cinemas.length > 0 && !isError ? (
               <>
                 {cinemas.map((item) => (
                   <CardCinema
@@ -195,7 +201,7 @@ const MovieDetail = () => {
               </>
             ) : (
               <>
-                <h1>...</h1>
+                <h4 className="text-danger mt-4 fw-bold">SORRY, CINEMAS IS NOT AVAILABLE ON THIS DATE</h4>
               </>
             )}
           </div>
