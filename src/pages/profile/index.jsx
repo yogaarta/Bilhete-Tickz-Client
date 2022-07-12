@@ -210,9 +210,9 @@ const EditProfile = () => {
                            {getHistory === 0 ? (
                               <div>Loading..</div>
                            ) : (
-                              getHistory.map((result, idx) => (
+                              getHistory.map((result) => (
                                  <>
-                                    <CardOrderHistory key={idx} name={result.name} show_date={result.show_date} name_cinemas={result.name_cinemas} />
+                                    <CardOrderHistory key={result.id} name={result.name} show_date={result.show_date} name_cinemas={result.name_cinemas} status={result.status} />
                                  </>
                               ))
                            )}

@@ -4,7 +4,7 @@ import moment from 'moment';
 //CssModule
 import styles from '../../styles/Profile.module.css';
 
-const CardOrderHistory = ({ name, show_date, name_cinemas }) => {
+const CardOrderHistory = ({ name, show_date, name_cinemas, status }) => {
    return (
       <>
          <div className={styles.cardOrder}>
@@ -13,6 +13,7 @@ const CardOrderHistory = ({ name, show_date, name_cinemas }) => {
                   <div>
                      <p>{moment(show_date).format('LLLL')}</p>
                      <h4>{name}</h4>
+                     <p className={styles.statuspayment}>{status}</p>
                   </div>
                </div>
                <div className="col-md-3">
