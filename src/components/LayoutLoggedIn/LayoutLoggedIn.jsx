@@ -97,6 +97,14 @@ const LayoutLoggedIn = ({ children, title }) => {
                     Create Movie
                   </div>
                 ) : null}
+                <div
+                  className="text-dark btn"
+                  onClick={() => {
+                    router.push(`/order/id`);
+                  }}
+                >
+                  Buy Ticket
+                </div>
               </Nav>
               <div className="d-flex gap-4 justify-content-md-end justify-content-end align-items-center">
                 {/* <div

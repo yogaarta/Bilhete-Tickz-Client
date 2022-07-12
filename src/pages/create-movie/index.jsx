@@ -414,7 +414,7 @@ const CreateMovie = () => {
                       setCinemasId(item.id)
                     }}
                     className={`btn col-md-1 mt-4 ${
-                      cinemasId === item.id ? styles.chooseCinema : styles.cinema
+                      cinemaId.includes(item.id) ? styles.chooseCinema : styles.cinema
                     }`}
                   >
                     <Image
