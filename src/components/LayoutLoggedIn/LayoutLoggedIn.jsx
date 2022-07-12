@@ -97,6 +97,7 @@ const LayoutLoggedIn = ({ children, title }) => {
                     Create Movie
                   </div>
                 ) : null}
+              </Nav>
               <div className="d-flex gap-4 justify-content-md-end justify-content-end align-items-center">
                 {/* <div
                            onClick={() => {
