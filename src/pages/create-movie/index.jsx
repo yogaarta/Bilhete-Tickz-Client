@@ -34,6 +34,7 @@ const CreateMovie = () => {
   const [location, setLocation] = useState([]);
   const [time, setTime] = useState([]);
   const [cinemaId, setCinemaId] = useState([]);
+  const [previewImg, setPreviewImg] = useState(null)
   const [form, setForm] = useState({
     name: "",
     category: "",
@@ -76,7 +77,14 @@ const CreateMovie = () => {
 
   const handleInputFile = (e) => {
     const file = e.target.files[0];
-    setForm({ ...form, img: file });
+    if(file){
+      const reader = new FileReader()
+      reader.onload = () => {
+        setPreviewImg(reader.result)
+        setForm({ ...form, img: file });
+      }
+      reader.readAsDataURL(file)
+    }
   };
   const formCreateMovie = () => {
     const body = new FormData();
@@ -164,7 +172,7 @@ const CreateMovie = () => {
                   }}
                   className="btn col-md-4 p-4 border border-1 rounded-3"
                 >
-                  <Image src={Default} />
+                  <Image src={previewImg ? previewImg : Default} width={'150px'} height={'250px'} className={styles.image}/>
                 </div>
                 <input
                   type="file"

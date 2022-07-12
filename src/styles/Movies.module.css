@@ -4,6 +4,11 @@
   border-radius: 10px;
 }
 
+.cardDetail .image{
+  object-fit: cover;
+  object-position: 50% 50%;
+}
+
 .descDetail > div {
   color: #8692a6;
 }

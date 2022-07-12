@@ -3,7 +3,7 @@ import moment from "moment";
 import Image from "next/image";
 
 import LayoutLoggedIn from "../../components/LayoutLoggedIn/LayoutLoggedIn";
-import CostumModal from "../../components/CustomModal/index";
+import CustomModal from "../../components/CustomModal/index";
 import styles from "../../styles/Payment.module.css";
 
 import Gpay from "../../assets/icon/gpay.png";
@@ -19,12 +19,15 @@ import { useSelector } from "react-redux";
 
 //RequestAxios
 import { postPaymentAxios } from "../../modules/payment";
+import { currencyFormatter } from "../../helper/formatter";
 
 export default function Payment() {
   const [show, setShow] = useState(false);
   const [isError, setIsError] = useState(false);
   const [errMsg, setErrMsg] = useState("");
   const [successMsg, setSuccessMsg] = useState("");
+  const [method, setMethod] = useState("");
+  const [buttonActive, setButtonActive] = useState(false)
   const router = useRouter();
   const orderInfo = useSelector((state) => state.order?.orderInfo);
   const seat = useSelector((state) => state.order?.seat);
@@ -43,7 +46,8 @@ export default function Payment() {
         "/auth/login"
       );
     }
-  }, [token]);
+    setButtonActive(method)
+  }, [token, method]);
 
   const handlePayment = (e) => {
     e.preventDefault();
@@ -68,6 +72,7 @@ export default function Payment() {
         setErrMsg(err.response?.data.message.msg);
       });
   };
+
   const primeButtonHandler = (e) => {
     e.preventDefault();
     const body = {
@@ -76,6 +81,7 @@ export default function Payment() {
       showtimes_id: orderInfo.showTimesId,
       seat: seat.join(","),
       users_id: id,
+      payment_method: method
     };
     postPaymentAxios(body, token)
       .then((res) => {
@@ -121,7 +127,7 @@ export default function Payment() {
                 <div className={styles.borderLine}></div>
                 <div className={styles.cardItem}>
                   <div className={styles.key}>Total payment</div>
-                  <div className={styles.value}>{`Rp.${total}`}</div>
+                  <div className={styles.value}>{currencyFormatter.format(total)}</div>
                 </div>
               </div>
             </section>
@@ -129,30 +135,46 @@ export default function Payment() {
               <div className={styles.title}>Choose a Payment Method</div>
               <div className={`${styles.card}`}>
                 <div className={styles.cardRow}>
-                  <div className={`${styles.paymentCard}`}>
+                  <div className={`${method === 'gpay' ? styles.paymentCardActive : styles.paymentCard}`}
+                  onClick={()=> setMethod('gpay')}
+                  >
                     <Image src={Gpay} className={styles.methodImg} />
                   </div>
-                  <div className={`${styles.paymentCard}`}>
+                  <div className={`${method === 'visa' ? styles.paymentCardActive : styles.paymentCard}`}
+                  onClick={()=> setMethod('visa')}
+                  >
                     <Image src={Visa} className={styles.methodImg} />
                   </div>
-                  <div className={`${styles.paymentCard}`}>
+                  <div className={`${method === 'gopay' ? styles.paymentCardActive : styles.paymentCard}`}
+                  onClick={()=> setMethod('gopay')}
+                  >
                     <Image src={Gopay} className={styles.methodImg} />
                   </div>
-                  <div className={`${styles.paymentCard}`}>
+                  <div className={`${method === 'paypal' ? styles.paymentCardActive : styles.paymentCard}`}
+                  onClick={()=> setMethod('paypal')}
+                  >
                     <Image src={Paypal} className={styles.methodImg} />
                   </div>
                 </div>
                 <div className={styles.cardRow}>
-                  <div className={`${styles.paymentCard}`}>
+                  <div className={`${method === 'dana' ? styles.paymentCardActive : styles.paymentCard}`}
+                  onClick={()=> setMethod('dana')}
+                  >
                     <Image src={Dana} className={styles.methodImg} />
                   </div>
-                  <div className={`${styles.paymentCard}`}>
+                  <div className={`${method === 'bca' ? styles.paymentCardActive : styles.paymentCard}`}
+                  onClick={()=> setMethod('bca')}
+                  >
                     <Image src={Bca} className={styles.methodImg} />
                   </div>
-                  <div className={`${styles.paymentCard}`}>
+                  <div className={`${method === 'bri' ? styles.paymentCardActive : styles.paymentCard}`}
+                  onClick={()=> setMethod('bri')}
+                  >
                     <Image src={Bri} className={styles.methodImg} />
                   </div>
-                  <div className={`${styles.paymentCard}`}>
+                  <div className={`${method === 'ovo' ? styles.paymentCardActive : styles.paymentCard}`}
+                  onClick={()=> setMethod('ovo')}
+                  >
                     <Image src={Ovo} className={styles.methodImg} />
                   </div>
                 </div>
@@ -167,11 +189,17 @@ export default function Payment() {
             </section>
             <section className={styles.buttonContainer}>
               <div className={styles.prevStep}>Previous step</div>
+              {buttonActive ? 
               <div onClick={() => {
                 setShow(true)
               }} className={styles.payButton}>
                 Pay your order
               </div>
+              :
+              <div  className={styles.prevStep}>
+                Pay your order
+              </div>
+              }
             </section>
           </div>
           <div className={styles.rightPart}>
@@ -219,7 +247,7 @@ export default function Payment() {
             </section>
           </div>
         </main>
-        <CostumModal
+        <CustomModal
           show={show}
           setShow={setShow}
           title={"Payment"}
