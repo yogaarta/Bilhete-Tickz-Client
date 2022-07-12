@@ -14,19 +14,18 @@
 
 ## Table of Contents
 
-- [About the Project](#about-the-project)
-  - [Built With](#built-with)
-- [Getting Started](#getting-started)
-  - [Prerequisites](#prerequisites)
-  - [Installation](#installation)
-- [Related Project](#related-project)
+-  [About the Project](#about-the-project)
+   -  [Built With](#built-with)
+-  [Getting Started](#getting-started)
+   -  [Prerequisites](#prerequisites)
+   -  [Installation](#installation)
+-  [Related Project](#related-project)
 
 ## About The Project
 
 Bilhete Tickz is a web app that can help you book movie tickets
 
 ### Built With
-
 
 ![HTML5](https://img.shields.io/badge/HTML5-E34F26?style=for-the-badge&logo=html5&logoColor=white)
 ![CSS3](https://img.shields.io/badge/CSS3-1572B6?style=for-the-badge&logo=css3&logoColor=white)
@@ -40,14 +39,13 @@ Bilhete Tickz is a web app that can help you book movie tickets
 [![Vercel](https://img.shields.io/badge/vercel-%23000000.svg?style=for-the-badge&logo=vercel&logoColor=white)](https://vercel.com/)
 <br>
 
-
 ## Getting Started
 
 ### Prerequisites
 
-- [NodeJs](https://nodejs.org/)
-- [PostgreSql](https://www.postgresql.org/)
-- [Postman](https://www.postman.com/)
+-  [NodeJs](https://nodejs.org/)
+-  [PostgreSql](https://www.postgresql.org/)
+-  [Postman](https://www.postman.com/)
 
 ### Installation
 
@@ -69,7 +67,6 @@ $ npm install
 NEXT_PUBLIC_BE_HOST=*YOUR BACKEND HOST*
 ```
 
-
 4. Starting application
 
 ```sh
@@ -90,5 +87,12 @@ $ npm run dev
 
 ### Related Project
 
-- [`Frontend-Bilhete-Tickz`](https://github.com/faryadicka/Bilhete-Tickz-Client)
-- [`Backend-Bilhete-Tickz`](https://github.com/RivaldiSiby/Bilhete-Tickz)
+-  [`Frontend-Bilhete-Tickz`](https://github.com/faryadicka/Bilhete-Tickz-Client)
+-  [`Backend-Bilhete-Tickz`](https://github.com/RivaldiSiby/Bilhete-Tickz)
+
+## 🤝 Bilhete-Tickz - Team Project
+
+|                                      [Elyas Purba Prastiya](https://github.com/elyasprba)                                       | [Yoga Arta Grahanantyo](https://github.com/yogaarta) | [Ferry Aryadicka](https://github.com/faryadicka) | [Ilham Nurrohman](https://github.com/IlhamNurrohman) | [Rivaldi Christovel Siby](https://github.com/RivaldiSiby) |
+| :-----------------------------------------------------------------------------------------------------------------------------: | :--------------------------------------------------: | :----------------------------------------------: | :--------------------------------------------------: | :-------------------------------------------------------: |
+| <img src="https://res.cloudinary.com/dqlpsz6fz/image/upload/v1657622141/2_f4gw5b.jpg" alt="Elyas Purba Prastiya" width="200"  > | <img src="" alt="Yoga Arta Grahanantyo" width='200'> |  <img src="" alt="Ferry Aryadicka" width='200'>  |    <img src="" alt="Ilham Nurrohman" width='200'>    |  <img src="" alt="Rivaldi Christovel Siby" width='200'>   |
+|                                                 <b>PM & Frontend Developer</b>                                                  |              <b>Fullstack Developer</b>              |            <b>Frontend Developer</b>             |               <b>Backend Developer</b>               |                <b>Fullstack Developer</b>                 |
