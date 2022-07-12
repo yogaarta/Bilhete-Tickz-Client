@@ -7,16 +7,21 @@ import LayoutLoggedIn from '../../components/LayoutLoggedIn/LayoutLoggedIn';
 import Barcode from '../../assets/icon/barcode.png';
 import { useRouter } from 'next/router';
 import { useSelector } from 'react-redux';
+import moment from 'moment';
 
 import { getTicketAxios } from '../../modules/ticket';
+
+import { currencyFormatter } from '../../helper/formatter';
 
 export default function Ticket() {
    const [tiket, setTiket] = useState('');
    const router = useRouter();
    const { token } = useSelector((state) => state.auth.loginData);
 
+   const { id } = router.query;
+
    useEffect(() => {
-      getTicketAxios(token)
+      getTicketAxios(token, id)
          .then((result) => {
             setTiket(result.data.data.data[0]);
          })
@@ -33,6 +38,7 @@ export default function Ticket() {
          );
       }
    }, []);
+
    return (
       <>
          <LayoutLoggedIn title={'Ticket'}>
@@ -53,7 +59,7 @@ export default function Ticket() {
                            <div className={styles.row}>
                               <div className={styles.info}>
                                  <div className={styles.title}>Date</div>
-                                 <div className={styles.value}>07 Apr</div>
+                                 <div className={styles.value}>{moment(tiket.show_date).format('ll')}</div>
                               </div>
                               <div className={styles.info}>
                                  <div className={styles.title}>Time</div>
@@ -75,7 +81,7 @@ export default function Ticket() {
                               </div>
                               <div className={styles.info}>
                                  <div className={styles.title}>Price</div>
-                                 <div className={styles.valuePrice}>{tiket.total || 'Total not found'}</div>
+                                 <div className={styles.valuePrice}>{currencyFormatter.format(tiket.total) || 'Total not found'}</div>
                               </div>
                            </div>
                         </div>
@@ -92,7 +98,7 @@ export default function Ticket() {
                                  <div className={styles.row}>
                                     <div className={styles.info}>
                                        <div className={styles.title}>Date</div>
-                                       <div className={styles.value}>07 July</div>
+                                       <div className={styles.value}>{moment(tiket.show_date).format('l')}</div>
                                     </div>
                                     <div className={styles.info}>
                                        <div className={styles.title}>Time</div>

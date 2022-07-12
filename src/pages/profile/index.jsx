@@ -19,6 +19,7 @@ import axios from 'axios';
 import Loading from '../../components/Loading';
 import CustomModal from '../../components/CustomModal';
 import { useRouter } from 'next/router';
+import { getAllHistoryAxios } from '../../modules/payment';
 
 const EditProfile = () => {
    const { userInfo: { firstname, lastname, email, phone_number, point, pictures }, isLoading } = useSelector((state) => state.userInfo);
@@ -29,15 +30,16 @@ const EditProfile = () => {
    const [showPass, setShowPass] = useState(false);
    const [showPassConfirm, setShowPassConfirm] = useState(false);
    const [buttonActive, setButtonActive] = useState(false)
-   const [previewImg, setPreviewImg] = useState(null)
-   const [loading, setLoading] = useState(false)
-   const [isError, setIsError] = useState(null)
-   const [show, setShow] = useState(false)
-   const [msg, setMsg] = useState('')
+   const [previewImg, setPreviewImg] = useState(null);
+   const [loading, setLoading] = useState(false);
+   const [isError, setIsError] = useState(null);
+   const [show, setShow] = useState(false);
+   const [msg, setMsg] = useState('');
+   const [getHistory, setGetHistory] = useState([]);
 
    const inputFile = useRef();
 
-   const router = useRouter()
+   const router = useRouter();
    const dispatch = useDispatch();
 
    useEffect(() => {
@@ -48,6 +50,13 @@ const EditProfile = () => {
          }, '/auth/login')
       }
       dispatch(getUsersAction(token));
+      getAllHistoryAxios(token)
+         .then((result) => {
+            setGetHistory(result.data.data.data);
+         })
+         .catch((error) => {
+            console.log(error);
+         });
    }, []);
 
 
@@ -68,14 +77,14 @@ const EditProfile = () => {
    const handleUpload = (e) => {
       const file = e.target.files[0];
       if (file) {
-         const reader = new FileReader()
+         const reader = new FileReader();
          reader.onload = () => {
-            setPreviewImg(reader.result)
+            setPreviewImg(reader.result);
             setForm({ ...form, image: file });
-         }
-         reader.readAsDataURL(file)
+         };
+         reader.readAsDataURL(file);
       }
-      setShowDrop(!showDrop)
+      setShowDrop(!showDrop);
    };
 
    const updateForm = () => {
@@ -92,24 +101,26 @@ const EditProfile = () => {
    const handleUpdate = async (e) => {
       e.preventDefault();
       try {
-         setLoading(true)
-         setIsError(null)
+         setLoading(true);
+         setIsError(null);
          const body = updateForm();
          const config = { headers: { Authorization: `Bearer ${token}` } };
          const result = await axios.patch(`${process.env.NEXT_PUBLIC_BE_HOST}/users`, body, config);
-         setIsError(false)
+         setIsError(false);
          setMsg(result.data.message);
-         setShow(true)
-         setLoading(false)
+         setShow(true);
+         setLoading(false);
          dispatch(getUsersAction(token));
       } catch (error) {
          console.log(error);
-         setIsError(true)
-         setMsg(error.response.data.message)
-         setShow(true)
-         setLoading(false)
+         setIsError(true);
+         setMsg(error.response.data.message);
+         setShow(true);
+         setLoading(false);
       }
    };
+
+   console.log(getHistory);
 
    return (
       <>
@@ -180,7 +191,7 @@ const EditProfile = () => {
                               onClick={() => {
                                  setActive(!active);
                               }}
-                              className={`${active ? styles.clickActive : styles.clickDisable}`}
+                              className={`${!active ? styles.clickActive : styles.clickDisable}`}
                            >
                               Account Setting
                            </p>
@@ -188,17 +199,26 @@ const EditProfile = () => {
                               onClick={() => {
                                  setActive(!active);
                               }}
-                              className={`${!active ? styles.clickActive : styles.clickDisable}`}
+                              className={`${active ? styles.clickActive : styles.clickDisable}`}
                            >
                               Order History
                            </p>
                         </div>
                      </div>
-                     {!active ? (
+                     {active ? (
                         <>
-                           <CardOrderHistory />
-                           <CardOrderHistory />
-                           <CardOrderHistory />
+                           {getHistory === 0 ? (
+                              <div>Loading..</div>
+                           ) : (
+                              getHistory.map((result) => (
+                                 <>
+                                    <CardOrderHistory key={result.id} id={result.id} name={result.name} show_date={result.show_date} name_cinemas={result.name_cinemas} status={result.status} />
+                                 </>
+                              ))
+                           )}
+
+                           {/* <CardOrderHistory />
+                           <CardOrderHistory /> */}
                         </>
                      ) : (
                         <>

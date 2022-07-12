@@ -27,7 +27,6 @@ const CreateMovie = () => {
   const [showTime, setShowTime] = useState(false);
   const [drop, setDrop] = useState(false);
   const [show, setShow] = useState(false);
-  const [cinemasId, setCinemasId] = useState("");
   const [isError, setIsError] = useState(false);
   const [errMsg, setErrMsg] = useState("");
   const [successMsg, setSuccessMsg] = useState("");
@@ -410,11 +409,14 @@ const CreateMovie = () => {
                   <div
                     key={item.id}
                     onClick={() => {
-                      setCinemaId([...cinemaId, item.id]);
-                      setCinemasId(item.id)
+                      setCinemaId([...cinemaId, item.id])
+                      let newSelectCinemas = [...cinemaId]
+                      if(newSelectCinemas.includes(item.id)){
+                        setCinemaId(newSelectCinemas.filter((cinema) => cinema !== item.id))
+                      }
                     }}
                     className={`btn col-md-1 mt-4 ${
-                      cinemasId === item.id ? styles.chooseCinema : styles.cinema
+                      cinemaId.includes(item.id) ? styles.chooseCinema : styles.cinema
                     }`}
                   >
                     <Image
