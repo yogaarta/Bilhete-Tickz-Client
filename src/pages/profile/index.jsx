@@ -191,8 +191,8 @@ const EditProfile = () => {
                      {!active ? (
                         <>
                            <CardOrderHistory />
-                           <CardOrderHistory />
-                           <CardOrderHistory />
+                           {/* <CardOrderHistory />
+                           <CardOrderHistory /> */}
                         </>
                      ) : (
                         <>
